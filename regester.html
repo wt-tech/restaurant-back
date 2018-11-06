@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>后台管理登录界面</title>
+    <link href="css/alogin.css" rel="stylesheet" type="text/css" />
+	<style>
+		.register{
+			background:#3F7CE1;
+			color:#fff;
+			width:70px;
+			height:25px;
+			font-size:16px;
+			height:30px;
+			line-height: 30px;
+			padding: 0px 20px;
+			text-align: center;
+			border-radius:5px;
+			margin-left:95px;
+			margin-top:35px;
+		}
+		.register:hover{
+			cursor: pointer
+		}
+		#form1{
+			width:800px;
+			margin:0 auto;
+			background:#e5ebf5;
+			margin-top:5%;
+			box-shadow: -8px -8px 1px #5475a9;
+		}
+		.left{
+			width:90px;
+		}
+		#frommain{
+			width:45%;
+			margin:0 auto;
+			padding-bottom:30px ;
+		}
+		.red{
+			color:red;
+			padding-left:5px;
+		}
+		.red2{
+			color:red;
+		}
+		.login-text{
+			color:#000000;
+		}
+		input{
+			padding-left:5px;
+		}
+		::-webkit-input-placeholder{
+			font-size:12px;
+		}
+		::-moz-placeholder{
+			font-size:12px;
+		}
+		::-ms-input-placeholder{
+			font-size:12px;
+		}
+	</style>
+
+</head>
+<body>
+    <form id="form1"  >
+    	<div id="frommain">
+    		<div class='red2' style="padding-top:20px;">提示：填写的姓名与身份证号要与您提交的志愿者信息一致，否则无法注册！</div>
+    		<div class='red2' >*为必填项</div>
+    		<ul class="login">
+    			<li>
+	            	<span class="left login-text">昵称：</span> <span style="left">
+	                    <input  type="text" v-model="nickname"/>           
+	                </span>
+	            </li>
+	            <li>
+	            	<span class="left login-text"><span class="red2">*</span>用户名：</span> <span style="left">
+	                    <input  type="text" v-model="username" @blur='preflight()'  placeholder="登陆时的用户名"/> 
+	                </span><span class="red">{{nameErr}}</span> 
+	            </li>
+	            <li>
+	            	<span class="left login-text">
+	            		<span class="red2">
+	            			*
+	            		</span>密码：
+	            	</span>
+	            	<span style="left">
+	              		 <input  type="password" v-model="password"  placeholder="登录密码"/>  
+	           		</span>
+	           		<span class="red">
+	           			{{passErr}}
+	           		</span>
+	            </li>
+	            <li>
+	            	<span class="left login-text">
+	            		<span class="red2">
+	            			*
+	            		</span>
+	            		确认密码：
+	            	</span>
+	            	<span style="left">
+	              		 <input  type="password" v-model="enpassword" placeholder="重新输入一遍密码" />  
+	           		</span>
+	           		<span class="red">
+	           			{{enpassErr}}
+	           		</span>
+	            </li>
+	            <li>
+	            	<span class="left login-text">
+	            		<span class="red2">
+	            			*
+	            		</span>
+	            		真实姓名：
+	            	</span>
+	            	<span style="left">
+	              		 <input  type="text" v-model="realName"  placeholder="您的姓名" />  
+	           		</span>
+	           		<span class="red">
+	           			{{realErr}}
+	           		</span>
+	            </li>
+	            <li>
+	            	<span class="left login-text">
+	            		<span class="red2">*</span>
+	            		身份证号码：
+	            	</span>
+	            	<span style="left">
+	              		 <input  type="text" v-model="idCard"  placeholder="身份证号码" />  
+	           		</span>
+	           		<span class="red">
+	           			{{idErr}}
+	           		</span>
+	            </li>
+	        </ul>
+	        <div class="register" @click.prevent='submit()'>
+				<a>开始注册</a>
+			</div>
+    	</div>
+    	
+    
+    </form>
+</body>
+</html>
+<script src="./utils/jquery-3.2.1.min.js"></script>
+<script src="./utils/vue.min.js"></script>
+<script src="./utils/axios.min.js"></script>
+
+<script src="./utils/seek.global.js"></script>
+<script src="main-js/regester.js"></script>

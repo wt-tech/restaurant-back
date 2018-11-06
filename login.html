@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>后台管理登录界面</title>
+    <link href="css/alogin.css" rel="stylesheet" type="text/css" />
+	<style>
+		.register{
+			background:#3F7CE1;
+			color:#fff;
+			width:60px;
+			height:25px;
+			font-size:16px;
+			height:30px;
+			line-height: 30px;
+			padding: 0px 20px;
+			text-align: center;
+			border-radius:5px;
+			margin-left:55px;
+			margin-top:10px;
+		}
+		.register:hover{
+			cursor: pointer
+		}
+		.register a {
+			text-decoration:none;
+			color:#fff;
+		}
+		.lodingma{
+		  position: fixed;
+		  top: 45%;
+		  left:45%;	
+		}
+		.spinner {
+		  z-index: 9999;
+		  margin: 100px auto 0;
+		  width: 150px;
+		  text-align: center;
+		}
+		 
+		.spinner > div {
+		  width: 30px;
+		  height: 30px;
+		  background-color: #67CF22;
+		 
+		  border-radius: 100%;
+		  display: inline-block;
+		  -webkit-animation: bouncedelay 1.4s infinite ease-in-out;
+		  animation: bouncedelay 1.4s infinite ease-in-out;
+		  /* Prevent first frame from flickering when animation starts */
+		  -webkit-animation-fill-mode: both;
+		  animation-fill-mode: both;
+		}
+		 
+		.spinner .bounce1 {
+		  -webkit-animation-delay: -0.32s;
+		  animation-delay: -0.32s;
+		}
+		 
+		.spinner .bounce2 {
+		  -webkit-animation-delay: -0.16s;
+		  animation-delay: -0.16s;
+		}
+		 
+		@-webkit-keyframes bouncedelay {
+		  0%, 80%, 100% { -webkit-transform: scale(0.0) }
+		  40% { -webkit-transform: scale(1.0) }
+		}
+		 
+		@keyframes bouncedelay {
+		  0%, 80%, 100% {
+		    transform: scale(0.0);
+		    -webkit-transform: scale(0.0);
+		  } 40% {
+		    transform: scale(1.0);
+		    -webkit-transform: scale(1.0);
+		  }
+		}
+	</style>
+
+</head>
+<body>
+    <form id="form1"  >
+	
+    <div class="Main" id="vueApp">
+    	<div class="lodingma"  v-if="loding">
+    		<div class="spinner">
+			  <div class="bounce1"></div>
+			  <div class="bounce2"></div>
+			  <div class="bounce3"></div>
+			</div>
+			<div style="margin-left:35%;color:#000000">正在登陆...</div>
+    	</div>
+    	
+        <ul>
+            <li class="top"></li>
+            <li class="top2"></li>
+            <li class="topA"></li>
+            <li class="topB"><span><img src="images/login/login_05.jpg" alt="" style="" /></span></li>
+            <li class="topC"></li>
+            <li class="topD">
+                <ul class="login">
+                    <li><span class="left login-text">用户名：</span> <span style="left">
+                        <input id="Text1" type="text" v-model="username"/>                       
+                    </span></li>
+                    <li><span class="left login-text">密码：</span> <span style="left">
+                       <input id="Text2" type="password" v-model="password" />  
+                    </span></li>
+                </ul>
+            </li>
+            <li class="topE"></li>
+            <li class="middle_A"></li>
+            <li class="middle_B"></li>
+            <li class="middle_C">
+            	<span class="btn">
+            		<div class="register">
+            			<a @click.prevent='formSubmit()' >登陆</a>
+            		</div>
+            		
+            		<!--<input name="" type="image" @click.prevent='formSubmit()'  />-->
+            	</span>
+        		<div class="register">
+        			<a href='./regester.html' target="_blank">注册</a>
+        		</div>
+            </li>
+            <li class="middle_D"></li>
+            <li class="bottom_A"></li>
+        </ul>
+    </div>
+    </form>
+</body>
+</html>
+<script src="./utils/jquery-3.2.1.min.js"></script>
+<script src="./utils/vue.min.js"></script>
+<script src="./utils/axios.min.js"></script>
+<script src="./utils/seek.global.js"></script>
+<script src="./main-js/login.js"></script>
