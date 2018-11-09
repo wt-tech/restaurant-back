@@ -22,6 +22,7 @@ const HTTP_BASEURL = HTTP_PROTOCOL +'//'+ DOMAIN + CONTEXT;
 const WS_BASEURL = WS_PROTOCOL +'//'+ DOMAIN + CONTEXT;
 
 
+
 //新建axios实例,普通form表单
 var simpleAxios = axios.create({
 

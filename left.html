@@ -1,60 +1,98 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>左侧导航menu</title>
 		<link href="css/css.css" type="text/css" rel="stylesheet" />
 		<script type="text/javascript" src="js/sdmenu.js"></script>
-		<script src="./utils/jquery-3.2.1.min.js"></script>
+
+		<script type="text/javascript" src="utils/jquery-3.2.1.min.js"></script>
 		<script src="./utils/axios.min.js"></script>
-		<script src="./utils/seek.global.js"></script>
+		<script src="./utils/restaurant.global.js"></script>
 		<script type="text/javascript">
 			var myMenu;
 			window.onload = function() {
-				// initMenus();
 				myMenu = new SDMenu("my_menu");
 				myMenu.init();
 			};
+
+			/*	function initMenus() {
+
+					simpleAxios.get('back/user/menus').then(function(res) {
+						if (res.status == STATUS_OK && res.data.status == SUCCESS) {
+							var menus = [];
+							menus = res.data.userMenus;
+							for (var menu of menus) {
+								if ($('#' + menu.menuName).attr('style'))
+									$('#' + menu.menuName).removeAttr('style');
+							}
+						} else
+								backEndExceptionHanlder(res);
+					}).catch(function(err) {
+						alert("请重新登录!");
+						var url = "./login.html";
+					  window.open(url);
+					});
+				} */
 		</script>
-		<style type=text/css> html{ SCROLLBAR-FACE-COLOR: #538ec6; SCROLLBAR-HIGHLIGHT-COLOR: #dce5f0;
-		 SCROLLBAR-SHADOW-COLOR: #2c6daa; SCROLLBAR-3DLIGHT-COLOR: #dce5f0; SCROLLBAR-ARROW-COLOR: #2c6daa;
-		 SCROLLBAR-TRACK-COLOR: #dce5f0; SCROLLBAR-DARKSHADOW-COLOR: #dce5f0; overflow-x:hidden;} body{overflow-x:hidden;
-		 background:url(images/main/leftbg.jpg) left top repeat-y #f2f0f5; width:194px;} </style> </head> <body onselectstart="return false;"
-		 ondragstart="return false;" oncontextmenu="return false;">
-			<div id="left-top">
-	<div><img src="images/main/member.gif" width="44" height="44" /></div>
-    <span>用户：admin<br>角色：超级管理员</span>
-</div>
-    <div style="float: left" id="my_menu" class="sdmenu">
-      <div class="collapsed" id="menu_banner" >
-        <span>轮播图管理</span>
-        <a href="banner/banner.html" target="mainFrame" onFocus="this.blur()">轮播图列表</a>
-      </div>
-      <div id="" >
-        <span>包厢预定</span>
-        <a href="./box-reserve/reservation-list.html" target="mainFrame" onFocus="this.blur()">包厢列表</a>
-      </div>
+		<style type=text/css>
+			html {
+				SCROLLBAR-FACE-COLOR: #538ec6;
+				SCROLLBAR-HIGHLIGHT-COLOR: #dce5f0;
+				SCROLLBAR-SHADOW-COLOR: #2c6daa;
+				SCROLLBAR-3DLIGHT-COLOR: #dce5f0;
+				SCROLLBAR-ARROW-COLOR: #2c6daa;
+				SCROLLBAR-TRACK-COLOR: #dce5f0;
+				SCROLLBAR-DARKSHADOW-COLOR: #dce5f0;
+				overflow-x: hidden;
+			}
 			
-      <div id="menu_volunteer" >
-        <span>志愿者管理</span>
-        <a href="./volunteer/main-volunteer.html" target="mainFrame" onFocus="this.blur()">志愿者列表</a>
-      </div>
+			body {
+				overflow-x: hidden;
+				background: url(images/main/leftbg.jpg) left top repeat-y #f2f0f5;
+				width: 194px;
+			}
+		</style>
+	</head>
 
-	  <div id="menu_authentication" >
-		 <span>用户认证管理</span>
-		 <a href="./authentication/main-authentication.html" target="mainFrame" onFocus="this.blur()">用户认证列表</a>
-	  </div>
-	  <div id="menu_account" >
-		 <span>账号密码管理</span>
-		 <a href="main-html/updatePassword.html" target="mainFrame" onFocus="this.blur()">修改密码</a>
-	  </div>
-	  <div id="menu_permission" >
-		  <span>权限管理</span>
-		  <a href="./permission/main-permission.html" target="mainFrame" onFocus="this.blur()">权限列表</a>
-		  <a href="./role/roles.html" target="mainFrame" onFocus="this.blur()">角色列表</a>
-		  <a href="./user/users.html" target="mainFrame" onFocus="this.blur()">用户列表</a>
-	  </div>
+	<body onselectstart="return false;" ondragstart="return false;" oncontextmenu="return false;">
+		<div id="left-top">
+			<div><img src="images/main/member.gif" width="44" height="44" /></div>
+			<span>用户：admin<br>角色：超级管理员</span>
+		</div>
+		<div style="float: left" id="my_menu" class="sdmenu">
+			<div class="collapsed" id="menu_banner">
+				<span>轮播图管理</span>
+				<a href="banner/banner.html" target="mainFrame" onFocus="this.blur()">轮播图列表</a>
+			</div>
+			<div id="menu_seek">
+				<span>预订管理</span>
+				<a href="reserve/main-reserve.html" target="mainFrame" onFocus="this.blur()">包厢预订</a>
+				<a href="banquetreserve/main-banquetreserve.html" target="mainFrame" onFocus="this.blur()">喜宴预订</a>
+			</div>
 
-    </div>
-</body>
+			<div id="menu_volunteer">
+				<span>点餐管理</span>
+				<a href="./volunteer/main-volunteer.html" target="mainFrame" onFocus="this.blur()">扫码点餐列表</a>
+				<a href="./volunteer/main-volunteer.html" target="mainFrame" onFocus="this.blur()">店外点餐列表</a>
+			</div>
+
+			<div id="menu_authentication">
+				<span>订单管理</span>
+				<a href="./authentication/main-authentication.html" target="mainFrame" onFocus="this.blur()">订单列表</a>
+			</div>
+			<div id="menu_account">
+				<span>账号密码管理</span>
+				<a href="main-html/updatePassword.html" target="mainFrame" onFocus="this.blur()">修改密码</a>
+			</div>
+			<div id="menu_permission">
+				<span>权限管理</span>
+				<a href="./permission/main-permission.html" target="mainFrame" onFocus="this.blur()">权限列表</a>
+				<a href="./role/roles.html" target="mainFrame" onFocus="this.blur()">角色列表</a>
+				<a href="./user/users.html" target="mainFrame" onFocus="this.blur()">用户列表</a>
+			</div>
+
+		</div>
+	</body>
 </html>
