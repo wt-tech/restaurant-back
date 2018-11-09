@@ -8,17 +8,24 @@ const FAIL = 'fail';
 const TEN = 10;
 
 
+const HTTP_PROTOCOL = 'http:';
+const WS_PROTOCOL = 'ws:';
 
+const DOMAIN = '192.168.0.177:8888';
+// const DOMAIN = '192.168.0.109:8080';
+// const DOMAIN = 'www.qghls.com';
 
-// const BASEURL = 'http://192.168.0.177:8888/seek/'
-const BASEURL = 'http://192.168.0.109:8080/restaurant/'
-// const BASEURL = 'https://www.qghls.com/seek/'
+const CONTEXT = '/restaurant/'
+
+const HTTP_BASEURL = HTTP_PROTOCOL +'//'+ DOMAIN + CONTEXT;
+
+const WS_BASEURL = WS_PROTOCOL +'//'+ DOMAIN + CONTEXT;
 
 
 //新建axios实例,普通form表单
 var simpleAxios = axios.create({
 
-	baseURL : BASEURL,
+	baseURL : HTTP_BASEURL,
     timeout : 60000,
     withCredentials: true, // 允许携带cookie
     headers:{
@@ -28,7 +35,7 @@ var simpleAxios = axios.create({
 //axios实例,携带文件上传
 var fileAxios = axios.create({
 
-	baseURL : BASEURL,
+	baseURL : HTTP_BASEURL,
     timeout : 60000,
     withCredentials: true, // 允许携带cookie
     headers:{
@@ -37,7 +44,7 @@ var fileAxios = axios.create({
 });
 //axios实例,json发送数据
 var jsonAxios = axios.create({
-	baseURL : BASEURL,
+	baseURL : HTTP_BASEURL,
     timeout : 60000,
     withCredentials: true, // 允许携带cookie
     headers:{
