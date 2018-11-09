@@ -69,7 +69,21 @@ li {
 	color: #bb1414;
 	background: #656565
 }
-
+.main-for input.text-but {
+	width: 100px;
+	height: 40px;
+	line-height: 30px;
+	border: 1px solid #cdcdcd;
+	background: #e6e6e6;
+	font-family: "Microsoft YaHei", "Tahoma", "Arial", '宋体';
+	color: #969696;
+	float: left;
+	margin: 0 10px 0 0;
+	display: inline;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: bold;
+}
 .inp2 {
 	border: 1px solid #d2cf89;
 	text-align: left;
@@ -317,4 +331,8 @@ div.sdmenu div a:hover {
 
 .footer_pad {
 	padding: 5px 9px 0 9px;
+}
+
+.close{
+	
 }

@@ -10,9 +10,9 @@ const TEN = 10;
 
 
 
-// const BASEURL = 'http://192.168.0.177:8888/seek/'
+// const BASEURL = 'http://192.168.0.177:8888/restaurant/'
 const BASEURL = 'http://192.168.0.109:8080/restaurant/'
-// const BASEURL = 'https://www.qghls.com/seek/'
+// const BASEURL = 'https://www.qghls.com/restaurant/'
 
 
 //新建axios实例,普通form表单

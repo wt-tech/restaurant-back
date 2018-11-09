@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>详情编辑页</title>
+	<style type="text/css">
+	#editor {
+		border: 1px solid #ccc;
+		/*width : 660px;*/
+		margin : 0 auto;
+		/*height:400px;*/
+    }
+     .toolbar {
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    .text {
+        border: 1px solid #ccc;
+        height: 700px;
+        box-sizing: border-box;
+    }
+	.editor-body{
+		width:60%;
+		margin:0 auto;
+	}
+	.editbtn{
+		margin : 10px auto;
+		width : 200px;
+	}
+	.sub-btn,#modify{
+		box-sizing: border-box;
+		background-color:#4BB6DC;
+		padding:10px 25px;
+		/*position:relative;*/
+		font-family: 'Open Sans', sans-serif;
+		font-size:12px;
+		text-decoration:none;
+		color:#fff;
+		border:none;
+		/*border: solid 1px #4BB6DC;*/
+		/*background-image: linear-gradient(bottom, rgb(171,27,27) 0%, rgb(212,51,51) 100%);*/
+		border-radius: 5px;
+	}
+	.sub-btn:active,#modify:active{
+		box-sizing: border-box;
+		padding-bottom:9px;
+		padding-left:25px;
+		padding-right:25px;
+		padding-top:11px;
+		top:1px;
+		background-image: linear-gradient(bottom, rgb(171,27,27) 100%, rgb(212,51,51) 0%);
+	}
+	#submit {
+		margin-right:40px;
+	}
+	/*#preview:active{
+		padding-bottom:9px;
+		padding-left:15px;
+		padding-right:15px;
+		padding-top:11px;
+		top:1px;
+		background-image: linear-gradient(bottom, rgb(171,27,27) 100%, rgb(212,51,51) 0%);
+	}*/
+	
+
+	</style>
+</head>
+<body>
+	<div class="editor-body edit">
+		<div id="editor1" class="toolbar">
+	    </div>
+	    <div style="padding: 5px 0; color: #ccc"></div>
+	    <div id="editor2" class="text"> 
+	        <p>请输入内容</p>
+	    </div>
+	</div>
+	
+    
+    
+	
+	
+    <!--<div class="edit" id="editor" style="height:400px;"> 
+        <p>请在此处输入该轮播图的描述</p>
+    </div>-->
+	<div class="editbtn">
+		<button class="edit sub-btn" id="submit">提交</button>
+		<button class="edit sub-btn" id="preview">预览</button>
+	</div>
+	<div class="content editor-body" id="content"></div>
+	<button class="content" id="modify">返回继续修改</button>
+
+</body>
+</html>
+<script src="../utils/jquery-3.2.1.min.js"></script>
+<script src="../utils/wangEditor.min.js"></script>
+<script src="../utils/axios.min.js"></script>
+<script src="../utils/restaurant.global.js"></script>
+<script src="../main-js/banner/edit.js"></script>
