@@ -7,6 +7,11 @@ const SUCCESS = 'success';
 const FAIL = 'fail';
 const TEN = 10;
 
+//小程序码相关开始
+const CODE_MENU_PAGE_PATH = 'pages/details/details';
+const CODE_TABLE_PREFIX = 'TABLE';
+const CODE_BOX_PREFIX = 'BOX';
+//小程序码相关结束
 
 const HTTP_PROTOCOL = 'http:';
 const WS_PROTOCOL = 'ws:';
@@ -151,3 +156,17 @@ Date.prototype.format = function (format) {
      return format;
  }
 
+// function getURLParams(){
+// 	var finalRes = '';
+// 	try{
+// 		var queryString = window.location.search;
+// 		var regex = /[?]([\d\D]*?)=([\d\D]*?)(?:&|$)/;
+// 		finalRes = queryString.match(regex);
+// 		console.log(finalRes);
+// 	}catch(e){
+// 		console.log(e);
+// 		finalRes = '';
+// 	}
+// 	return finalRes;
+// 	
+// }

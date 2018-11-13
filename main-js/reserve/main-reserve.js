@@ -80,9 +80,9 @@ $(function() {
 				var currentPageNo = PageNo || that.currentPageNo;
 				simpleAxios.get('reserve/back/listreserve?', {
 					params: { //请求参数
-						currentPageNo: currentPageNo;
-					},
-					param:param;
+						currentPageNo: currentPageNo,
+						reserve : param
+					}
 				}).then(function(res) {
 					if(res.status == STATUS_OK && res.data.status == SUCCESS) {
 						var resData = res.data;
@@ -133,7 +133,7 @@ $(function() {
 				var page = that.currentPageNo;
 				var infor = that.inputs;
 				var reg = /^[A-Za-z\u4e00-\u9fa5]*$/;
-				var telephone=/d{3}-/d{8}|/d{4}-/d{7};
+				// var telephone=/d{3}-/d{8}|/d{4}-/d{7};
 				var cell = /^[1][3,4,5,7,8][0-9]{9}$/;
 				if(reg.test(infor) === true) {
 					that.reservationsName = infor;
