@@ -12,7 +12,14 @@ $(function() {
 		data: {
 			rawReserveList: [],
 			inputs: null,
-			field: ['id', 'index', 'reservationsName', 'reservationsSex', 'reservationsTel', 'reservationsNum', 'reservationsStartTime', 'reservationType', 'reserveTime', 'reservationsMode', 'remarks'], //index指序号
+			starttime: null,
+			endtime: null,
+			timetype: '请选择',
+			reservetype: '请选择',
+			reservemode: '请选择',
+			field: ['id', 'index', 'reservationsName', 'reservationsSex', 'reservationsTel', 'reservationsNum', 'reservationsStartTime', 'reservationType', 'reserveTime', 'reservationsMode', 'remarks', 'EatStartTime',
+				'EatEndTime', 'reserveStartTime', 'reserveEndTime'
+			], //index指序号
 			totalCount: '',
 			totalPage: '',
 			currentPageNo: 1,
@@ -75,14 +82,17 @@ $(function() {
 		},
 
 		methods: {
-			initRawreserveList: function(PageNo, param) {
+			initRawreserveList: function(PageNo, param = null) {
 				var that = this;
 				var currentPageNo = PageNo || that.currentPageNo;
+				if(param != null) {
+					param.currentPageNo = 1;
+				} else
+					param = {
+						currentPageNo: currentPageNo
+					};
 				simpleAxios.get('reserve/back/listreserve?', {
-					params: { //请求参数
-						currentPageNo: currentPageNo;
-					},
-					param:param;
+					params: param
 				}).then(function(res) {
 					if(res.status == STATUS_OK && res.data.status == SUCCESS) {
 						var resData = res.data;
@@ -130,22 +140,90 @@ $(function() {
 			},
 			submit: function() {
 				var that = this;
-				var page = that.currentPageNo;
+				var page = 1;
 				var infor = that.inputs;
+				var starttime = that.starttime;
+				var endtime = that.endtime;
+				var timetype = that.timetype;
+				var reservetype = that.reservetype;
+				var reservemode = that.reservemode;
 				var reg = /^[A-Za-z\u4e00-\u9fa5]*$/;
-				var telephone=/d{3}-/d{8}|/d{4}-/d{7};
+				var telephone = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/;
 				var cell = /^[1][3,4,5,7,8][0-9]{9}$/;
-				if(reg.test(infor) === true) {
-					that.reservationsName = infor;
-					that.initRawreserveList(page,{reservationsName:reservationsName});
+				if(infor != null) {
+					if(reg.test(infor) === true) {
+						that.initRawreserveList(page, {
+							reservationsName: encodeURI(infor)
+						});
+						return;
+					}
+					if(telephone.test(infor) === true || cell.test(infor) === true) {
+						that.initRawreserveList(page, {
+							reservationsTel: infor
+						});
+						return;
+					}
+					alert("您输入的姓名或者手机号码格式不正确");
 					return;
+				};
+				if(starttime != null || endtime != null) {
+					if(starttime == null || endtime == null) { //如果用户只选择了一个时间
+						alert("开始时间和结束时间都必须选择");
+						return;
+					}
+					if(timetype == '请选择') { //如果用户没有选择时间类型
+						alert("请选择时间类型再提交");
+						return;
+					}
+					if(endtime < starttime) { //如果用户选择的结束时间小于开始时间
+						alert("结束时间不能小于开始时间");
+						return;
+					}
+					if(timetype == '就餐时间') {
+						that.initRawreserveList(page, {
+							EatStartTime: starttime,
+							EatEndTime: endtime
+						});
+					} else {
+						that.initRawreserveList(page, {
+							reserveStartTime: starttime,
+							reserveEndTime: endtime
+						});
+					}
+				};
+				//console.log(reservetype);
+				if(reservetype != '请选择') {
+					that.initRawreserveList(page, {
+						reservationType: encodeURI(reservetype)
+					});
+
+				};
+				if(reservemode != '请选择') {
+					that.initRawreserveList(page, {
+						reservationsMode: encodeURI(reservemode)
+					});
 				}
-				if(telephone.test(infor) === true || cell.test(infor) === true) {
-					that.reservationsTel = infor;
-					that.initRawreserveList(page,{reservationsTel:reservationsTel});
-					return;
+				
+				if(infor != null || starttime != null || reservetype != '请选择' || reservemode != '请选择' ) {
+					if(timetype == '就餐时间') {
+						that.initRawreserveList(page, {
+							EatStartTime: starttime,
+							EatEndTime: endtime
+						});
+					} else if(timetype == '预订时间'){
+						that.initRawreserveList(page, {
+							reserveStartTime: starttime,
+							reserveEndTime: endtime
+						});
+					}
+					
+					that.initRawreserveList(page, {
+						reservationsMode: encodeURI(reservemode)
+					});
 				}
-				alert("您输入的姓名或者手机号码格式不正确");
+				
+				
+				
 			},
 			hideDiv: function() {
 				this.display = 'display : none';

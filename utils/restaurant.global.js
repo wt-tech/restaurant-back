@@ -143,3 +143,17 @@ Date.prototype.format = function (format) {
      return format;
  }
 
+$(function(){
+    //得到当前时间
+	var date_now = new Date();
+	//得到当前年份
+	var year = date_now.getFullYear();
+	//得到当前月份
+	var month = date_now.getMonth()+1 < 10 ? "0"+(date_now.getMonth()+1) : (date_now.getMonth()+1);
+	//得到当前日子
+	var date = date_now.getDate() < 10 ? "0"+date_now.getDate() : date_now.getDate();
+	//设置input标签的max属性
+	$("#datetime").attr("max",year+"-"+month+"-"+date);
+	
+	$("#datetimes").attr("max",year+"-"+month+"-"+date);
+})
