@@ -7,18 +7,31 @@ const SUCCESS = 'success';
 const FAIL = 'fail';
 const TEN = 10;
 
+//小程序码相关开始
+const CODE_MENU_PAGE_PATH = 'pages/details/details';
+const CODE_TABLE_PREFIX = 'TABLE';
+const CODE_BOX_PREFIX = 'BOX';
+//小程序码相关结束
 
+const HTTP_PROTOCOL = 'http:';
+const WS_PROTOCOL = 'ws:';
 
+const DOMAIN = '192.168.0.177:8888';
+// const DOMAIN = '192.168.0.109:8080';
+// const DOMAIN = 'www.qghls.com';
 
-// const BASEURL = 'http://192.168.0.177:8888/restaurant/'
-const BASEURL = 'http://192.168.0.109:8080/restaurant/'
-// const BASEURL = 'https://www.qghls.com/restaurant/'
+const CONTEXT = '/restaurant/'
+
+const HTTP_BASEURL = HTTP_PROTOCOL +'//'+ DOMAIN + CONTEXT;
+
+const WS_BASEURL = WS_PROTOCOL +'//'+ DOMAIN + CONTEXT;
+
 
 
 //新建axios实例,普通form表单
 var simpleAxios = axios.create({
 
-	baseURL : BASEURL,
+	baseURL : HTTP_BASEURL,
     timeout : 60000,
     withCredentials: true, // 允许携带cookie
     headers:{
@@ -28,7 +41,7 @@ var simpleAxios = axios.create({
 //axios实例,携带文件上传
 var fileAxios = axios.create({
 
-	baseURL : BASEURL,
+	baseURL : HTTP_BASEURL,
     timeout : 60000,
     withCredentials: true, // 允许携带cookie
     headers:{
@@ -37,7 +50,7 @@ var fileAxios = axios.create({
 });
 //axios实例,json发送数据
 var jsonAxios = axios.create({
-	baseURL : BASEURL,
+	baseURL : HTTP_BASEURL,
     timeout : 60000,
     withCredentials: true, // 允许携带cookie
     headers:{
@@ -157,3 +170,18 @@ $(function(){
 	
 	$("#datetimes").attr("max",year+"-"+month+"-"+date);
 })
+// function getURLParams(){
+// 	var finalRes = '';
+// 	try{
+// 		var queryString = window.location.search;
+// 		var regex = /[?]([\d\D]*?)=([\d\D]*?)(?:&|$)/;
+// 		finalRes = queryString.match(regex);
+// 		console.log(finalRes);
+// 	}catch(e){
+// 		console.log(e);
+// 		finalRes = '';
+// 	}
+// 	return finalRes;
+// 	
+// }
+
