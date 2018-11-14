@@ -154,12 +154,10 @@ $(function() {
 			updateTableURLFrontEnd: function(index, id, url) {
 
 				var item = this.rawTableList[index];
-				console.log(item);
 				item.image = url;
-				
-				console.log(item);
-				
 				this.rawTableList.splice(index, 1, item);
+				if(url)
+					alert("生成小程序码成功");
 			},
 
 			updateTableBackEnd: function(index, id, imageUrl) {

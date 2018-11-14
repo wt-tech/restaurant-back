@@ -9,7 +9,7 @@ const TEN = 10;
 
 //小程序码相关开始
 const CODE_MENU_PAGE_PATH = 'pages/details/details';
-const CODE_TABLE_PREFIX = 'TABLE';
+const CODE_TABLE_PREFIX = 'TAB';
 const CODE_BOX_PREFIX = 'BOX';
 //小程序码相关结束
 

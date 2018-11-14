@@ -213,36 +213,29 @@
 
 	<body>
 
-		<form id="box">
+		<form id="combo">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
+
 				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-					<td align="right" valign="middle" class="borderright borderbottom bggray">包厢号：</td>
+					<td align="right" valign="middle" class="borderright borderbottom bggray">套餐名称：</td>
 					<td align="left" valign="middle" class="borderright borderbottom main-for">
-						<input @blur="roomNumberCheck" placeholder="请输入包厢号" type="text" v-model="box.roomNumber" class="text-word">
-						<label :hidden="boxPropertyValueReasonable.roomNumber" style="color: red;">包厢号必填,且只能为数字.</label>
+						<input @blur="comboNameCheck" placeholder="请输入套餐名称" type="text" v-model="combo.comboName" class="text-word">
+						<label :hidden="comboPropertyValueReasonable.comboName" style="color: red;">名称必填,且不得多于20字</label>
 					</td>
 				</tr>
 
 				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-					<td align="right" valign="middle" class="borderright borderbottom bggray">包厢名称：</td>
+					<td align="right" valign="middle" class="borderright borderbottom bggray">套餐价格：</td>
 					<td align="left" valign="middle" class="borderright borderbottom main-for">
-						<input @blur="roomNameCheck" placeholder="请输入包厢名称,可不填" type="text" v-model="box.roomName" class="text-word">
-						<label :hidden="boxPropertyValueReasonable.roomName" style="color: red;">包厢名称不得多于20字</label>
+						<input @blur="comboPriceCheck" placeholder="0" v-model="combo.comboPrice" class="text-word"> 元
+						<label :hidden="comboPropertyValueReasonable.comboPrice" style="color: red;">价格必填且必须大于零.</label>
 					</td>
 				</tr>
 
 				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-					<td align="right" valign="middle" class="borderright borderbottom bggray">包厢大小：</td>
+					<td align="right" valign="middle" class="borderright borderbottom bggray">套餐介绍：</td>
 					<td align="left" valign="middle" class="borderright borderbottom main-for">
-						<input @blur="roomSizeCheck" placeholder="0" step="5" min="1" max="100" type="number" v-model="box.roomSize" class="text-word">人
-						<label :hidden="boxPropertyValueReasonable.roomSize" style="color: red;">包厢大小必填,且只能为正整数.</label>
-					</td>
-				</tr>
-
-				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-					<td align="right" valign="middle" class="borderright borderbottom bggray">包厢介绍：</td>
-					<td align="left" valign="middle" class="borderright borderbottom main-for">
-						<textarea rows="5" cols="45" placeholder="请填写包厢介绍,可不填"  v-model="box.roomIntroduction">
+						<textarea rows="5" cols="45" placeholder="请填写套餐介绍,可不填"  v-model="combo.comboIntroduction">
 						</textarea>
 					</td>
 				</tr>
@@ -250,14 +243,14 @@
 				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
 					<td align="right" valign="middle" class="borderright borderbottom bggray">上传图片：</td>
 					<td align="left" valign="middle" class="borderright borderbottom main-for">
-						<input id='box-image' @change="fileChange" type="file" accept="image/*">
-						<label :hidden="boxPropertyValueReasonable.image"  style="color: red;">图片必须上传</label>
+						<input id='combo-image' @change="fileChange" type="file" accept="image/*">
+						<label :hidden="comboPropertyValueReasonable.image"  style="color: red;">图片必须上传</label>
 					</td>
 				</tr>
 				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
 					<td align="right" valign="middle" class="borderright borderbottom bggray">图片预览：</td>
 					<td align="left" style="height: 100px;" valign="middle" class="borderright borderbottom main-for">
-						<img id='preview' width="80rpx" height="80rpx" alt="请上传图片" />
+						<img id='preview' width="80rpx" height="80rpx" :src="combo.url" alt="请上传图片" />
 					</td>
 				</tr>
 
@@ -276,4 +269,4 @@
 <script src="../utils/vue.min.js"></script>
 <script src="../utils/axios.min.js"></script>
 <script src="../utils/restaurant.global.js"></script>
-<script src="add.js"></script>
+<script src="update.js"></script>

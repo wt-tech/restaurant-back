@@ -17,24 +17,7 @@
 				myMenu.init();
 			};
 
-			/*	function initMenus() {
 
-					simpleAxios.get('back/user/menus').then(function(res) {
-						if (res.status == STATUS_OK && res.data.status == SUCCESS) {
-							var menus = [];
-							menus = res.data.userMenus;
-							for (var menu of menus) {
-								if ($('#' + menu.menuName).attr('style'))
-									$('#' + menu.menuName).removeAttr('style');
-							}
-						} else
-								backEndExceptionHanlder(res);
-					}).catch(function(err) {
-						alert("请重新登录!");
-						var url = "./login.html";
-					  window.open(url);
-					});
-				} */
 		</script>
 		<style type=text/css>
 			html {
@@ -83,16 +66,12 @@
 				<a href="./authentication/main-authentication.html" target="mainFrame" onFocus="this.blur()">订单列表</a>
 			</div>
 			<div id="menu_account">
-				<span>菜单管理</span>
-				<a href="classification/classification-list.html" target="mainFrame" onFocus="this.blur()">菜单列表</a>
+				<span>其他管理</span>
+				<a href="classification/classification-list.html" target="mainFrame" onFocus="this.blur()">菜单管理</a>
+				<a href="box/box-list.html" target="mainFrame" onFocus="this.blur()">包厢管理</a>
+				<a href="table/table-list.html" target="mainFrame" onFocus="this.blur()">桌子管理</a>
+				<a href="combo/combo-list.html" target="mainFrame" onFocus="this.blur()">喜宴套餐管理</a>
 			</div>
-			<div id="menu_permission">
-				<span>权限管理</span>
-				<a href="./permission/main-permission.html" target="mainFrame" onFocus="this.blur()">权限列表</a>
-				<a href="./role/roles.html" target="mainFrame" onFocus="this.blur()">角色列表</a>
-				<a href="./user/users.html" target="mainFrame" onFocus="this.blur()">用户列表</a>
-			</div>
-
 		</div>
 	</body>
 </html>

@@ -47,7 +47,7 @@
 				height: 24px;
 				line-height: 24px;
 				width: 55px;
-				background: url(images/main/list_input.jpg) no-repeat left top;
+				background: url(../images/main/list_input.jpg) no-repeat left top;
 				border: none;
 				cursor: pointer;
 				font-family: "Microsoft YaHei", "Tahoma", "Arial", '宋体';
@@ -58,7 +58,7 @@
 			}
 
 			#search a.add {
-				background: url(images/main/add.jpg) no-repeat -3px 7px #548fc9;
+				background: url(../images/main/add.jpg) no-repeat -3px 7px #548fc9;
 				padding: 0 10px 0 26px;
 				height: 40px;
 				line-height: 40px;
@@ -81,7 +81,7 @@
 
 			#main-tab th {
 				font-size: 12px;
-				background: url(images/main/list_bg.jpg) repeat-x;
+				background: url(../images/main/list_bg.jpg) repeat-x;
 				height: 32px;
 				line-height: 32px;
 			}
@@ -126,6 +126,16 @@
 				text-align: right;
 			}
 
+			#search a.addNoBg {
+				/* background: url(../images/main/add.jpg) no-repeat -3px 7px #548fc9; */
+				padding: 0 10px 0 26px;
+				height: 40px;
+				line-height: 40px;
+				font-size: 14px;
+				font-weight: bold;
+				color: #FFF;
+				float: right
+			}
 		</style>
 	</head>
 	<body>
@@ -138,10 +148,17 @@
 				<td width="99%" align="left" valign="top">
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
 						<tr width="100%">
-							<td align="right" valign="middle" style="text-align:right;"><a href="add-update.html" target="mainFrame"
+							<td width="50%" align="left" valign="middle">
+								<form method="post" action="">
+									<span>筛选：</span>
+									<input type="text" name="" value="" class="text-word">
+									<input name="" type="button" value="查询" class="text-but">
+								</form>
+							</td>
+							<td  width="40%" align="right" valign="middle" ><a href="add-update.html" target="mainFrame"
 								 onFocus="this.blur()" class="add" width="100%" >新增菜单分类</a></td>
-							<td align="right" valign="middle" style="text-align:right;"><a href="#" @click.prevent="refresh"
-								onFocus="this.blur()" class="add" width="100%" >刷新</a></td>
+							<td width="10%" align="right" valign="middle" style="text-align:right; width:120px;"><a href="#" @click.prevent="refresh"
+								onFocus="this.blur()" class="addNoBg" width="100%" >刷新</a></td>
 						</tr>
 						
 					</table>
