@@ -1,9 +1,9 @@
 //class="bggray" 可以让改行单元格变灰 奇数行,偶数行
 
 //td组件
-Vue.component('std',{
-	props : ['content'],
-	template : `<td align="center" valign="middle" v-html="content" class="borderright borderbottom"></td>`
+Vue.component('std', {
+	props: ['content'],
+	template: `<td align="center" valign="middle" v-html="content" class="borderright borderbottom"></td>`
 });
 
 $(function() {
@@ -11,7 +11,15 @@ $(function() {
 		el: '#banquetreserve',
 		data: {
 			rawBanquetReserveList: [],
-			field: ['id', 'index', 'reservationsName', 'reservationsSex', 'reservationsTel', 'reservationsNum', 'reservationsCombo', 'reservationsStartTime','reserveTime', 'remarks'], //index指序号
+			inputs: null,
+			starttime: null,
+			endtime: null,
+			timetype: '请选择',
+			rawcomboList: [{
+				id: '',
+				name: ''
+			}],
+			field: ['id', 'index', 'reservationsName', 'reservationsSex', 'reservationsTel', 'reservationsNum', 'reservationsCombo', 'reservationsStartTime', 'reserveTime', 'remarks'], //index指序号
 			totalCount: '',
 			totalPage: '',
 			currentPageNo: 1
@@ -26,26 +34,46 @@ $(function() {
 						reservationsSex: getValue(banquetreserve, 'reservationsSex'),
 						reservationsTel: getValue(banquetreserve, 'reservationsTel'),
 						reservationsNum: getValue(banquetreserve, 'reservationsNum'),
-						reservationsCombo: getValue(banquetreserve, 'combo.comboName')+'('+getValue(banquetreserve, 'combo.comboPrice')+'元/桌)',
+						reservationsCombo: getValue(banquetreserve, 'combo.comboName') + '(' + getValue(banquetreserve, 'combo.comboPrice') + '元/桌)',
 						reservationsStartTime: getDateOfDateTime(getValue(banquetreserve, 'reservationsStartTime')),
 						reserveTime: getDateOfDateTime(getValue(banquetreserve, 'reserveTime')),
 						remarks: getValue(banquetreserve, 'remarks'),
 						id: getValue(banquetreserve, 'id')
 					};
 				});
+			},
+
+			comboList: function() {
+				var that = this;
+				return that.rawcomboList.map(function(combo, index) {
+					return {
+						name: getValue(combo, 'comboName'),
+						id: getValue(combo, 'id')
+					};
+				});
 			}
+
 		},
 
 		created: function() {
 			var that = this;
 			that.initRawbanquetreserveList();
+			that.initRawcomboList();
 		},
 
 		methods: {
-			initRawbanquetreserveList: function(PageNo) {
+			initRawbanquetreserveList: function(PageNo, param = null) {
 				var that = this;
 				var currentPageNo = PageNo || that.currentPageNo;
-				simpleAxios.get('banquetreserve/back/listbanquetreserve?currentPageNo=' + currentPageNo).then(function(res) {
+				if(param != null) {
+					param.currentPageNo = 1;
+				} else
+					param = {
+						currentPageNo: currentPageNo
+					};
+				simpleAxios.get('banquetreserve/back/listbanquetreserve', {
+					params: param
+				}).then(function(res) {
 					if(res.status == STATUS_OK && res.data.status == SUCCESS) {
 						var resData = res.data;
 						that.rawBanquetReserveList = resData.banquetreserves;
@@ -58,6 +86,39 @@ $(function() {
 				})
 			},
 
+			initRawcomboList: function() {
+				var that = this;
+				simpleAxios.get('combo/back/listallcombo').then(function(res) {
+					if(res.status == STATUS_OK && res.data.status == SUCCESS) {
+						var resData = res.data;
+						that.rawcomboList = resData.combos;
+					} else
+						backEndExceptionHanlder(res);
+				}).catch(function(err) {
+					unknownError(err);
+				})
+			},
+			submit: function() {
+				var that = this;
+				var page = 1;
+				var infor = that.inputs;
+				var reg = /^[A-Za-z\u4e00-\u9fa5]*$/;
+				var telephone = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/;
+				var cell = /^[1][3,4,5,7,8][0-9]{9}$/;
+				if(reg.test(infor) === true) {
+					that.initRawbanquetreserveList(page, {
+						reservationsName: encodeURI(infor)
+					});
+					return;
+				}
+				if(telephone.test(infor) === true || cell.test(infor) === true) {
+					that.initRawbanquetreserveList(page, {
+						reservationsTel: infor
+					});
+					return;
+				}
+				alert("您输入的姓名或者手机号码格式不正确");
+			},
 			firstPage: function() {
 				var that = this;
 				that.currentPageNo = 1;

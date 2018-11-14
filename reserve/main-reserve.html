@@ -37,13 +37,31 @@
 			#search form input.text-word {
 				height: 24px;
 				line-height: 24px;
-				width: 180px;
+				width: 150px;
 				margin: 8px 0 6px 0;
 				padding: 0 0px 0 10px;
 				float: left;
 				border: 1px solid #FFF;
 			}
 			
+			#search form input.text-time {
+				height: 24px;
+				line-height: 24px;
+				width: 137px;
+				margin: 8px 0 6px 0;
+				padding: 0 0px 0 10px;
+				float: left;
+				border: 1px solid #FFF;
+			}
+			#search form select.text-type {
+				height: 24px;
+				line-height: 24px;
+				width: 78px;
+				margin: 8px 0 6px 0;
+				/*padding: 0 0px 0 10px;*/
+				float: left;
+				border: 1px solid #FFF;
+			}
 			#search form input.text-but {
 				height: 24px;
 				line-height: 24px;
@@ -167,6 +185,46 @@
 				z-index: 1002;
 				overflow: auto;
 			}
+			
+			.text-but {
+				width: 100px;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				/*border: 1px solid #cdcdcd;*/
+				/*background: #e6e6e6;*/
+				font-family: "Microsoft YaHei", "Tahoma", "Arial", '宋体';
+				/*color: #969696;*/
+				/*float: left;*/
+				margin: 0 10px 0 0;
+				display: inline;
+				cursor: pointer;
+				font-size: 14px;
+				font-weight: bold;
+				background-color: #4BB6DC;
+				/*padding:10px 15px;*/
+				position: relative;
+				font-family: 'Open Sans', sans-serif;
+				font-size: 12px;
+				text-decoration: none;
+				color: #fff;
+				border: solid 1px #4BB6DC;
+				background-image: linear-gradient(bottom, rgb(171, 27, 27) 0%, rgb(212, 51, 51) 100%);
+				border-radius: 5px;
+			}
+			
+			.text-but:active {
+				/*padding-bottom:9px;
+			padding-left:15px;
+			padding-right:15px;
+			padding-top:11px;*/
+				top: 1px;
+				background-image: linear-gradient(bottom, rgb(171, 27, 27) 100%, rgb(212, 51, 51) 0%);
+			}
+			
+			.starttime {
+				margin-left: 10px;
+			}
 		</style>
 	</head>
 
@@ -179,8 +237,31 @@
 							<tr>
 								<td align="left" valign="middle">
 									<form method="post" action="">
-										<span>管理员：</span>
-										<input type="text" name="" v-model="inputs" value="" class="text-word" placeholder="请输入姓名或手机号">
+										<span>筛选：</span>
+										<input type="text" name="infor" v-model="inputs" value="" class="text-word" placeholder="请输入姓名或手机号">
+										<span>开始时间：</span>
+										<input type="date" id="datetime" v-model="starttime" class="text-time" max="">
+										<span>结束时间：</span>
+										<input type="date" id="datetimes" v-model="endtime" class="text-time" max="">
+										<span>时间类型：</span>
+										<select v-model="timetype" class="text-type" id="type">
+											<option>请选择</option>
+											<option value="就餐时间">就餐时间</option>
+											<option value="预订时间">预订时间</option>
+										</select>
+										<span>预订类型：</span>
+										<select v-model="reservetype" class="text-type" id="type">
+											<option>请选择</option>
+											<option value="午餐预订">午餐预订</option>
+											<option value="晚餐预订">晚餐预订</option>
+										</select>
+										<span>预约模式：</span>
+										<select v-model="reservemode" class="text-type" id="type">
+											<option>请选择</option>
+											<option value="只订座">只订座</option>
+											<option value="提前选择菜品">选菜品</option>
+										</select>
+										<span></span>
 										<input name="chaxun" @click="submit" type="button" value="查询" class="text-but">
 									</form>
 								</td>
@@ -188,40 +269,40 @@
 						</table>
 					</td>
 				</tr>
-			<tr>
-				<td align="left" valign="top">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
-						<tr>
-							<th align="center" valign="middle" class="borderright">序号</th>
-							<th align="center" valign="middle" class="borderright">姓名</th>
-							<th align="center" valign="middle" class="borderright">性别</th>
-							<th align="center" valign="middle" class="borderright">手机号</th>
-							<th align="center" valign="middle" class="borderright">人数</th>
-							<th align="center" valign="middle" class="borderright">就餐时间</th>
-							<th align="center" valign="middle" class="borderright">预订类型</th>
-							<th align="center" valign="middle" class="borderright">预订时间</th>
-							<th align="center" valign="middle" class="borderright">预约模式</th>
-							<th align="center" valign="middle" class="borderright">备注</th>
-							<th align="center" valign="middle">操作</th>
-						</tr>
-						<tr v-for="(reserve,index) of reserveList" class="cont-list" onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-							<td is="std" v-for="(field,property) of reserve" v-if="property!='id'" :content="field"></td>
-							<td align="center" valign="middle" class="borderbottom">
-								<a @click.prevent="checkdish(reserve,'包厢')" class="add">查看包厢</a>&nbsp;&nbsp;&nbsp;&nbsp;
-								<a @click.prevent="checkdish(reserve,'菜品')" class="add">查看菜品</a>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td align="left" valign="top" class="fenye">{{totalCount}} 条数据{{currentPageNo}}/{{totalPage}}页&nbsp;&nbsp;
-					<a href="#" @click.prevent="firstPage()" target="mainFrame" onFocus="this.blur()">首页</a>&nbsp;&nbsp;
-					<a href="#" @click.prevent="prevPage()" target="mainFrame" onFocus="this.blur()">上一页</a>&nbsp;&nbsp;
-					<a href="#" @click.prevent="nextPage()" target="mainFrame" onFocus="this.blur()">下一页</a>&nbsp;&nbsp;
-					<a href="#" @click.prevent="lastPage()" target="mainFrame" onFocus="this.blur()">尾页</a>
-				</td>
-			</tr>
+				<tr>
+					<td align="left" valign="top">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
+							<tr>
+								<th align="center" valign="middle" class="borderright">序号</th>
+								<th align="center" valign="middle" class="borderright">姓名</th>
+								<th align="center" valign="middle" class="borderright">性别</th>
+								<th align="center" valign="middle" class="borderright">手机号</th>
+								<th align="center" valign="middle" class="borderright">人数</th>
+								<th align="center" valign="middle" class="borderright">就餐时间</th>
+								<th align="center" valign="middle" class="borderright">预订类型</th>
+								<th align="center" valign="middle" class="borderright">预订时间</th>
+								<th align="center" valign="middle" class="borderright">预约模式</th>
+								<th align="center" valign="middle" class="borderright">备注</th>
+								<th align="center" valign="middle">操作</th>
+							</tr>
+							<tr v-for="(reserve,index) of reserveList" class="cont-list" onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+								<td is="std" v-for="(field,property) of reserve" v-if="property!='id'" :content="field"></td>
+								<td align="center" valign="middle" class="borderbottom">
+									<a @click.prevent="checkdish(reserve,'包厢')" class="add">查看包厢</a>&nbsp;&nbsp;&nbsp;&nbsp;
+									<a @click.prevent="checkdish(reserve,'菜品')" class="add">查看菜品</a>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" valign="top" class="fenye">{{totalCount}} 条数据{{currentPageNo}}/{{totalPage}}页&nbsp;&nbsp;
+						<a href="#" @click.prevent="firstPage()" target="mainFrame" onFocus="this.blur()">首页</a>&nbsp;&nbsp;
+						<a href="#" @click.prevent="prevPage()" target="mainFrame" onFocus="this.blur()">上一页</a>&nbsp;&nbsp;
+						<a href="#" @click.prevent="nextPage()" target="mainFrame" onFocus="this.blur()">下一页</a>&nbsp;&nbsp;
+						<a href="#" @click.prevent="lastPage()" target="mainFrame" onFocus="this.blur()">尾页</a>
+					</td>
+				</tr>
 			</table>
 			<div class="container_div">
 				<!-- 遮罩 -->
@@ -240,7 +321,7 @@
 						</tr>
 						<tr>
 							<td align="center" valign="middle" class="borderright borderbottom" colspan="5">
-								<input name="" type="reset" value="关闭" @click="hideDiv()" class="close"></td>
+								<input name="" type="reset" value="关闭" @click="hideDiv()" class="text-but"></td>
 						</tr>
 					</table>
 				</div>
