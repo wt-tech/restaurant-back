@@ -20,12 +20,14 @@ const DOMAIN = '192.168.0.177:8888';
 // const DOMAIN = '192.168.0.109:8080';
 // const DOMAIN = 'www.qghls.com';
 
-const CONTEXT = '/restaurant/'
+const CONTEXT = '/restaurant/';
 
 const HTTP_BASEURL = HTTP_PROTOCOL +'//'+ DOMAIN + CONTEXT;
 
 const WS_BASEURL = WS_PROTOCOL +'//'+ DOMAIN + CONTEXT;
 
+//客户ID,供后台管理人员使用
+const CUSTOMERID = 1;
 
 
 //新建axios实例,普通form表单
@@ -133,6 +135,14 @@ Array.prototype.remove = function(elementId){
 	return result;
 }
 
+function globalGetToday(seperator){
+	var date_now = new Date();
+	var year = date_now.getFullYear();
+	var month = date_now.getMonth()+1 < 10 ? "0"+(date_now.getMonth()+1) : (date_now.getMonth()+1);
+	var date = date_now.getDate() < 10 ? "0"+date_now.getDate() : date_now.getDate();
+	
+	return [year,month,date].join(seperator);
+}
 
 Date.prototype.format = function (format) {
     var date = {

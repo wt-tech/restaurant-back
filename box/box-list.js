@@ -9,6 +9,16 @@ $(function() {
 		el: '#boxes',
 		data: {
 			rawBoxList: [],
+			roomNumber : null,
+			/*new add here*/
+			pageInfo : {
+				currentPageNo : 1,
+				totalCount : 0,
+				pageSize : 6,
+				totalPages : 0,
+			},
+			loadingComplete : false,
+			/*new add end*/
 		},
 		computed: {
 			boxList: function() {
@@ -42,18 +52,95 @@ $(function() {
 				app.getBoxList();
 			},
 
+			/*new add here*/
+			prepareGetParmas : function(){
+				var app = this;
+				return {//get请求的参数,就是这种格式.
+					params : {
+						currentPageNo : app.pageInfo.currentPageNo,
+						roomNumber : app.roomNumber,
+					}
+				};
+			},
+			
+			fuzzyQuery : function(){
+				this.pageInfo.currentPageNo = 1;
+				this.getBoxList();
+			},
+			
+			processPageInfo : function(totalCount,pageSize){
+				this.pageInfo.totalCount = totalCount;
+				this.pageInfo.pageSize = pageSize;
+				try{
+					this.pageInfo.totalPages = Math.ceil(totalCount/pageSize);
+				}catch(e){
+					this.pageInfo.totalPages = 0;
+				}
+			},
+			
+			nextPage : function(){
+				var app = this;
+				if(app.pageInfo.currentPageNo < app.pageInfo.totalPages){
+					app.pageInfo.currentPageNo = app.pageInfo.currentPageNo +1;
+					app.getBoxList();
+				}
+				else{
+					alert('已经是最后一页了');
+				}
+			},
+			
+			prePage : function(){
+				var app = this;
+				if(app.pageInfo.currentPageNo > 1){
+					app.pageInfo.currentPageNo = app.pageInfo.currentPageNo -1;
+					app.getBoxList();
+				}
+				else{
+					alert('已经是第一页了');
+				}
+			},
+			
+			lastPage : function(){
+				
+				var app = this;
+				if(app.pageInfo.currentPageNo != app.pageInfo.totalPages){
+					app.pageInfo.currentPageNo = app.pageInfo.totalPages;
+					app.getBoxList();
+				}
+				else{
+					alert('已经是最后一页了');
+				}
+			},
+			
+			firstPage : function(){
+				var app = this;
+				if(app.pageInfo.currentPageNo != 1){
+					app.pageInfo.currentPageNo = -1;
+					app.getBoxList();
+				}
+				else{
+					alert('已经是第一页了');
+				}
+			},
+			/*new add end*/
+			
 			getBoxList: function() {
 				var app = this;
-				var url = 'box/listbox?currentPageNo=1';
-				simpleAxios.get(url).then(function(res) {
+				var url = 'box/back/listbox';
+				app.loadingComplete = false;
+				var params = app.prepareGetParmas();
+				simpleAxios.get(url,params).then(function(res) {
 					if (res.status == STATUS_OK && res.data.status == SUCCESS) {
 						app.processRawBoxList(res.data.boxs);
+						/*new add here*/
+						app.processPageInfo(res.data.totalCount,res.data.pageSize);
+						/*new add end*/
 					} else
 						backEndExceptionHanlder(res);
 				}).catch(function(res) {
 					unknownError(res);
 				}).finally(function() {
-
+					app.loadingComplete = true;
 				});
 			},
 
