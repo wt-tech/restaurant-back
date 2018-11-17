@@ -3,6 +3,7 @@ $(function() {
 	var menu = new Vue({
 		el: '#menu',
 		data: {
+			classificationList : [],
 			menuBak : null,
 			menuChanged : false,
 			menu: {
@@ -23,6 +24,7 @@ $(function() {
 				smallPrice: true,
 				salesVolume: true,
 				image : true,
+				classification : true,
 				atLeastCheckOnePrice : true
 			}
 
@@ -34,6 +36,7 @@ $(function() {
 		},
 
 		created: function() {
+			this.initClassificationList();
 			this.initMenu();
 			if (this.menu.classification.id == null) {
 				alert('请重新点击修改');
@@ -51,6 +54,20 @@ $(function() {
 
 		methods: {
 
+			initClassificationList : function(){
+				var app = this;
+				simpleAxios.get('classification/back/listclassification').then(function(res) {
+					if (res.status == STATUS_OK && res.data.status == SUCCESS) {
+						app.classificationList = res.data.classifications;
+					} else
+						backEndExceptionHanlder(res);
+				}).catch(function(res) {
+					unknownError(res);
+				}).finally(function() {
+
+				});
+			},
+
 			initMenu: function() {
 				var that = this;
 				try {
@@ -61,7 +78,10 @@ $(function() {
 					menu.url = getValue(menu,'menuimage.0.url');
 					that.menu = menu;
 					var menuBak = {};
+					var classification = {};
+					$.extend(classification,menu.classification);
 					$.extend(menuBak,menu);
+					menuBak.classification = classification;
 					that.menuBak = menuBak;
 				} catch (e) {
 					that.menu.classification.id = null;
@@ -184,8 +204,8 @@ $(function() {
 				var app = this;
 				
 				app.nameCheck();
+				app.classificationCheck();
 				app.salesVolumeCheck();
-				// app.imagecheck();
 				app.atLeastCheckOnePrice();
 				
 				var checkFileds = ['name','atLeastCheckOnePrice','salesVolume','image'];
@@ -202,6 +222,13 @@ $(function() {
 				var menu = app.menu;
 				app.menuPropertyValueReasonable.name = (menu.name || menu.name.length > 20)
 			},
+			
+			classificationCheck : function(){
+				var app = this;
+				var menu = app.menu;
+				app.menuPropertyValueReasonable.classification = (menu.classification.id);
+			},
+			
 			salesVolumeCheck : function(){
 				var app = this;
 				var menu = app.menu;

@@ -150,9 +150,9 @@
 						<tr>
 							<td width="50%" align="left" valign="middle">
 								<img v-if="!loadingComplete" src="../images/diy/loading.gif" class="loading" />
-								<form method="post" action="">
+								<form onkeypress="return event.keyCode != 13">
 									<span>查询包厢号：</span>
-									<input type="text" v-model="roomNumber" class="text-word">
+									<input type="text" v-model="roomNumber" @keyup.prevent.enter="fuzzyQuery" class="text-word">
 									<input type="button" value="查询" @click="fuzzyQuery" class="text-but">
 								</form>
 							</td>

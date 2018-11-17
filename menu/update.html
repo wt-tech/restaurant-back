@@ -224,6 +224,16 @@
 				</tr>
 
 				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+					<td align="right" valign="middle" class="borderright borderbottom bggray">所属分类：</td>
+					<td align="left" valign="middle" class="borderright borderbottom main-for">
+						<select v-model="menu.classification.id" @change="classificationCheck">
+							<option :value="classification.id" v-for="classification of classificationList">{{classification.name}}</option>
+						</select>
+						<label :hidden="menuPropertyValueReasonable.classification" style="color: red;">请选择所属分类</label>
+					</td>
+				</tr>
+
+				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
 					<td align="right" valign="middle" class="borderright borderbottom bggray">菜品销量：</td>
 					<td align="left" valign="middle" class="borderright borderbottom main-for">
 						<input @blur="salesVolumeCheck" placeholder="0" step="100" min="0" max="1000000" type="number" v-model="menu.salesVolume" class="text-word">

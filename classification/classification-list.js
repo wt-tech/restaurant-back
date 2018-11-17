@@ -10,6 +10,7 @@ $(function() {
 		el: '#classifications',
 		data: {
 			rawClassificationList: [],
+			menuName : '',
 		},
 		computed: {
 			classificationList : function(){
@@ -18,7 +19,7 @@ $(function() {
 						index : index + 1,
 						id : item.id,
 						name : item.name,
-						subMenu : '<a href="../menu/menu-list.html?id='+item.id+'">查看菜品</a>'
+						subMenu : '<a href="../menu/menu-list.html?id='+item.id+'&name='+encodeURI(item.name)+'">查看菜品</a>'
 					}
 				});
 			}
@@ -89,6 +90,12 @@ $(function() {
 			},
 			deleteClassificationFrontEnd : function(index){
 				this.rawClassificationList.splice(index,1);
+			},
+			
+			gotoMenuList : function(){
+				var app = this;
+				var url = '../menu/menu-list.html?name=' + encodeURI(app.menuName);
+				document.location.href = url;
 			}
 			
 		}

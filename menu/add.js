@@ -3,6 +3,7 @@ $(function() {
 	var menu = new Vue({
 		el: '#menu',
 		data: {
+			classificationList : [],
 			menu: {
 				classification: {
 					id: null
@@ -20,6 +21,7 @@ $(function() {
 				smallPrice: true,
 				salesVolume: true,
 				image : true,
+				classification : true,
 				atLeastCheckOnePrice : true
 			}
 		},
@@ -30,15 +32,27 @@ $(function() {
 		},
 
 		created: function() {
+			this.initClassificationList();
 			this.initClassificationId();
-			if (this.menu.classification.id == null) {
-				alert('请重新点击新增菜品');
-			}
 		},
 
 
 
 		methods: {
+
+			initClassificationList : function(){
+				var app = this;
+				simpleAxios.get('classification/back/listclassification').then(function(res) {
+					if (res.status == STATUS_OK && res.data.status == SUCCESS) {
+						app.classificationList = res.data.classifications;
+					} else
+						backEndExceptionHanlder(res);
+				}).catch(function(res) {
+					unknownError(res);
+				}).finally(function() {
+
+				});
+			},
 
 			initClassificationId: function() {
 				var that = this;
@@ -124,6 +138,7 @@ $(function() {
 				var app = this;
 				
 				app.nameCheck();
+				app.classificationCheck();
 				app.salesVolumeCheck();
 				app.imagecheck();
 				app.atLeastCheckOnePrice();
@@ -140,8 +155,15 @@ $(function() {
 			nameCheck : function(){
 				var app = this;
 				var menu = app.menu;
-				app.menuPropertyValueReasonable.name = (menu.name || menu.name.length > 20)
+				app.menuPropertyValueReasonable.name = (menu.name || menu.name.length > 20);
 			},
+			
+			classificationCheck : function(){
+				var app = this;
+				var menu = app.menu;
+				app.menuPropertyValueReasonable.classification = (menu.classification.id);
+			},
+			
 			salesVolumeCheck : function(){
 				var app = this;
 				var menu = app.menu;

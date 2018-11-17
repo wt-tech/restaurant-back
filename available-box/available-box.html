@@ -161,7 +161,7 @@
 							</td>
 							<td>
 								<span style="margin-left: 50px;">每行显示包厢数：</span>
-								<input type="number" v-model="colsPerRow"/>
+								<input type="number" min="2" v-model.lazy="colsPerRow" @change="colsPerRowCheck"/>
 							</td>
 						</tr>
 

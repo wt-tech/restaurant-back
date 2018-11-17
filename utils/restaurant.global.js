@@ -75,7 +75,7 @@ var jsonAxios = axios.create({
 }
 
 function unknownError(err){
-	alert('未知错误');
+	alert('网络故障');
 }
 
 
@@ -180,6 +180,14 @@ $(function(){
 	
 	$("#datetimes").attr("max",year+"-"+month+"-"+date);
 })
+
+function alert(e){
+    $("body").append('<div id="msg"><div id="msg_top">温馨提示<span class="msg_close">×</span></div><div id="msg_cont">'+e+'</div><div class="msg_close" id="msg_clear">确定</div></div>');
+    $(".msg_close").click(function (){
+    $("#msg").remove();
+    });
+}
+
 // function getURLParams(){
 // 	var finalRes = '';
 // 	try{

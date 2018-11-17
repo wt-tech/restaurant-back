@@ -106,7 +106,14 @@ $(function() {
 			
 			queryAvaliableBox : function(){
 				this.getAvaliableBox();
+			},
+			
+			colsPerRowCheck : function(){
+				console.log(this.colsPerRow);
+				if(!this.colsPerRow || this.colsPerRow == 1)
+					this.colsPerRow = 2;
 			}
+			
 
 		}
 	});
@@ -114,7 +121,7 @@ $(function() {
 });
 
 function changeArrayTo2DimensionalArray(arr, cols) {
-	if (!cols || isNaN(cols) || !Array.isArray(arr) || arr.length === 0)
+	if (cols == '0' || !cols || isNaN(cols) || !Array.isArray(arr) || arr.length === 0)
 		return arr;
 	cols = parseInt(cols);
 	var newArr = [];

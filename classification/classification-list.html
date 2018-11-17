@@ -2,8 +2,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>主要内容区main</title>
-		<link href="css/css.css" type="text/css" rel="stylesheet" />
-		<link href="css/main.css" type="text/css" rel="stylesheet" />
+		<link href="../css/css.css" type="text/css" rel="stylesheet" />
+		<link href="../css/main.css" type="text/css" rel="stylesheet" />
 		<link rel="shortcut icon" href="images/main/favicon.ico" />
 		<style>
 			body {
@@ -149,10 +149,10 @@
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
 						<tr width="100%">
 							<td width="50%" align="left" valign="middle">
-								<form method="post" action="">
+								<form onkeypress="return event.keyCode != 13">
 									<span>筛选：</span>
-									<input type="text" name="" value="" class="text-word">
-									<input name="" type="button" value="查询" class="text-but">
+									<input type="text" @keyup.enter="gotoMenuList" v-model="menuName" class="text-word">
+									<input @click="gotoMenuList" type="button" value="查询" class="text-but">
 								</form>
 							</td>
 							<td  width="40%" align="right" valign="middle" ><a href="add-update.html" target="mainFrame"
