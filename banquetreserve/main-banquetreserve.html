@@ -184,7 +184,7 @@
 											<option value="预订时间">预订时间</option>
 										</select>
 										<span>套餐类型：</span>
-										<select class="text-type" id="type">
+										<select v-model="combotypeId" class="text-type" id="type">
 											<option>请选择</option>
 											<option :value="combo.id" v-for="combo in comboList">{{combo.name}}</option>
 										</select>

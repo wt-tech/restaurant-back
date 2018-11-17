@@ -53,6 +53,13 @@
 				background: url(images/main/leftbg.jpg) left top repeat-y #f2f0f5;
 				width: 194px;
 			}
+			.newMessage_reserve{
+				/*display:flex;
+				padding-right: -20px;
+				background-color: #548fc7;
+				width: 30px;
+				height: 30px;*/
+			}
 		</style>
 	</head>
 
@@ -68,7 +75,7 @@
 			</div>
 			<div id="menu_restaurant">
 				<span>预订管理</span>
-				<a href="reserve/main-reserve.html" target="mainFrame" onFocus="this.blur()">包厢预订</a>
+				<a href="reserve/main-reserve.html" target="mainFrame" onFocus="this.blur()">包厢预订&nbsp;<div class="newMessage_reserve" style="display: inline-block;">1</div></a>
 				<a href="banquetreserve/main-banquetreserve.html" target="mainFrame" onFocus="this.blur()">喜宴预订</a>
 			</div>
 
@@ -80,17 +87,11 @@
 
 			<div id="menu_authentication">
 				<span>订单管理</span>
-				<a href="./authentication/main-authentication.html" target="mainFrame" onFocus="this.blur()">订单列表</a>
+				<a href="./dish-order/main-dishorder.html" target="mainFrame" onFocus="this.blur()">订单列表</a>
 			</div>
 			<div id="menu_account">
 				<span>菜单管理</span>
 				<a href="classification/classification-list.html" target="mainFrame" onFocus="this.blur()">菜单列表</a>
-			</div>
-			<div id="menu_permission">
-				<span>权限管理</span>
-				<a href="./permission/main-permission.html" target="mainFrame" onFocus="this.blur()">权限列表</a>
-				<a href="./role/roles.html" target="mainFrame" onFocus="this.blur()">角色列表</a>
-				<a href="./user/users.html" target="mainFrame" onFocus="this.blur()">用户列表</a>
 			</div>
 
 		</div>

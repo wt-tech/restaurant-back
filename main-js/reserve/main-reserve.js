@@ -149,7 +149,7 @@ $(function() {
 				var reservemode = that.reservemode;
 				var reg = /^[A-Za-z\u4e00-\u9fa5]*$/;
 				var telephone = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/;
-				var cell = /^[1][3,4,5,7,8][0-9]{9}$/;
+				var cell = /^[1][3,4,5,7,8,9][0-9]{9}$/;
 				if(infor != null) {
 					if(reg.test(infor) === true) {
 						that.initRawreserveList(page, {
@@ -204,7 +204,7 @@ $(function() {
 					});
 				}
 				
-				if(infor != null || starttime != null || reservetype != '请选择' || reservemode != '请选择' ) {
+				/*if(infor != null || starttime != null || reservetype != '请选择' || reservemode != '请选择' ) {
 					if(timetype == '就餐时间') {
 						that.initRawreserveList(page, {
 							EatStartTime: starttime,
@@ -220,10 +220,7 @@ $(function() {
 					that.initRawreserveList(page, {
 						reservationsMode: encodeURI(reservemode)
 					});
-				}
-				
-				
-				
+				}*/
 			},
 			hideDiv: function() {
 				this.display = 'display : none';

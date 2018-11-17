@@ -15,6 +15,7 @@ $(function() {
 			starttime: null,
 			endtime: null,
 			timetype: '请选择',
+			combotypeId: '请选择',
 			rawcomboList: [{
 				id: '',
 				name: ''
@@ -102,22 +103,62 @@ $(function() {
 				var that = this;
 				var page = 1;
 				var infor = that.inputs;
+				var starttime = that.starttime;
+				var endtime = that.endtime;
+				var timetype = that.timetype;
+				var combotypeId = that.combotypeId;
 				var reg = /^[A-Za-z\u4e00-\u9fa5]*$/;
 				var telephone = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/;
 				var cell = /^[1][3,4,5,7,8][0-9]{9}$/;
-				if(reg.test(infor) === true) {
-					that.initRawbanquetreserveList(page, {
-						reservationsName: encodeURI(infor)
-					});
+				if(infor != null) {
+					if(reg.test(infor) === true) {
+						that.initRawbanquetreserveList(page, {
+							reservationsName: encodeURI(infor)
+						});
+						return;
+					}
+					if(telephone.test(infor) === true || cell.test(infor) === true) {
+						that.initRawbanquetreserveList(page, {
+							reservationsTel: infor
+						});
+						return;
+					}
+					alert("您输入的姓名或者手机号码格式不正确");
 					return;
+				};
+				if(starttime != null || endtime != null) {
+					if(starttime == null || endtime == null) { //如果用户只选择了一个时间
+						alert("开始时间和结束时间都必须选择");
+						return;
+					}
+					if(timetype == '请选择') { //如果用户没有选择时间类型
+						alert("请选择时间类型再提交");
+						return;
+					}
+					if(endtime < starttime) { //如果用户选择的结束时间小于开始时间
+						alert("结束时间不能小于开始时间");
+						return;
+					}
+					if(timetype == '就餐时间') {
+						that.initRawbanquetreserveList(page, {
+							EatStartTime: starttime,
+							EatEndTime: endtime
+						});
+					} else {
+						that.initRawbanquetreserveList(page, {
+							reserveStartTime: starttime,
+							reserveEndTime: endtime
+						});
+					}
 				}
-				if(telephone.test(infor) === true || cell.test(infor) === true) {
-					that.initRawbanquetreserveList(page, {
-						reservationsTel: infor
-					});
-					return;
-				}
-				alert("您输入的姓名或者手机号码格式不正确");
+				/*;
+								if(combotype != '请选择') {
+									that.initRawbanquetreserveList(page, {
+										combo ={
+											id: combotypeId
+										}
+									});
+								}*/
 			},
 			firstPage: function() {
 				var that = this;
