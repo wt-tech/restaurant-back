@@ -9,7 +9,7 @@ const TEN = 10;
 
 //小程序码相关开始
 const CODE_MENU_PAGE_PATH = 'pages/details/details';
-const CODE_TABLE_PREFIX = 'TABLE';
+const CODE_TABLE_PREFIX = 'TAB';
 const CODE_BOX_PREFIX = 'BOX';
 //小程序码相关结束
 
@@ -20,12 +20,14 @@ const WS_PROTOCOL = 'ws:';
 const DOMAIN = '192.168.0.109:8080';
 // const DOMAIN = 'www.qghls.com';
 
-const CONTEXT = '/restaurant/'
+const CONTEXT = '/restaurant/';
 
 const HTTP_BASEURL = HTTP_PROTOCOL +'//'+ DOMAIN + CONTEXT;
 
 const WS_BASEURL = WS_PROTOCOL +'//'+ DOMAIN + CONTEXT;
 
+//客户ID,供后台管理人员使用
+const CUSTOMERID = 1;
 
 
 //新建axios实例,普通form表单
@@ -73,7 +75,7 @@ var jsonAxios = axios.create({
 }
 
 function unknownError(err){
-	alert('未知错误');
+	alert('网络故障');
 }
 
 
@@ -133,6 +135,14 @@ Array.prototype.remove = function(elementId){
 	return result;
 }
 
+function globalGetToday(seperator){
+	var date_now = new Date();
+	var year = date_now.getFullYear();
+	var month = date_now.getMonth()+1 < 10 ? "0"+(date_now.getMonth()+1) : (date_now.getMonth()+1);
+	var date = date_now.getDate() < 10 ? "0"+date_now.getDate() : date_now.getDate();
+	
+	return [year,month,date].join(seperator);
+}
 
 Date.prototype.format = function (format) {
     var date = {
@@ -169,7 +179,18 @@ Date.prototype.format = function (format) {
 	$("#datetime").attr("max",year+"-"+month+"-"+date);
 	
 	$("#datetimes").attr("max",year+"-"+month+"-"+date);
+<<<<<<< HEAD
 })*/
+})
+
+function alert(e){
+    $("body").append('<div id="msg"><div id="msg_top">温馨提示<span class="msg_close">×</span></div><div id="msg_cont">'+e+'</div><div class="msg_close" id="msg_clear">确定</div></div>');
+    $(".msg_close").click(function (){
+    $("#msg").remove();
+    });
+}
+
+
 // function getURLParams(){
 // 	var finalRes = '';
 // 	try{

@@ -2,8 +2,8 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>菜品列表</title>
-		<link href="css/css.css" type="text/css" rel="stylesheet" />
-		<link href="css/main.css" type="text/css" rel="stylesheet" />
+		<link href="../css/css.css" type="text/css" rel="stylesheet" />
+		<link href="../css/main.css" type="text/css" rel="stylesheet" />
 		<link rel="shortcut icon" href="images/main/favicon.ico" />
 		<style>
 			body {
@@ -47,7 +47,7 @@
 				height: 24px;
 				line-height: 24px;
 				width: 55px;
-				background: url(images/main/list_input.jpg) no-repeat left top;
+				background: url(../images/main/list_input.jpg) no-repeat left top;
 				border: none;
 				cursor: pointer;
 				font-family: "Microsoft YaHei", "Tahoma", "Arial", '宋体';
@@ -58,7 +58,7 @@
 			}
 
 			#search a.add {
-				background: url(images/main/add.jpg) no-repeat -3px 7px #548fc9;
+				background: url(../images/main/add.jpg) no-repeat -3px 7px #548fc9;
 				padding: 0 10px 0 26px;
 				height: 40px;
 				line-height: 40px;
@@ -81,7 +81,7 @@
 
 			#main-tab th {
 				font-size: 12px;
-				background: url(images/main/list_bg.jpg) repeat-x;
+				background: url(../images/main/list_bg.jpg) repeat-xt-x;
 				height: 32px;
 				line-height: 32px;
 			}
@@ -125,23 +125,43 @@
 				padding: 10px 0 0 0;
 				text-align: right;
 			}
+			
+			#search a.addNoBg {
+				/* background: url(../images/main/add.jpg) no-repeat -3px 7px #548fc9; */
+				padding: 0 10px 0 26px;
+				height: 40px;
+				line-height: 40px;
+				font-size: 14px;
+				font-weight: bold;
+				color: #FFF;
+				float: right
+			}
 
 		</style>
 	</head>
 	<body>
 		<!--main_top-->
 		<table width="99%" border="0" cellspacing="0" cellpadding="0" id="menus">
+			
 			<tr>
-				<td width="99%" align="left" valign="top">您的位置：菜品管理</td>
+				<td width="99%" align="left" valign="top">您的位置：{{classificationName}}管理</td>
 			</tr>
 			<tr>
 				<td width="99%" align="left" valign="top">
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
 						<tr width="100%">
-							<td align="right" valign="middle" style="text-align:right;"><a href="#" @click.prevent="goToAdd" target="mainFrame"
+							<td width="50%" align="left" valign="middle">
+								<img v-if="!loadingComplete"  src="../images/diy/loading.gif" class="loading" />
+								<form onkeypress="return event.keyCode != 13;">
+									<span>请输入菜品名称：</span>
+									<input type="text" @keyup.prevent.enter="fuzzyQuery" v-model="menuName" class="text-word">
+									<input @click="fuzzyQuery" type="button" value="查询" class="text-but">
+								</form>
+							</td>
+							<td width="40%" align="left" valign="middle"><a href="#" @click.prevent="goToAdd" target="mainFrame"
 								 onFocus="this.blur()" class="add" width="100%" >新增菜品</a></td>
-							<td align="right" valign="middle" style="text-align:right;"><a href="#" @click.prevent="refresh"
-								onFocus="this.blur()" class="add" width="100%" >刷新</a></td>
+							<td width="10%" align="right" valign="middle" style="text-align:right; width:120px;"><a href="#" @click.prevent="refresh"
+								onFocus="this.blur()" class="addNoBg" width="100%" >刷新</a></td>
 						</tr>
 					</table>
 				</td>
@@ -156,16 +176,19 @@
 							<th align="center" valign="middle" class="borderright borderbottom">销量</th>
 							<th align="center" valign="middle" class="borderright borderbottom">图片</th>
 							<th align="center" valign="middle" class="borderright borderbottom">规格价格</th>
+							<th align="center" v-if="classificationID == null" valign="middle" class="borderright borderbottom">所属分类</th>
 							<th align="center" valign="middle" class="borderright borderbottom">操作</th>
 						</tr>
 						<tr v-for="(menu,index) of menuList"
 							onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-							<td v-for="(value,property) of menu" is="vtd" v-if="property != 'id' && property != 'sizeAndPrice'" :content="value"></td>
+							<td v-for="(value,property) of menu" is="vtd" v-if="property != 'id' && property != 'sizeAndPrice' && property != 'classificationName'" :content="value"></td>
 							<td align="center" valign="middle" class="borderbottom borderright">
 								<select>
 									<option v-for="(size,index) of menu.sizeAndPrice" :value="size.id">{{size.value}} &nbsp;&nbsp;{{size.price}}元</option>
 								</select>
 							</td>
+							<td is="vtd"  v-if="classificationID == null" :content="menu.classificationName"></td>
+							 
 							<td align="center" valign="middle" class="borderbottom">
 								<a href="#" target="mainFrame" onFocus="this.blur()" @click.prevent="updateMenu(index)" class="add">编辑</a>
 									<span class="gray">&nbsp;|&nbsp;</span>
@@ -173,6 +196,15 @@
 							</td>
 						</tr>
 					</table>
+				</td>
+			</tr>
+			<tr>
+				<td v-if="loadingComplete" align="left" valign="top" class="fenye">
+					{{pageInfo.totalCount}} 条数据 {{pageInfo.currentPageNo}}/{{pageInfo.totalPages}} 页&nbsp;&nbsp;
+					<a href="#" @click.prevent="firstPage" onFocus="this.blur()">首页</a>&nbsp;&nbsp;
+					<a href="#" @click.prevent="prePage" onFocus="this.blur()">上一页</a>&nbsp;&nbsp;
+					<a href="#" @click.prevent="nextPage" onFocus="this.blur()">下一页</a>&nbsp;&nbsp;
+					<a href="#" @click.prevent="lastPage" onFocus="this.blur()">尾页</a>
 				</td>
 			</tr>
 		</table>

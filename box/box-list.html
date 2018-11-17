@@ -2,9 +2,9 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>主要内容区main</title>
-		<link href="css/css.css" type="text/css" rel="stylesheet" />
-		<link href="css/main.css" type="text/css" rel="stylesheet" />
-		<link rel="shortcut icon" href="images/main/favicon.ico" />
+		<link href="../css/css.css" type="text/css" rel="stylesheet" />
+		<link href="../css/main.css" type="text/css" rel="stylesheet" />
+		<link rel="shortcut icon" href="../images/main/favicon.ico" />
 		<style>
 			body {
 				overflow-x: hidden;
@@ -47,7 +47,7 @@
 				height: 24px;
 				line-height: 24px;
 				width: 55px;
-				background: url(images/main/list_input.jpg) no-repeat left top;
+				background: url(../images/main/list_input.jpg) no-repeat left top;
 				border: none;
 				cursor: pointer;
 				font-family: "Microsoft YaHei", "Tahoma", "Arial", '宋体';
@@ -58,7 +58,7 @@
 			}
 
 			#search a.add {
-				background: url(images/main/add.jpg) no-repeat -3px 7px #548fc9;
+				background: url(../images/main/add.jpg) no-repeat -3px 7px #548fc9;
 				padding: 0 10px 0 26px;
 				height: 40px;
 				line-height: 40px;
@@ -81,7 +81,7 @@
 
 			#main-tab th {
 				font-size: 12px;
-				background: url(images/main/list_bg.jpg) repeat-x;
+				background: url(../images/main/list_bg.jpg) repeat-x;
 				height: 32px;
 				line-height: 32px;
 			}
@@ -126,6 +126,16 @@
 				text-align: right;
 			}
 
+			#search a.addNoBg {
+				/* background: url(../images/main/add.jpg) no-repeat -3px 7px #548fc9; */
+				padding: 0 10px 0 26px;
+				height: 40px;
+				line-height: 40px;
+				font-size: 14px;
+				font-weight: bold;
+				color: #FFF;
+				float: right
+			}
 		</style>
 	</head>
 	<body>
@@ -137,13 +147,21 @@
 			<tr>
 				<td width="99%" align="left" valign="top">
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
-						<tr width="100%">
-							<td align="right" valign="middle" style="text-align:right;"><a href="add.html" target="mainFrame"
-								 onFocus="this.blur()" class="add" width="100%" >新增包厢</a></td>
-							<td align="right" valign="middle" style="text-align:right;"><a href="#" @click.prevent="refresh"
-								onFocus="this.blur()" class="add" width="100%" >刷新</a></td>
+						<tr>
+							<td width="50%" align="left" valign="middle">
+								<img v-if="!loadingComplete" src="../images/diy/loading.gif" class="loading" />
+								<form onkeypress="return event.keyCode != 13">
+									<span>查询包厢号：</span>
+									<input type="text" v-model="roomNumber" @keyup.prevent.enter="fuzzyQuery" class="text-word">
+									<input type="button" value="查询" @click="fuzzyQuery" class="text-but">
+								</form>
+							</td>
+							<td width="40%" align="left" valign="middle"><a href="add.html" target="mainFrame" onFocus="this.blur()" class="add"
+								 width="100%">新增包厢</a></td>
+							<td width="10%" align="right" valign="middle" style="text-align:right; width:120px;"><a href="#" @click.prevent="refresh"
+								 onFocus="this.blur()" class="addNoBg" width="100%">刷新</a></td>
 						</tr>
-						
+
 					</table>
 				</td>
 			</tr>
@@ -158,18 +176,31 @@
 							<th align="center" valign="middle" class="borderright borderbottom">包厢大小</th>
 							<th align="center" valign="middle" class="borderright borderbottom">包厢介绍</th>
 							<th align="center" valign="middle" class="borderright borderbottom">包厢照片</th>
+							<th align="center" valign="middle" class="borderright borderbottom">小程序码</th>
 							<th align="center" valign="middle" class="borderright borderbottom">操作</th>
 						</tr>
-						<tr v-for="(box,index) of boxList"
-							onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-							<td v-for="(value,property) of box" is="vtd" v-if="property != 'id'" :content="value"></td>
+						<tr v-for="(box,index) of boxList" onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+							<td v-for="(value,property) of box" is="vtd" v-if="property != 'id' && property != 'url'" :content="value"></td>
+							<td align="center" valign="middle" class="borderright borderbottom"><img style="width:80px;height:80px;" alt="尚未生成小程序码"
+								 :src="box.url"></img></td>
 							<td align="center" valign="middle" class="borderbottom">
 								<a href="update.html" target="mainFrame" onFocus="this.blur()" @click.prevent="updateBox(index)" class="add">编辑</a>
-									<span class="gray">&nbsp;|&nbsp;</span>
-								<a @click='deleteBox(index,box.id)' onFocus="this.blur()"class="add">删除</a>
+								<span class="gray">&nbsp;|&nbsp;</span>
+								<a @click='deleteBox(index,box.id)' onFocus="this.blur()" class="add">删除</a>
+								<span class="gray">&nbsp;|&nbsp;</span>
+								<a @click='generateMiniCode(index,box.id)' onFocus="this.blur()" class="add">生成小程序码</a>
 							</td>
 						</tr>
 					</table>
+				</td>
+			</tr>
+			<tr>
+				<td v-if="loadingComplete" align="left" valign="top" class="fenye">
+					{{pageInfo.totalCount}} 条数据 {{pageInfo.currentPageNo}}/{{pageInfo.totalPages}} 页&nbsp;&nbsp;
+					<a href="#" @click.prevent="firstPage" onFocus="this.blur()">首页</a>&nbsp;&nbsp;
+					<a href="#" @click.prevent="prePage" onFocus="this.blur()">上一页</a>&nbsp;&nbsp;
+					<a href="#" @click.prevent="nextPage" onFocus="this.blur()">下一页</a>&nbsp;&nbsp;
+					<a href="#" @click.prevent="lastPage" onFocus="this.blur()">尾页</a>
 				</td>
 			</tr>
 		</table>

@@ -4,7 +4,7 @@
 		<title>主要内容区main</title>
 		<link href="../css/css.css" type="text/css" rel="stylesheet" />
 		<link href="../css/main.css" type="text/css" rel="stylesheet" />
-		<link rel="shortcut icon" href="images/main/favicon.ico" />
+		<link rel="shortcut icon" href="../images/main/favicon.ico" />
 		<style>
 			body {
 				overflow-x: hidden;
@@ -12,7 +12,7 @@
 				padding: 15px 0px 10px 5px;
 			}
 
-			#tables {
+			#boxes {
 				font-size: 12px;
 			}
 
@@ -81,7 +81,7 @@
 
 			#main-tab th {
 				font-size: 12px;
-				background: url(../images/main/list_bg.jpg) repeat-xt-x;
+				background: url(../images/main/list_bg.jpg) repeat-x;
 				height: 32px;
 				line-height: 32px;
 			}
@@ -136,33 +136,35 @@
 				color: #FFF;
 				float: right
 			}
-
+			
+			
 		</style>
+		<link href="avaliable-box.css" type="text/css" rel="stylesheet" />
 	</head>
 	<body>
 		<!--main_top-->
-		<table width="99%" border="0" cellspacing="0" cellpadding="0" id="tables">
+		<table width="99%" border="0" cellspacing="0" cellpadding="0" id="boxes">
 			<tr>
-				<td width="99%" align="left" valign="top">您的位置：桌子管理</td>
+				<td width="99%" align="left" valign="top">您的位置：包厢预订</td>
 			</tr>
 			<tr>
 				<td width="99%" align="left" valign="top">
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
 						<tr width="100%">
-							<td width="50%" align="left" valign="middle">
-								<img v-if="!loadingComplete" src="../images/diy/loading.gif" class="loading" />
-								<form onkeypress="return event.keyCode != 13">
-									<span>桌号筛选：</span>
-									<input type="text" v-model="tableNumber" @keyup.prevent.enter="fuzzyQuery" class="text-word">
-									<input @click="fuzzyQuery" type="button" value="查询" class="text-but">
+							<td>
+								<form>
+									<img v-if="!loadingComplete" src="../images/diy/loading.gif" class="loading"/>
+									<span>选择日期查询：</span>
+									<input type="date"  v-model="selectedDate" class="text-word"/>
+									<input type="button" @click="queryAvaliableBox" value="查询" class="text-but">
 								</form>
 							</td>
-							<td width="40%" align="right" valign="middle" style="text-align:right;"><a href="add-update.html" target="mainFrame"
-								 onFocus="this.blur()" class="add" width="100%" >新增桌子</a></td>
-							<td width="10%" align="right" valign="middle" style="text-align:right; width:120px;"><a href="#" @click.prevent="refresh"
-								onFocus="this.blur()" class="addNoBg" width="100%" >刷新</a></td>
+							<td>
+								<span style="margin-left: 50px;">每行显示包厢数：</span>
+								<input type="number" min="2" v-model.lazy="colsPerRow" @change="colsPerRowCheck"/>
+							</td>
 						</tr>
-						
+
 					</table>
 				</td>
 			</tr>
@@ -170,22 +172,20 @@
 				<td align="left" valign="top">
 
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
-						<tr>
-							<th align="center" valign="middle" class="borderright borderbottom">序号</th>
-							<th align="center" valign="middle" class="borderright borderbottom">桌号</th>
-							<th align="center" valign="middle" class="borderright borderbottom">小程序码</th>
-							<th align="center" valign="middle" class="borderright borderbottom">操作</th>
-						</tr>
-						<tr v-for="(table,index) of tableList"
-							onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-							<td v-for="(value,property) of table" is="vtd" v-if="property != 'id' && property != 'image'" :content="value"></td>
-							<td  align="center" valign="middle" class="borderright borderbottom"><img style="width:80px;height:80px;" alt="尚未生成小程序码" :src="table.image"></img></td>
-							<td align="center" valign="middle" class="borderbottom">
-								<a href="add-update.html" target="mainFrame" onFocus="this.blur()" @click.prevent="updateTable(index)" class="add">编辑</a>
-									<span class="gray">&nbsp;|&nbsp;</span>
-								<a @click='deleteTable(index,table.id)' onFocus="this.blur()"class="add">删除</a>
-									<span class="gray">&nbsp;|&nbsp;</span>
-								<a @click='generateMiniCode(index,table.id)' onFocus="this.blur()"class="add">生成小程序码</a>
+
+						<tr v-for="(boxList,rowIndex) of twoDimensionBoxList">
+							<td v-for="(box,colIndex) of boxList">
+								<div id="box-info">
+									<div>包厢 : {{box.roomNumber}} &nbsp;|&nbsp; 大小 : {{box.roomSize}}</div>
+									<img :src="box.boxURL" style="width:100px;height:100px"></img>
+									<div>
+										<button v-if="box.launchButtonAvaliable" @click="goToReservePage('launch',box.id,rowIndex,colIndex)" class="reserve" >预订午餐</button>
+										<button v-else disabled="disabled" class="reserve">已被预订</button>
+										
+										<button v-if="box.supperButtonAvaliable" @click="goToReservePage('supper',box.id,rowIndex,colIndex)" class="reserve">预订晚餐</button>
+										<button v-else disabled="disabled" class="reserve">已被预订</button>
+									</div>
+								</div>
 							</td>
 						</tr>
 					</table>
@@ -198,4 +198,4 @@
 <script src="../utils/vue.min.js"></script>
 <script src="../utils/axios.min.js"></script>
 <script src="../utils/restaurant.global.js"></script>
-<script src="./table-list.js"></script>
+<script src="./avaliable-box.js"></script>

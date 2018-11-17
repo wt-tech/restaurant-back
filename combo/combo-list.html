@@ -12,7 +12,7 @@
 				padding: 15px 0px 10px 5px;
 			}
 
-			#tables {
+			#combo {
 				font-size: 12px;
 			}
 
@@ -67,6 +67,17 @@
 				color: #FFF;
 				float: right
 			}
+			
+			#search a.addNoBg {
+				/* background: url(../images/main/add.jpg) no-repeat -3px 7px #548fc9; */
+				padding: 0 10px 0 26px;
+				height: 40px;
+				line-height: 40px;
+				font-size: 14px;
+				font-weight: bold;
+				color: #FFF;
+				float: right
+			}
 
 			#search a:hover.add {
 				text-decoration: underline;
@@ -81,7 +92,7 @@
 
 			#main-tab th {
 				font-size: 12px;
-				background: url(../images/main/list_bg.jpg) repeat-xt-x;
+				background: url(../images/main/list_bg.jpg) repeat-xt-xt-x;
 				height: 32px;
 				line-height: 32px;
 			}
@@ -126,66 +137,53 @@
 				text-align: right;
 			}
 
-			#search a.addNoBg {
-				/* background: url(../images/main/add.jpg) no-repeat -3px 7px #548fc9; */
-				padding: 0 10px 0 26px;
-				height: 40px;
-				line-height: 40px;
-				font-size: 14px;
-				font-weight: bold;
-				color: #FFF;
-				float: right
-			}
-
 		</style>
 	</head>
 	<body>
 		<!--main_top-->
-		<table width="99%" border="0" cellspacing="0" cellpadding="0" id="tables">
+		<table width="99%" border="0" cellspacing="0" cellpadding="0" id="combo">
 			<tr>
-				<td width="99%" align="left" valign="top">您的位置：桌子管理</td>
+				<td width="99%" align="left" valign="top">您的位置：喜宴套餐管理</td>
 			</tr>
+			
 			<tr>
-				<td width="99%" align="left" valign="top">
+				<td align="left" valign="top">
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
-						<tr width="100%">
+						<tr>
 							<td width="50%" align="left" valign="middle">
-								<img v-if="!loadingComplete" src="../images/diy/loading.gif" class="loading" />
-								<form onkeypress="return event.keyCode != 13">
-									<span>桌号筛选：</span>
-									<input type="text" v-model="tableNumber" @keyup.prevent.enter="fuzzyQuery" class="text-word">
-									<input @click="fuzzyQuery" type="button" value="查询" class="text-but">
+								<form method="post" action="">
+									<span>筛选：</span>
+									<input type="text" name="" value="" class="text-word">
+									<input name="" type="button" value="查询" class="text-but">
 								</form>
 							</td>
-							<td width="40%" align="right" valign="middle" style="text-align:right;"><a href="add-update.html" target="mainFrame"
-								 onFocus="this.blur()" class="add" width="100%" >新增桌子</a></td>
-							<td width="10%" align="right" valign="middle" style="text-align:right; width:120px;"><a href="#" @click.prevent="refresh"
+							<td width="40%" align="left" valign="middle"><a href="add.html" target="mainFrame"
+								onFocus="this.blur()" class="add" width="100%" >新增喜宴套餐</a></td>
+							<td width="10%" align="center" valign="middle" style="text-align:right; width:120px;"><a href="#" @click.prevent="refresh"
 								onFocus="this.blur()" class="addNoBg" width="100%" >刷新</a></td>
 						</tr>
-						
 					</table>
 				</td>
 			</tr>
+			
 			<tr>
 				<td align="left" valign="top">
 
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
 						<tr>
-							<th align="center" valign="middle" class="borderright borderbottom">序号</th>
-							<th align="center" valign="middle" class="borderright borderbottom">桌号</th>
-							<th align="center" valign="middle" class="borderright borderbottom">小程序码</th>
+							<th align="center" valign="middle" class="borderright borderbottom">编号</th>
+							<th align="center" valign="middle" class="borderright borderbottom">套餐名称</th>
+							<th align="center" valign="middle" class="borderright borderbottom">套餐介绍</th>
+							<th align="center" valign="middle" class="borderright borderbottom">套餐价格</th>
+							<th align="center" valign="middle" class="borderright borderbottom">套餐照片</th>
 							<th align="center" valign="middle" class="borderright borderbottom">操作</th>
 						</tr>
-						<tr v-for="(table,index) of tableList"
-							onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-							<td v-for="(value,property) of table" is="vtd" v-if="property != 'id' && property != 'image'" :content="value"></td>
-							<td  align="center" valign="middle" class="borderright borderbottom"><img style="width:80px;height:80px;" alt="尚未生成小程序码" :src="table.image"></img></td>
+						<tr v-for="(combo,index) of comboList" onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+							<td v-for="(value,property) of combo" is="vtd" v-if="property != 'id'" :content="value"></td>
 							<td align="center" valign="middle" class="borderbottom">
-								<a href="add-update.html" target="mainFrame" onFocus="this.blur()" @click.prevent="updateTable(index)" class="add">编辑</a>
-									<span class="gray">&nbsp;|&nbsp;</span>
-								<a @click='deleteTable(index,table.id)' onFocus="this.blur()"class="add">删除</a>
-									<span class="gray">&nbsp;|&nbsp;</span>
-								<a @click='generateMiniCode(index,table.id)' onFocus="this.blur()"class="add">生成小程序码</a>
+								<a href="update.html" target="mainFrame" onFocus="this.blur()" @click.prevent="updateCombo(index)" class="add">编辑</a>
+								<span class="gray">&nbsp;|&nbsp;</span>
+								<a @click='deleteCombo(index,combo.id)' onFocus="this.blur()" class="add">删除</a>
 							</td>
 						</tr>
 					</table>
@@ -198,4 +196,4 @@
 <script src="../utils/vue.min.js"></script>
 <script src="../utils/axios.min.js"></script>
 <script src="../utils/restaurant.global.js"></script>
-<script src="./table-list.js"></script>
+<script src="./combo-list.js"></script>

@@ -40,6 +40,8 @@
 			float: left;
 			border: 1px solid #FFF;
 		}
+		
+		
 
 		#search form input.text-but {
 			height: 24px;
@@ -78,7 +80,7 @@
 
 		#main-tab th {
 			font-size: 12px;
-			background: url(../images/main/list_bg.jpg) repeat-xt-x;
+			background: url(../images/main/list_bg.jpg) repeat-x;
 			height: 32px;
 			line-height: 32px;
 		}
@@ -213,68 +215,80 @@
 
 	<body>
 
-		<form id="menu">
+		<form id="boxReserve">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
 				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-					<td align="right" valign="middle" class="borderright borderbottom bggray">菜品名称：</td>
+					<td align="right" valign="middle" class="borderright borderbottom bggray">已选包厢号：</td>
 					<td align="left" valign="middle" class="borderright borderbottom main-for">
-						<input @blur="nameCheck" placeholder="请输入菜品名称,不多于20字" type="text" v-model="menu.name" class="text-word">
-						<label :hidden="menuPropertyValueReasonable.name" style="color: red;">菜品名称必填,且不多于20字.</label>
+						<input disabled placeholder="请返回上一步选择包厢" type="text" v-model="reserveInfo.box[0].roomNumber" class="text-word">
 					</td>
 				</tr>
 
 				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-					<td align="right" valign="middle" class="borderright borderbottom bggray">所属分类：</td>
+					<td align="right" valign="middle" class="borderright borderbottom bggray">已选包厢名称：</td>
 					<td align="left" valign="middle" class="borderright borderbottom main-for">
-						<select v-model="menu.classification.id" @change="classificationCheck">
-							<option :value="classification.id" v-for="classification of classificationList">{{classification.name}}</option>
-						</select>
-						<label :hidden="menuPropertyValueReasonable.classification" style="color: red;">请选择所属分类</label>
-					</td>
-				</tr>
-
-				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-					<td align="right" valign="middle" class="borderright borderbottom bggray">菜品销量：</td>
-					<td align="left" valign="middle" class="borderright borderbottom main-for">
-						<input @blur="salesVolumeCheck" placeholder="0" step="100" min="0" max="1000000" type="number" v-model="menu.salesVolume" class="text-word">
-						<label :hidden="menuPropertyValueReasonable.salesVolume" style="color: red;">请填写合法的销量.</label>
-					</td>
-				</tr>
-
-				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-					<td align="right" valign="middle" class="borderright borderbottom bggray">修改图片：</td>
-					<td align="left" valign="middle" class="borderright borderbottom main-for">
-						<input id='menu-image' @change="fileChange" type="file" accept="image/*">
-						<label :hidden="menuPropertyValueReasonable.image"  style="color: red;">图片必须上传</label>
-					</td>
-				</tr>
-				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-					<td align="right" valign="middle" class="borderright borderbottom bggray">图片预览：</td>
-					<td align="left" style="height: 100px;" valign="middle" class="borderright borderbottom main-for">
-						<img id='preview' width="80rpx" height="80rpx" :src="menu.url" alt="请上传图片"/>
+						<input disabled  placeholder="该包厢未设置名称" type="text" v-model="reserveInfo.box[0].roomName" class="text-word">
 					</td>
 				</tr>
 				
 				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-					<td align="right" valign="middle" class="borderright borderbottom bggray">规格价格：</td>
-					<td align="left" style="height: 100px;" valign="middle" class="borderright borderbottom main-for">
-						<input @change='checkboxChanged($event,"large")' class="large" type="checkbox" /> 大份 
-						<input @blur='largePriceCheck' class="large" type="text" disabled v-model="menu.largePrice" placeholder="请输入价格,单位元"/>
-						<label :hidden="menuPropertyValueReasonable.largePrice" style="color: red;">请输入合法的价格</label><br>
-						<input @change='checkboxChanged($event,"medium")'  class="medium" type="checkbox" /> 中份 
-						<input @blur='mediumPriceCheck' class="medium" type="text" disabled v-model="menu.mediumPrice" placeholder="请输入价格,单位元"/>
-						<label :hidden="menuPropertyValueReasonable.mediumPrice" style="color: red;">请输入合法的价格</label><br>
-						<input @change='checkboxChanged($event,"small")'  class="small" type="checkbox" /> 小份 
-						<input @blur='smallPriceCheck' class="small" v-model="menu.smallPrice" disabled type="text" placeholder="请输入价格,单位元"/>
-						<label :hidden="menuPropertyValueReasonable.smallPrice" style="color: red;">请输入合法的价格</label><br>
-						<label :hidden="menuPropertyValueReasonable.atLeastCheckOnePrice" style="color: red;">请至少选择一个规格</label>
+					<td align="right" valign="middle" class="borderright borderbottom bggray">已选预订日期：</td>
+					<td align="left" valign="middle" class="borderright borderbottom main-for">
+						<input disabled  placeholder="请返回上一步选择预订日期" type="text" v-model="reserveInfo.reservationsStartTime" class="text-word">
+					</td>
+				</tr>
+				
+				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+					<td align="right" valign="middle" class="borderright borderbottom bggray">已选预订时间：</td>
+					<td align="left" valign="middle" class="borderright borderbottom main-for">
+						<input disabled  placeholder="请返回上一步选择预订时间" type="text" v-model="reserveInfo.reservationType" class="text-word">
+					</td>
+				</tr>
+				<!-- 下面是需要手动填写项 -->
+				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+					<td align="right" valign="middle" class="borderright borderbottom bggray">预订人姓名：</td>
+					<td align="left" valign="middle" class="borderright borderbottom main-for">
+						<input placeholder="请输入预订人姓名,可不填" type="text" v-model="reserveInfo.reservationsName" class="text-word">
+						<input @change="sexChanged('先生',$event)" type="radio" id="genderChoice1" name="gender" value="先生">
+						<label>先生</label>
+						<input @change="sexChanged('女士',$event)" type="radio" id="genderChoice2" name="gender" value="女士">
+						<label>女士</label>
+					</td>
+				</tr>
+				
+				
+				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+					<td align="right" valign="middle" class="borderright borderbottom bggray">预订人联系方式：
+						<span style="color: red;">*</span>
+					</td>
+					<td align="left" valign="middle" class="borderright borderbottom main-for">
+						<input @blur="checkTel" placeholder="请输入联系方式,必填" type="text" v-model="reserveInfo.reservationsTel" class="text-word">
+						<label v-if="telLength > 0">{{telLength}}位</label>
+						<label style="color: red;" v-if="!reserveInfoAvaliable.tel">请输入合法的联系方式</label>
+					</td>
+				</tr>
+				
+				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+					<td align="right" valign="middle" class="borderright borderbottom bggray">预订人数：</td>
+					<td align="left" valign="middle" class="borderright borderbottom main-for">
+						<input @blur="checkNum" placeholder="请输入人数,可不填" type="text" v-model="reserveInfo.reservationsNum" class="text-word">
+						<label style="color: red;" v-if="!reserveInfoAvaliable.num">请输入数字</label>
+					</td>
+				</tr>
+				
+				
+				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+					<td align="right" valign="middle" class="borderright borderbottom bggray">备注：</td>
+					<td align="left" valign="middle" class="borderright borderbottom main-for">
+						<textarea rows="5" cols="45" placeholder="请填写备注信息,可不填"  v-model="reserveInfo.remarks">
+						</textarea>
 					</td>
 				</tr>
 
 				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
 					<td align="right" valign="middle" class="borderright borderbottom bggray">&nbsp;</td>
 					<td align="left" valign="middle" class="borderright borderbottom main-for">
-						<input type="button" @click="submit" value="提交" class="text-but">
+						<input type="button" @click.prevent="submit" value="提交" class="text-but">
 					</td>
 				</tr>
 			</table>
@@ -286,4 +300,4 @@
 <script src="../utils/vue.min.js"></script>
 <script src="../utils/axios.min.js"></script>
 <script src="../utils/restaurant.global.js"></script>
-<script src="update.js"></script>
+<script src="reserve.js"></script>

@@ -72,7 +72,7 @@ $(function(){
 			turnToUpdatePage : function(banner){
 				var id = banner.id;
 				var url = "update.html?id="+id;
-				window.open(url);
+				document.location.href = url;
 			}
 		}
 	});
