@@ -1,0 +1,128 @@
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>主要内容区main</title>
+		<link href="../css/alogin.css" type="text/css" rel="stylesheet" />
+		<link href="../css/main.css" type="text/css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../css/dateRange.css">
+		<link rel="shortcut icon" href="images/main/favicon.ico" />
+	</head>
+
+	<body>
+			<!--<table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
+				<tr>
+					<td align="left" valign="top">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">-->
+			<!--<tr>
+								<td align="left" valign="middle">
+									<form method="post" action="">
+										<span>管理员：</span>
+										<input type="text" name="infor" v-model="inputs" value="" class="text-word" placeholder="请输入姓名或手机号">
+										<input name="chaxun" @click="submit" type="button" value="查询" class="text-but">
+									</form>
+								</td>
+							</tr>-->
+			<div style="width:400px;margin:auto">
+				<form method="get" class="form-search">
+					<div class="calendar_dates">
+						<div class="ta_date" id="div_date1">
+							<span class="date_title" id="date1">2018-10-13 至 2018-11-05</span>
+							<a class="opt_sel" id="input_trigger1" href="">
+								<i class="i_orderd"></i>
+							</a>
+						</div>
+					</div>
+					<input type="hidden" autocomplete="off" value="2018-10-13" id="start_date" name="start_date">
+					<input type="hidden" autocomplete="off" value="2018-11-05" id="end_date" name="end_date">
+				</form>
+			</div>
+			<!--</table>
+					</td>
+				</tr>-->
+			<!--<tr style="z-index: 100;">
+					<td align="left" valign="top">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
+							<tr>
+								<th align="center" valign="middle" class="borderright">序号</th>
+								<th align="center" valign="middle" class="borderright">姓名</th>
+								<th align="center" valign="middle" class="borderright">性别</th>
+								<th align="center" valign="middle" class="borderright">手机号</th>
+								<th align="center" valign="middle" class="borderright">人数</th>
+								<th align="center" valign="middle" class="borderright">就餐时间</th>
+								<th align="center" valign="middle" class="borderright">预订类型</th>
+								<th align="center" valign="middle" class="borderright">预订时间</th>
+								<th align="center" valign="middle" class="borderright">预约模式</th>
+								<th align="center" valign="middle" class="borderright">备注</th>
+								<th align="center" valign="middle">操作</th>
+							</tr>
+							<tr v-for="(reserve,index) of reserveList" class="cont-list" onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+								<td is="std" v-for="(field,property) of reserve" v-if="property!='id'" :content="field"></td>
+								<td align="center" valign="middle" class="borderbottom">
+									<a @click.prevent="checkdish(reserve,'包厢')" class="add">查看包厢</a>&nbsp;&nbsp;&nbsp;&nbsp;
+									<a @click.prevent="checkdish(reserve,'菜品')" class="add">查看菜品</a>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" valign="top" class="fenye">{{totalCount}} 条数据{{currentPageNo}}/{{totalPage}}页&nbsp;&nbsp;
+						<a href="#" @click.prevent="firstPage()" target="mainFrame" onFocus="this.blur()">首页</a>&nbsp;&nbsp;
+						<a href="#" @click.prevent="prevPage()" target="mainFrame" onFocus="this.blur()">上一页</a>&nbsp;&nbsp;
+						<a href="#" @click.prevent="nextPage()" target="mainFrame" onFocus="this.blur()">下一页</a>&nbsp;&nbsp;
+						<a href="#" @click.prevent="lastPage()" target="mainFrame" onFocus="this.blur()">尾页</a>
+					</td>
+				</tr>-->
+			<!--</table>-->
+			<!--<div class="container_div">-->
+				<!-- 遮罩 -->
+				<div id="bg" :style="display"></div>
+				<div id="show" :style="display">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
+						<tr>
+							<th align="center" valign="middle" class="borderright">序号</th>
+							<th align="center" valign="middle" class="borderright">菜品名字</th>
+							<th align="center" valign="middle" class="borderright">菜品数量</th>
+							<th align="center" valign="middle" class="borderright">菜品规格</th>
+							<th align="center" valign="middle" class="borderright">菜品价格</th>
+						</tr>
+						<tr v-for="(menu,index) of menuList" class="cont-list">
+							<td is="std" v-for="(fields,property) of menu" v-if="property!='id'" :content="fields"></td>
+						</tr>
+						<tr>
+							<td align="center" valign="middle" class="borderright borderbottom" colspan="5">
+								<input name="" type="reset" value="关闭" @click="hideDiv()" class="text-but"></td>
+						</tr>
+					</table>
+				</div>
+
+				<div id="bg" :style="displays"></div>
+				<div id="show" :style="displays">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
+						<tr>
+							<th align="center" valign="middle" class="borderright">序号</th>
+							<th align="center" valign="middle" class="borderright">包厢号</th>
+							<th align="center" valign="middle" class="borderright">包厢名字</th>
+						</tr>
+						<tr v-for="(box,index) of boxList" class="cont-list">
+							<td is="std" v-for="(fieldbox,property) of box" v-if="property!='id'" :content="fieldbox"></td>
+						</tr>
+						<tr>
+							<td align="center" valign="middle" class="borderright borderbottom" colspan="5">
+								<input name="" type="reset" value="关闭" @click="hideDivs()" class="text-but"></td>
+						</tr>
+					</table>
+				</div>
+			<!--</div>-->
+		<!--</div>-->
+	</body>
+
+</html>
+<script src="../utils/jquery-3.2.1.min.js"></script>
+<script src="../utils/vue.min.js"></script>
+<script src="../utils/axios.min.js"></script>
+<script src="../utils/restaurant.global.js"></script>
+<script src="../main-js/reserve/main-reserve.js"></script>
+<script src="../utils/jquery.js"></script>
+<script src="../utils/dateRange.js"></script>

@@ -8,77 +8,74 @@ Vue.component('std', {
 
 $(function() {
 	var app = new Vue({
-		el: '#banquetreserve',
+		el: '#tablereservehome',
 		data: {
-			rawBanquetReserveList: [],
+			rawTableReserveHomeList: [],
 			inputs: null,
 			starttime: null,
 			endtime: null,
 			timetype: '请选择',
-			combotypeId: '请选择',
-			rawcomboList: [{
-				id: '',
-				name: ''
-			}],
-			field: ['id', 'index', 'reservationsName', 'reservationsSex', 'reservationsTel', 'reservationsNum', 'reservationsCombo', 'reservationsStartTime', 'reserveTime', 'remarks'], //index指序号
+			field: ['id', 'index', 'reservationsName', 'reservationsSex', 'reservationsTel', 'reservationsNum', 'reservationsStartTime', 'reserveTime', 'remarks'], //index指序号
 			totalCount: '',
 			totalPage: '',
-			currentPageNo: 1
+			currentPageNo: 1,
+			display: 'display : none',
+			rawMenuList: [],
+			fields: ['id', 'index', 'name', 'specifications', 'choosePrice', 'menuCount'], //index指序号
 		},
 		computed: {
-			banquetreserveList: function() {
+			tablereservehomeList: function() {
 				var that = this;
-				return that.rawBanquetReserveList.map(function(banquetreserve, index) {
+				return that.rawTableReserveHomeList.map(function(tablereservehome, index) {
 					return {
 						index: index + 1,
-						reservationsName: getValue(banquetreserve, 'reservationsName'),
-						reservationsSex: getValue(banquetreserve, 'reservationsSex'),
-						reservationsTel: getValue(banquetreserve, 'reservationsTel'),
-						reservationsNum: getValue(banquetreserve, 'reservationsNum'),
-						reservationsCombo: getValue(banquetreserve, 'combo.comboName') + '(' + getValue(banquetreserve, 'combo.comboPrice') + '元/桌)',
-						reservationsStartTime: getDateOfDateTime(getValue(banquetreserve, 'reservationsStartTime')),
-						reserveTime: getDateOfDateTime(getValue(banquetreserve, 'reserveTime')),
-						remarks: getValue(banquetreserve, 'remarks'),
-						id: getValue(banquetreserve, 'id')
+						reservationsName: getValue(tablereservehome, 'reservationsName'),
+						reservationsSex: getValue(tablereservehome, 'reservationsSex'),
+						reservationsTel: getValue(tablereservehome, 'reservationsTel'),
+						reservationsNum: getValue(tablereservehome, 'reservationsNum'),
+						reservationsStartTime: getDateOfDateTime(getValue(tablereservehome, 'reservationsStartTime')),
+						reserveTime: getDateOfDateTime(getValue(tablereservehome, 'reserveTime')),
+						remarks: getValue(tablereservehome, 'remarks'),
+						id: getValue(tablereservehome, 'id')
 					};
 				});
 			},
 
-			comboList: function() {
+			menuList: function() {
 				var that = this;
-				return that.rawcomboList.map(function(combo, index) {
+				return that.rawMenuList.map(function(menu, index) {
 					return {
-						name: getValue(combo, 'comboName'),
-						id: getValue(combo, 'id')
+						index: index + 1,
+						name: getValue(menu, 'name'),
+						menuCount: getValue(menu, 'menuCount'),
+						specifications: getValue(menu, 'specifications'),
+						choosePrice: getValue(menu, 'choosePrice'),
+						id: getValue(menu, 'id')
 					};
 				});
 			}
-
 		},
-
 		created: function() {
 			var that = this;
-			that.initRawbanquetreserveList();
-			that.initRawcomboList();
+			that.initRawtablereservehomeList();
 		},
 
 		methods: {
-			initRawbanquetreserveList: function(PageNo, Param = null) {
+			initRawtablereservehomeList: function(PageNo, param = null) {
 				var that = this;
 				var currentPageNo = PageNo || that.currentPageNo;
-				var param={
+				if(param != null) {
+					param.currentPageNo = currentPageNo;
+				} else
+					param = {
 						currentPageNo: currentPageNo
-				}
-				if(Param != null) {
-					var queryString = encodeURI(JSON.stringify(Param));
-					param.queryString = queryString;
-				}
-				simpleAxios.get('banquetreserve/back/listbanquetreserve', {
-					params : param
+					};
+				simpleAxios.get('tablereservehome/back/listtablereservehome?', {
+					params: param
 				}).then(function(res) {
 					if(res.status == STATUS_OK && res.data.status == SUCCESS) {
 						var resData = res.data;
-						that.rawBanquetReserveList = resData.banquetreserves;
+						that.rawTableReserveHomeList = resData.tablereservehomes;
 						that.totalPage = Math.ceil(resData.totalCount / resData.pageSize);
 						that.totalCount = resData.totalCount;
 					} else
@@ -88,12 +85,15 @@ $(function() {
 				})
 			},
 
-			initRawcomboList: function() {
+			checkdish: function(tablereservehome) {
 				var that = this;
-				simpleAxios.get('combo/back/listallcombo').then(function(res) {
+				var params = new FormData();
+				var id = tablereservehome.id;
+				this.showDiv(tablereservehome);
+				simpleAxios.get('tablereservehome/back/gettablereservehome/' + id).then(function(res) {
 					if(res.status == STATUS_OK && res.data.status == SUCCESS) {
 						var resData = res.data;
-						that.rawcomboList = resData.combos;
+						that.rawMenuList = resData.tablereservehome.menu;
 					} else
 						backEndExceptionHanlder(res);
 				}).catch(function(err) {
@@ -103,7 +103,7 @@ $(function() {
 			submit: function() {
 				var page = 1;
 				var that = this;
-				that.initRawbanquetreserveList(page, that.combinationParameter());
+				that.initRawtablereservehomeList(page, this.combinationParameter());
 			},
 
 			combinationParameter: function() {
@@ -112,12 +112,9 @@ $(function() {
 				var starttime = that.starttime;
 				var endtime = that.endtime;
 				var timetype = that.timetype;
-				var combotypeId = that.combotypeId;
 				var params = {};
 				this.infor(params, infor);
 				this.time(params, starttime, endtime, timetype);
-				this.combotypes(params, combotypeId);
-				//console.log(params);
 				return params;
 			},
 
@@ -177,20 +174,18 @@ $(function() {
 				}
 				return params;
 			},
-			combotypes: function(params, combotypeId) {
-				if(combotypeId != '请选择') {
-					combos = {
-						id: combotypeId
-					}
-					//console.log(combos);
-					params.combo = combos;
-				}
-				return params;
+			hideDiv: function() {
+				this.display = 'display : none';
 			},
+
+			showDiv: function(tablereservehome) {
+				this.display = 'display : block';
+			},
+
 			firstPage: function() {
 				var that = this;
 				that.currentPageNo = 1;
-				that.initRawbanquetreserveList(that.currentPageNo, that.combinationParameter());
+				that.initRawtablereservehomeList(that.currentPageNo,that.combinationParameter());
 			},
 			prevPage: function() {
 				var that = this;
@@ -198,7 +193,7 @@ $(function() {
 					var currentPageNo = that.currentPageNo;
 					currentPageNo--;
 					that.currentPageNo = currentPageNo;
-					that.initRawbanquetreserveList(currentPageNo, that.combinationParameter());
+					that.initRawtablereservehomeList(currentPageNo,that.combinationParameter());
 				} else {
 					alert('已经是第一页');
 				}
@@ -211,16 +206,15 @@ $(function() {
 				} else {
 					currentPageNo++;
 					that.currentPageNo = currentPageNo;
-					that.initRawbanquetreserveList(currentPageNo, that.combinationParameter());
+					that.initRawtablereservehomeList(currentPageNo,that.combinationParameter());
 				}
 			},
 			lastPage: function() {
 				var that = this;
 				that.currentPageNo = that.totalPage;
-				that.initRawbanquetreserveList(that.totalPage, that.combinationParameter());
+				that.initRawtablereservehomeList(that.totalPage,that.combinationParameter());
 			}
 
-		},
-
+		}
 	})
 });
