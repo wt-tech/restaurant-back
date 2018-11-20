@@ -1,0 +1,435 @@
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>主要内容区main</title>
+		<link href="../css/alogin.css" type="text/css" rel="stylesheet" />
+		<link href="../css/main.css" type="text/css" rel="stylesheet" />
+		<link rel="shortcut icon" href="images/main/favicon.ico" />
+		<style>
+			body {
+				overflow-x: hidden;
+				background: #f2f0f5;
+				padding: 15px 0px 10px 5px;
+			}
+			
+			#searchmain {
+				font-size: 12px;
+			}
+			
+			#search {
+				font-size: 12px;
+				background: #548fc9;
+				margin: 10px 10px 0 0;
+				display: inline;
+				width: 100%;
+				color: #FFF;
+				float: left
+			}
+			
+			#search form span {
+				height: 40px;
+				line-height: 40px;
+				padding: 0 0px 0 10px;
+				float: left;
+			}
+			
+			#search form input.text-word {
+				height: 24px;
+				line-height: 24px;
+				width: 150px;
+				margin: 8px 0 6px 0;
+				padding: 0 0px 0 10px;
+				float: left;
+				border: 1px solid #FFF;
+			}
+			
+			#search form input.text-time {
+				height: 24px;
+				line-height: 24px;
+				width: 137px;
+				margin: 8px 0 6px 0;
+				padding: 0 0px 0 10px;
+				float: left;
+				border: 1px solid #FFF;
+			}
+			
+			#search form select.text-type {
+				height: 24px;
+				line-height: 24px;
+				width: 78px;
+				margin: 8px 0 6px 0;
+				/*padding: 0 0px 0 10px;*/
+				float: left;
+				border: 1px solid #FFF;
+			}
+			
+			#search form input.text-but {
+				height: 24px;
+				line-height: 24px;
+				width: 55px;
+				background: url(../images/main/list_input.jpg) no-repeat left top;
+				border: none;
+				cursor: pointer;
+				font-family: "Microsoft YaHei", "Tahoma", "Arial", '宋体';
+				color: #666;
+				float: left;
+				margin: 8px 0 0 6px;
+				display: inline;
+			}
+			
+			#search a.add {
+				background: url(../images/main/add.jpg) no-repeat -3px 7px #548fc9;
+				padding: 0 10px 0 26px;
+				height: 40px;
+				line-height: 40px;
+				font-size: 14px;
+				font-weight: bold;
+				color: #FFF;
+				float: right
+			}
+			
+			#search a:hover.add {
+				text-decoration: underline;
+				color: #d2e9ff;
+			}
+			
+			#main-tab {
+				border: 1px solid #eaeaea;
+				background: #FFF;
+				font-size: 12px;
+			}
+			
+			#main-tab th {
+				font-size: 12px;
+				background: url(../images/main/list_bg.jpg) repeat-x;
+				height: 32px;
+				line-height: 32px;
+			}
+			
+			#main-tab td {
+				font-size: 12px;
+				line-height: 40px;
+			}
+			
+			#main-tab td a {
+				font-size: 12px;
+				color: #548fc9;
+			}
+			
+			#main-tab td a:hover {
+				color: #565656;
+				text-decoration: underline;
+			}
+			
+			.bordertop {
+				border-top: 1px solid #ebebeb
+			}
+			
+			.borderright {
+				border-right: 1px solid #ebebeb
+			}
+			
+			.borderbottom {
+				border-bottom: 1px solid #ebebeb
+			}
+			
+			.borderleft {
+				border-left: 1px solid #ebebeb
+			}
+			
+			.gray {
+				color: #dbdbdb;
+			}
+			
+			td.fenye {
+				padding: 10px 0 0 0;
+				text-align: right;
+			}
+			
+			.bggray {
+				background: #f9f9f9
+			}
+			
+			.cont-list img {
+				max-height: 120px;
+			}
+			
+			a {
+				cursor: pointer;
+				text-decoration: none;
+			}
+			
+			#bg {
+				display: none;
+				position: fixed;
+				top: 0%;
+				left: 0%;
+				width: 100%;
+				height: 100%;
+				background-color: black;
+				z-index: 1001;
+				-moz-opacity: 0.3;
+				opacity: .30;
+				filter: alpha(opacity=30);
+			}
+			
+			#show {
+				display: none;
+				position: absolute;
+				top: 8%;
+				left: 22%;
+				width: 50%;
+				/*height: 400px;*/
+				padding: 8px;
+				border: 8px solid #E8E9F7;
+				background-color: white;
+				z-index: 1002;
+				overflow: auto;
+			}
+			
+			.text-but {
+				width: 100px;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+				/*border: 1px solid #cdcdcd;*/
+				/*background: #e6e6e6;*/
+				font-family: "Microsoft YaHei", "Tahoma", "Arial", '宋体';
+				/*color: #969696;*/
+				/*float: left;*/
+				margin: 0 10px 0 0;
+				display: inline;
+				cursor: pointer;
+				font-size: 14px;
+				font-weight: bold;
+				background-color: #4BB6DC;
+				/*padding:10px 15px;*/
+				position: relative;
+				font-family: 'Open Sans', sans-serif;
+				font-size: 12px;
+				text-decoration: none;
+				color: #fff;
+				border: solid 1px #4BB6DC;
+				background-image: linear-gradient(bottom, rgb(171, 27, 27) 0%, rgb(212, 51, 51) 100%);
+				border-radius: 5px;
+			}
+			
+			.text-but:active {
+				/*padding-bottom:9px;
+			padding-left:15px;
+			padding-right:15px;
+			padding-top:11px;*/
+				top: 1px;
+				background-image: linear-gradient(bottom, rgb(171, 27, 27) 100%, rgb(212, 51, 51) 0%);
+			}
+			
+			.starttime {
+				margin-left: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="dishorder">
+			<table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
+				<tr>
+					<td align="left" valign="top">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
+							<tr>
+								<td align="left" valign="middle">
+									<form method="post" action="">
+										<span>筛选：</span>
+										<input type="text" name="infor" v-model="inputs" value="" class="text-word" placeholder="请输入桌号或包厢号">
+										<span>开始时间：</span>
+										<input type="date" id="datetime" v-model="starttime" class="text-time" max="">
+										<span>结束时间：</span>
+										<input type="date" id="datetimes" v-model="endtime" class="text-time" max="">
+										<span>预订类型：</span>
+										<select v-model="reservetype" class="text-type" id="type">
+											<option>请选择</option>
+											<option value="包厢预订">包厢预订</option>
+											<option value="扫码点餐">扫码点餐</option>
+											<option value="店外点餐">店外点餐</option>
+										</select>
+										<span>支付状态：</span>
+										<select v-model="paystatus" class="text-type" id="type">
+											<option>请选择</option>
+											<option value="0">未付款</option>
+											<option value="1">已付款</option>
+										</select>
+										<span></span>
+										<input name="chaxun" @click="submit" type="button" value="查询" class="text-but">
+									</form>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" valign="top">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
+							<tr>
+								<th align="center" valign="middle" class="borderright">序号</th>
+								<th align="center" valign="middle" class="borderright">订单编号</th>
+								<th align="center" valign="middle" class="borderright">预订类型</th>
+								<th align="center" valign="middle" class="borderright">菜品数量</th>
+								<th align="center" valign="middle" class="borderright">应付金额</th>
+								<th align="center" valign="middle" class="borderright">实付金额</th>
+								<th align="center" valign="middle" class="borderright">下单时间</th>
+								<th align="center" valign="middle" class="borderright">支付状态</th>
+								<th align="center" valign="middle" class="borderright">备注</th>
+								<th align="center" valign="middle">查看</th>
+								<th align="center" valign="middle">操作</th>
+							</tr>
+							<tr v-for="(dishorder,index) of dishorderList" class="cont-list" onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+								<td is="std" v-for="(field,property) of dishorder" v-if="property!='index'" :content="field"></td>
+								<td align="center" valign="middle" class="borderbottom">
+									<a @click.prevent="checkdish(dishorder,'包厢')" class="add">查看包厢</a>&nbsp;&nbsp;&nbsp;&nbsp;
+									<a @click.prevent="checkdish(dishorder,'菜品')" class="add">查看菜品</a>
+								</td>
+								<td align="center" valign="middle" class="borderbottom">
+									<a @click.prevent="showDivMark(dishorder)" class="add">添加备注</a>&nbsp;&nbsp;&nbsp;&nbsp;
+									<a @click.prevent="showDivPay(dishorder)" class="add">付款结账</a>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td align="left" valign="top" class="fenye">{{totalCount}} 条数据{{currentPageNo}}/{{totalPage}}页&nbsp;&nbsp;
+						<a href="#" @click.prevent="firstPage()" target="mainFrame" onFocus="this.blur()">首页</a>&nbsp;&nbsp;
+						<a href="#" @click.prevent="prevPage()" target="mainFrame" onFocus="this.blur()">上一页</a>&nbsp;&nbsp;
+						<a href="#" @click.prevent="nextPage()" target="mainFrame" onFocus="this.blur()">下一页</a>&nbsp;&nbsp;
+						<a href="#" @click.prevent="lastPage()" target="mainFrame" onFocus="this.blur()">尾页</a>
+					</td>
+				</tr>
+			</table>
+			<div class="container_div">
+				<!--遮罩 -->
+				<!--菜品-->
+				<div id="bg" :style="display"></div>
+				<div id="show" :style="display">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
+						<tr>
+							<th align="center" valign="middle" class="borderright">序号</th>
+							<th align="center" valign="middle" class="borderright">菜品名字</th>
+							<th align="center" valign="middle" class="borderright">菜品数量</th>
+							<th align="center" valign="middle" class="borderright">菜品规格</th>
+							<th align="center" valign="middle" class="borderright">菜品价格</th>
+							<th align="center" valign="middle" class="borderright">菜品总价</th>
+						</tr>
+						<tr v-for="(menu,index) of menuList" class="cont-list">
+							<td is="std" v-for="(fields,property) of menu" v-if="property!='id'" :content="fields"></td>
+						</tr>
+						<tr>
+							<td align="right" valign="middle" class="borderright borderbottom" colspan="3">
+								<input name="" type="reset" value="打印" @click="hideDiv()" class="text-but"></td>
+							<td align="left" valign="middle" class="borderright borderbottom" colspan="3">
+								<input name="" type="reset" value="关闭" @click="hideDiv()" class="text-but"></td>
+						</tr>
+					</table>
+				</div>
+
+				<!--包厢-->
+				<div id="bg" :style="displays"></div>
+				<div id="show" :style="displays">
+					<!--<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
+						<tr>
+							<th align="center" valign="middle" class="borderright">序号</th>
+							<th align="center" valign="middle" class="borderright">包厢号</th>
+							<th align="center" valign="middle" class="borderright">包厢名字</th>
+						</tr>
+						<tr v-for="(box,index) of boxList" class="cont-list">
+							<td is="std" v-for="(fieldbox,property) of box" v-if="property!='id'" :content="fieldbox"></td>
+						</tr>
+						<tr>
+							<td align="center" valign="middle" class="borderright borderbottom" colspan="5">
+								<input name="" type="reset" value="关闭" @click="hideDivs()" class="text-but"></td>
+						</tr>
+					</table>-->
+				</div>
+
+				<!--添加备注-->
+				<div id="bg" :style="displaymark"></div>
+				<div id="show" :style="displaymark">
+					<form method="post">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
+							<tr>
+								<th align="center" valign="middle" class="borderright">请给第<span style="font-size: 24px;color: red;">{{dishorderId}}</span>号订单添加备注</th>
+							</tr>
+							<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+								<td align="left" valign="middle" class="borderright borderbottom main-for">
+									<textarea rows="10" cols="80" class="borderright" v-model="remarkObj.remark">
+						</textarea>
+								</td>
+							</tr>
+							<tr>
+								<td align="middle" valign="middle" class="borderright borderbottom">
+									<input name="" type="submit" value="提交" @click.prevent="submitRemark()" class="text-but">
+									<input name="" type="reset" value="取消" @click="hideDivMark()" class="text-but"></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+
+				<!--付款结账-->
+				<div id="bg" :style="displaypay"></div>
+				<div id="show" :style="displaypay">
+					<form method="post">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
+							<tr>
+								<th align="center" valign="middle" class="borderright">请给第<span style="font-size: 24px;color: red;">{{dishorderId}}</span>号订单结账</th>
+							</tr>
+							<tr>
+								<td align="middle" valign="middle" class="borderright borderbottom">
+									应收金额(单位:/元)
+								</td>
+							</tr>
+							<tr>
+								<td align="middle" valign="middle" class="borderright borderbottom">
+									<input disabled="disabled" type="text" name="totalamount" v-model="totalamount" value="" class="text-word">
+								</td>
+							</tr>
+							
+							<tr>
+								<td align="middle" valign="middle" class="borderright borderbottom">
+									实收金额(单位:/元)
+								</td>
+							</tr>
+							<tr>
+								<td align="middle" valign="middle" class="borderright borderbottom">
+									<input type="text" name="totalpay" v-model="totalpay" value="" class="text-word">
+								</td>
+							</tr>
+							<tr>
+								<td align="middle" valign="middle" class="borderright borderbottom">
+									以下是该订单的备注，请仔细核对
+								</td>
+							</tr>
+							<tr>
+								<td align="left" valign="middle" class="borderright borderbottom main-for">
+									<textarea disabled="disabled" rows="10" cols="80" class="borderright" v-model="remarks">
+						            {{remarks}}
+									</textarea>
+								</td>
+							</tr>
+							<tr>
+								<td align="middle" valign="middle" class="borderright borderbottom">
+									<input name="" type="submit" value="提交" @click.prevent="submitPay()" class="text-but">
+									<input name="" type="reset" value="取消" @click="hideDivPay()" class="text-but"></td>
+							</tr>
+						</table>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</body>
+
+</html>
+<script src="../utils/jquery-3.2.1.min.js"></script>
+<script src="../utils/vue.min.js"></script>
+<script src="../utils/axios.min.js"></script>
+<script src="../utils/restaurant.global.js"></script>
+<script src="../main-js/dishorder/main-dishorder.js"></script>

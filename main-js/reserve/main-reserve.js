@@ -86,7 +86,7 @@ $(function() {
 				var that = this;
 				var currentPageNo = PageNo || that.currentPageNo;
 				if(param != null) {
-					param.currentPageNo = 1;
+					param.currentPageNo = currentPageNo;
 				} else
 					param = {
 						currentPageNo: currentPageNo
@@ -139,89 +139,99 @@ $(function() {
 				}
 			},
 			submit: function() {
-				var that = this;
 				var page = 1;
+				var that = this;
+				that.initRawreserveList(page, this.combinationParameter());
+			},
+
+			combinationParameter: function() {
+				var that = this;
 				var infor = that.inputs;
 				var starttime = that.starttime;
 				var endtime = that.endtime;
 				var timetype = that.timetype;
 				var reservetype = that.reservetype;
 				var reservemode = that.reservemode;
+				var params = {};
+				this.infor(params, infor);
+				this.time(params, starttime, endtime, timetype);
+				this.reservetypes(params, reservetype);
+				this.reservemodes(params, reservemode);
+				console.log(params);
+				return params;
+			},
+
+			infor: function(params, infor) {
 				var reg = /^[A-Za-z\u4e00-\u9fa5]*$/;
 				var telephone = /^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/;
 				var cell = /^[1][3,4,5,7,8,9][0-9]{9}$/;
 				if(infor != null) {
 					if(reg.test(infor) === true) {
-						that.initRawreserveList(page, {
-							reservationsName: encodeURI(infor)
-						});
-						return;
+						params.reservationsName = encodeURI(infor);
+					} else if(telephone.test(infor) === true || cell.test(infor) === true) {
+						params.reservationsTel = infor;
+					} else {
+						alert("您输入的姓名或者手机号码格式不正确");
 					}
-					if(telephone.test(infor) === true || cell.test(infor) === true) {
-						that.initRawreserveList(page, {
-							reservationsTel: infor
-						});
-						return;
-					}
-					alert("您输入的姓名或者手机号码格式不正确");
-					return;
 				};
-				if(starttime != null || endtime != null) {
-					if(starttime == null || endtime == null) { //如果用户只选择了一个时间
-						alert("开始时间和结束时间都必须选择");
-						return;
-					}
+				return params;
+			},
+
+			time: function(params, starttime, endtime, timetype) {
+				if((starttime != null && starttime != "") || (endtime != null && endtime != "")) {
 					if(timetype == '请选择') { //如果用户没有选择时间类型
 						alert("请选择时间类型再提交");
 						return;
 					}
-					if(endtime < starttime) { //如果用户选择的结束时间小于开始时间
+					if(starttime != null && starttime != "") {
+						if(timetype == '就餐时间') {
+							params.EatStartTime = starttime;
+						} else {
+							params.reserveStartTime = starttime;
+						}
+					}
+					if((endtime != null && endtime != "") && (starttime == null || starttime == "")) {
+						var endtimes = new Date(endtime);
+						endtimes.setDate(endtimes.getDate() + 1);
+						endtimes = globalGetToday('-', endtimes);
+						if(timetype == '就餐时间') {
+							params.EatEndTime = endtimes;
+						} else {
+							params.reserveEndTime = endtimes;
+						}
+					}
+					if((endtime != null && endtime != "") && (starttime != null && starttime != "")) {
+						var endtimes = new Date(endtime);
+						endtimes.setDate(endtimes.getDate() + 1);
+						endtimes = globalGetToday('-', endtimes);
+						if(timetype == '就餐时间') {
+							params.EatEndTime = endtime;
+						} else {
+							params.reserveEndTime = endtimes;
+						}
+					}
+					if((starttime != null && starttime != "") && (endtime != null && endtime != "") && (endtime < starttime)) { //如果用户选择的结束时间小于开始时间
 						alert("结束时间不能小于开始时间");
 						return;
 					}
-					if(timetype == '就餐时间') {
-						that.initRawreserveList(page, {
-							EatStartTime: starttime,
-							EatEndTime: endtime
-						});
-					} else {
-						that.initRawreserveList(page, {
-							reserveStartTime: starttime,
-							reserveEndTime: endtime
-						});
-					}
-				};
-				//console.log(reservetype);
-				if(reservetype != '请选择') {
-					that.initRawreserveList(page, {
-						reservationType: encodeURI(reservetype)
-					});
-
-				};
-				if(reservemode != '请选择') {
-					that.initRawreserveList(page, {
-						reservationsMode: encodeURI(reservemode)
-					});
 				}
-				
-				/*if(infor != null || starttime != null || reservetype != '请选择' || reservemode != '请选择' ) {
-					if(timetype == '就餐时间') {
-						that.initRawreserveList(page, {
-							EatStartTime: starttime,
-							EatEndTime: endtime
-						});
-					} else if(timetype == '预订时间'){
-						that.initRawreserveList(page, {
-							reserveStartTime: starttime,
-							reserveEndTime: endtime
-						});
-					}
-					
-					that.initRawreserveList(page, {
-						reservationsMode: encodeURI(reservemode)
-					});
-				}*/
+				return params;
 			},
+
+			reservetypes: function(params, reservetype) {
+				if(reservetype != '请选择') {
+					params.reservationType = encodeURI(reservetype);
+				}
+				return params;
+			},
+
+			reservemodes: function(params, reservemode) {
+				if(reservemode != '请选择') {
+					params.reservationsMode = encodeURI(reservemode);
+				}
+				return params;
+			},
+
 			hideDiv: function() {
 				this.display = 'display : none';
 			},
@@ -238,7 +248,7 @@ $(function() {
 			firstPage: function() {
 				var that = this;
 				that.currentPageNo = 1;
-				that.initRawreserveList(that.currentPageNo);
+				that.initRawreserveList(that.currentPageNo, that.combinationParameter());
 			},
 			prevPage: function() {
 				var that = this;
@@ -246,7 +256,7 @@ $(function() {
 					var currentPageNo = that.currentPageNo;
 					currentPageNo--;
 					that.currentPageNo = currentPageNo;
-					that.initRawreserveList(currentPageNo);
+					that.initRawreserveList(currentPageNo, that.combinationParameter());
 				} else {
 					alert('已经是第一页');
 				}
@@ -259,13 +269,13 @@ $(function() {
 				} else {
 					currentPageNo++;
 					that.currentPageNo = currentPageNo;
-					that.initRawreserveList(currentPageNo);
+					that.initRawreserveList(currentPageNo, that.combinationParameter());
 				}
 			},
 			lastPage: function() {
 				var that = this;
 				that.currentPageNo = that.totalPage;
-				that.initRawreserveList(that.totalPage);
+				that.initRawreserveList(that.totalPage, that.combinationParameter());
 			}
 
 		},

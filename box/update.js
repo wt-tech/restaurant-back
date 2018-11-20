@@ -1,5 +1,4 @@
 $(function() {
-
 	var box = new Vue({
 		el: '#box',
 		data: {

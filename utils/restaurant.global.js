@@ -75,7 +75,7 @@ var jsonAxios = axios.create({
 }
 
 function unknownError(err){
-	alert('网络故障');
+	alert(err,'网络故障');
 }
 
 
@@ -135,8 +135,9 @@ Array.prototype.remove = function(elementId){
 	return result;
 }
 
-function globalGetToday(seperator){
-	var date_now = new Date();
+function globalGetToday(seperator,date_now=null){
+	if(date_now == null)
+	date_now = new Date();
 	var year = date_now.getFullYear();
 	var month = date_now.getMonth()+1 < 10 ? "0"+(date_now.getMonth()+1) : (date_now.getMonth()+1);
 	var date = date_now.getDate() < 10 ? "0"+date_now.getDate() : date_now.getDate();
@@ -181,7 +182,7 @@ Date.prototype.format = function (format) {
 	$("#datetimes").attr("max",year+"-"+month+"-"+date);
 <<<<<<< HEAD
 })*/
-})
+//})
 
 function alert(e){
     $("body").append('<div id="msg"><div id="msg_top">温馨提示<span class="msg_close">×</span></div><div id="msg_cont">'+e+'</div><div class="msg_close" id="msg_clear">确定</div></div>');
