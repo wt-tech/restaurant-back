@@ -4,6 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>后台管理登录界面</title>
     <link href="css/alogin.css" rel="stylesheet" type="text/css" />
+		<link href="css/main.css" rel="stylesheet" />
 	<style>
 		.register{
 			background:#3F7CE1;
@@ -76,27 +77,38 @@
 		    -webkit-transform: scale(1.0);
 		  }
 		}
+		
+		img.loading{
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-top:50px;
+			margin-left:-40px;
+		}
+		div.loading{
+			position: absolute;
+			color: #000000;
+			top: 50%;
+			left: 50%;
+			margin-top:90px;
+			margin-left:-40px;
+		}
+		
 	</style>
 
 </head>
 <body>
-    <form id="form1"  >
-	
+    <form id="form1">
     <div class="Main" id="vueApp">
-    	<div class="lodingma"  v-if="loding">
-    		<div class="spinner">
-			  <div class="bounce1"></div>
-			  <div class="bounce2"></div>
-			  <div class="bounce3"></div>
-			</div>
-			<div style="margin-left:35%;color:#000000">正在登陆...</div>
-    	</div>
-    	
+				<div v-if="!loadingComplete">
+					<img src="images/diy/loading.gif" class="loading" />
+					<div class="loading" >登录中...</div>
+				</div>
         <ul>
             <li class="top"></li>
             <li class="top2"></li>
             <li class="topA"></li>
-            <li class="topB"><span><img src="images/login/login_05.jpg" alt="" style="" /></span></li>
+            <li class="topB"></li>
             <li class="topC"></li>
             <li class="topD">
                 <ul class="login">
@@ -112,16 +124,11 @@
             <li class="middle_A"></li>
             <li class="middle_B"></li>
             <li class="middle_C">
-            	<span class="btn">
+            	<span @click.prevent='formSubmit()'  class="btn">
             		<div class="register">
-            			<a @click.prevent='formSubmit()' >登陆</a>
+            			<a href="#">登陆</a>
             		</div>
-            		
-            		<!--<input name="" type="image" @click.prevent='formSubmit()'  />-->
             	</span>
-        		<div class="register">
-        			<a href='./regester.html' target="_blank">注册</a>
-        		</div>
             </li>
             <li class="middle_D"></li>
             <li class="bottom_A"></li>

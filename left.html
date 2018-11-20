@@ -6,18 +6,47 @@
 		<title>左侧导航menu</title>
 		<link href="css/css.css" type="text/css" rel="stylesheet" />
 		<script type="text/javascript" src="js/sdmenu.js"></script>
-
 		<script type="text/javascript" src="utils/jquery-3.2.1.min.js"></script>
-		<script src="./utils/axios.min.js"></script>
-		<script src="./utils/restaurant.global.js"></script>
 		<script type="text/javascript">
 			var myMenu;
 			window.onload = function() {
 				myMenu = new SDMenu("my_menu");
 				myMenu.init();
 			};
-
-
+			/*给几个超连接标签添加事件.*/
+			$(function(){
+				var boxReserve = $('#boxReserve');
+				boxReserve.on('click',function(e){
+					e.preventDefault();
+					var mainFrame = parent.window.frames['mainFrame'].document;
+					parent.window.resetSpecificNotifyNumbers({type : 'boxReserve'});
+					mainFrame.location.href="reserve/main-reserve.html";
+				});
+				
+				var banquetReserve = $('#banquetReserve');
+				banquetReserve.on('click',function(e){
+					e.preventDefault();
+					var mainFrame = parent.window.frames['mainFrame'].document;
+					parent.window.resetSpecificNotifyNumbers({type : 'banquetReserve'});
+					mainFrame.location.href="banquetreserve/main-banquetreserve.html";
+				});
+				
+				var codeScanOrder = $('#codeScanOrder');
+				codeScanOrder.on('click',function(e){
+					e.preventDefault();
+					var mainFrame = parent.window.frames['mainFrame'].document;
+					parent.window.resetSpecificNotifyNumbers({type : 'codeScanOrder'});
+					mainFrame.location.href="./tablereserve/main-tablereserve.html";
+				});
+				
+				var tableReserve = $('#tableReserve');
+				tableReserve.on('click',function(e){
+					e.preventDefault();
+					var mainFrame = parent.window.frames['mainFrame'].document;
+					parent.window.resetSpecificNotifyNumbers({type : 'tableReserve'});
+					mainFrame.location.href="./tablereservehome/main-tablereservehome.html";
+				});
+			});
 		</script>
 		<style type=text/css>
 			html {
@@ -36,6 +65,22 @@
 				background: url(images/main/leftbg.jpg) left top repeat-y #f2f0f5;
 				width: 194px;
 			}
+			
+			.new-message{
+				line-height: 14px;
+				color: white;
+				font-size: 12px;
+				width: 14px;
+				height: 14px;
+				background-color: red;
+				border-radius: 7px;
+				display:inline-block;
+				text-align: center;
+			}
+			.hide{
+				display: none;
+			}
+			
 		</style>
 	</head>
 
@@ -45,36 +90,48 @@
 			<span>用户：admin<br>角色：超级管理员</span>
 		</div>
 		<div style="float: left" id="my_menu" class="sdmenu">
-			<div class="collapsed" id="menu_banner">
+			<div>
 				<span>轮播图管理</span>
 				<a href="banner/banner.html" target="mainFrame" onFocus="this.blur()">轮播图列表</a>
 			</div>
-			<div id="menu_restaurant">
-				<span>预订管理</span>
-				<a href="reserve/main-reserve.html" target="mainFrame" onFocus="this.blur()">包厢预订</a>
-				<a href="banquetreserve/main-banquetreserve.html" target="mainFrame" onFocus="this.blur()">喜宴预订</a>
+			<div>
+				<span>预订管理<label class="boxReserve banquetReserve new-message hide"></label></span>
+				<a href="reserve/main-reserve.html" target="mainFrame"  onFocus="this.blur()" id="boxReserve">
+					包厢预订<label class="boxReserve new-message hide"></label>
+				</a>
+				<a href="banquetreserve/main-banquetreserve.html" target="mainFrame" onFocus="this.blur()" id="banquetReserve">
+					喜宴预订<label class="banquetReserve new-message hide"></label>
+				</a>
 			</div>
 
-			<div id="menu_volunteer">
-				<span>点餐管理</span>
-				<a href="./tablereserve/main-tablereserve.html" target="mainFrame" onFocus="this.blur()">扫码点餐列表</a>
-				<a href="./tablereservehome/main-tablereservehome.html" target="mainFrame" onFocus="this.blur()">店外点餐列表</a>
+			<div>
+				<span>点餐管理<label class="codeScanOrder tableReserve new-message hide"></label></span>
+				<a href="./tablereserve/main-tablereserve.html" target="mainFrame" onFocus="this.blur()" id="codeScanOrder">
+					扫码点餐列表<label class="codeScanOrder new-message hide"></label>
+				</a>
+				<a href="./tablereservehome/main-tablereservehome.html" target="mainFrame" onFocus="this.blur()" id="tableReserve">
+					店外点餐列表<label class="tableReserve new-message hide"></label>
+				</a>
 			</div>
 
-			<div id="menu_authentication">
+			<div>
 				<span>订单管理</span>
 				<a href="./authentication/main-authentication.html" target="mainFrame" onFocus="this.blur()">订单列表</a>
 			</div>
-			<div id="menu_account">
+			<div>
 				<span>其他管理</span>
 				<a href="classification/classification-list.html" target="mainFrame" onFocus="this.blur()">菜品管理</a>
 				<a href="box/box-list.html" target="mainFrame" onFocus="this.blur()">包厢管理</a>
 				<a href="table/table-list.html" target="mainFrame" onFocus="this.blur()">桌子管理</a>
 				<a href="combo/combo-list.html" target="mainFrame" onFocus="this.blur()">喜宴套餐管理</a>
 			</div>
-			<div id="menu_authentication">
+			<div>
 				<span>包厢预订</span>
 				<a href="./available-box/available-box.html" target="mainFrame" onFocus="this.blur()">包厢列表</a>
+			</div>
+			<div>
+				<span>小程序端管理员</span>
+				<a href="./manager/manager-list.html" target="mainFrame" onFocus="this.blur()">管理员列表</a>
 			</div>
 		</div>
 	</body>
