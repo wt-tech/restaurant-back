@@ -28,6 +28,7 @@ $(function() {
 						index: index + 1,
 						id: item.id,
 						number: item.number,
+						tableName : item.tableName,
 						image: item.image,
 					}
 				});

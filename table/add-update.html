@@ -213,9 +213,20 @@
 			<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
 				<td align="right" valign="middle" class="borderright borderbottom bggray">桌号：</td>
 				<td align="left" valign="middle" class="borderright borderbottom main-for">
-					<input type="text" v-model="table.number" class="text-word">
+					<input type="text" @blur="tableNumberCheck" placeholder="只允许输入数字" v-model="table.number" class="text-word">
+					<label :hidden="tablePropertyValueReasonable.tableNumber" style="color: red;">桌号必填,且只能为数字.</label>
+					<label :hidden="tablePropertyValueReasonable.tableNumberExist" style="color: red;">该桌号已经存在</label>
 				</td>
 			</tr>
+			
+			<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+				<td align="right" valign="middle" class="borderright borderbottom bggray">桌号：</td>
+				<td align="left" valign="middle" class="borderright borderbottom main-for">
+					<input type="text" @blur="tableNameCheck" placeholder="请输入桌子名称,可不填" v-model="table.tableName" class="text-word">
+					<label :hidden="tablePropertyValueReasonable.tableName" style="color: red;">桌子名称不得多于20字</label>
+				</td>
+			</tr>
+			
 			<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
 				<td align="right" valign="middle" class="borderright borderbottom bggray">&nbsp;</td>
 				<td align="left" valign="middle" class="borderright borderbottom main-for">

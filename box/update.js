@@ -17,7 +17,8 @@ $(function() {
 				roomName : true,
 				roomSize : true,
 				roomIntroduction : true,
-				image : true
+				image : true,
+				roomNumberExist : true
 			}
 		},
 
@@ -133,7 +134,7 @@ $(function() {
 				app.roomNumberCheck();
 				app.roomSizeCheck();
 				
-				var checkFileds = ['roomNumber','roomName','roomSize','image'];
+				var checkFileds = ['roomNumber','roomName','roomSize','image','roomNumberExist'];
 				var obj = app.boxPropertyValueReasonable;
 				for(property in obj){
 					if(checkFileds.indexOf(property) != -1 && !obj[property] )
@@ -150,12 +151,35 @@ $(function() {
 			roomNumberCheck : function(){
 				var app = this;
 				var box = app.box;
-				console.log(box.roomNumber);
-				console.log(isNaN(box.roomNumber));
-				console.log(box.roomNumber < 0);
-				console.log(!(isNaN(box.roomNumber) || box.roomNumber < 0));
+				/*检查是否填写*/
 				app.boxPropertyValueReasonable.roomNumber = !(!box.roomNumber || isNaN(box.roomNumber) || box.roomNumber < 0);
+				/*检查是否重复录入该包厢,并且只有当输入的包厢号合法之后才检查*/
+				if(app.boxPropertyValueReasonable.roomNumber){
+					app.roomNumberExistCheck();
+				}
 			},
+			
+			roomNumberExistCheck : function(){
+				var app = this;
+				var box = app.box;
+				/*如果包厢号没改动直接返回*/
+				if(box.roomNumber == app.boxBak.roomNumber){
+					app.boxPropertyValueReasonable.roomNumberExist = true;
+					return;
+				}
+				var url = "box/back/boxcheck?roomNumber=" + box.roomNumber;
+				simpleAxios.get(url).then(function(res) {
+					if (res.status == STATUS_OK && res.data.status == SUCCESS) {
+						app.boxPropertyValueReasonable.roomNumberExist = !res.data.existFlag;
+					} else
+						backEndExceptionHanlder(res);
+				}).catch(function(res) {
+					unknownError(res);
+				}).finally(function() {
+
+				});
+			},
+			
 			roomSizeCheck : function(){
 				var app = this;
 				var box = app.box;

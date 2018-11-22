@@ -220,6 +220,7 @@
 					<td align="left" valign="middle" class="borderright borderbottom main-for">
 						<input @blur="roomNumberCheck" placeholder="请输入包厢号" type="text" v-model="box.roomNumber" class="text-word">
 						<label :hidden="boxPropertyValueReasonable.roomNumber" style="color: red;">包厢号必填,且只能为数字.</label>
+						<label :hidden="boxPropertyValueReasonable.roomNumberExist" style="color: red;">该包厢号已经录入,不可重复录入</label>
 					</td>
 				</tr>
 

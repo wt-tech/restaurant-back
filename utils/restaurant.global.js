@@ -16,9 +16,9 @@ const CODE_BOX_PREFIX = 'BOX-';
 const HTTP_PROTOCOL = 'http:';
 const WS_PROTOCOL = 'ws:';
 
-// const DOMAIN = '192.168.0.177:8888';
+const DOMAIN = '192.168.0.177:8888';
 
-const DOMAIN = '192.168.0.109:8080';
+// const DOMAIN = '192.168.0.109:8080';
 // const DOMAIN = 'www.qghls.com';
 
 const CONTEXT = '/restaurant/';
