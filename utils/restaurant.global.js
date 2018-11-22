@@ -76,7 +76,7 @@ var jsonAxios = axios.create({
 }
 
 function unknownError(err){
-	alert(err,'网络故障');
+	alert('网络故障');
 }
 
 
