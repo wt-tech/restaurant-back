@@ -15,15 +15,15 @@ $(function() {
 			remarkObj: {
 				remark: null,
 			},
-			remarks:null,
-			totalpay:0,
-			totalamount:0,
+			Remarks: null,
+			totalpay: null,
+			totalamount: 0,
 			starttime: null,
 			endtime: null,
 			dishorderId: null, //订单id，添加备注
 			reservetype: '请选择',
 			paystatus: '请选择',
-			field: ['id', 'index', 'orderNumber', 'reserveType', 'totalCount', 'totalAmount', 'totalPayAmount', 'createTime', 'orderStatus','remarks'], //index指序号
+			field: ['id', 'index', 'orderNumber', 'reserveType', 'totalCount', 'totalAmount', 'totalPayAmount', 'createTime', 'orderStatus', 'remarks'], //index指序号
 			totalCount: '',
 			totalPage: '',
 			currentPageNo: 1,
@@ -34,7 +34,7 @@ $(function() {
 			rawMenuList: [],
 			fields: ['id', 'index', 'name', 'specifications', 'unitPrice', 'dishCount', 'totalprice'], //index指序号
 			rawBoxList: [],
-			fieldbox: ['id', 'index', 'roomNumber', 'roomName'] //index指序号
+			fieldbox: ['id', 'index', 'roomNumber', 'roomName', 'roomIntroduction'] //index指序号
 		},
 		computed: {
 			dishorderList: function() {
@@ -67,20 +67,19 @@ $(function() {
 						id: getValue(dishorderline, 'id')
 					};
 				});
+			},
+			boxList: function() {
+				var that = this;
+				return that.rawBoxList.map(function(box, index) {
+					return {
+						index: index + 1,
+						roomNumber: getValue(box, 'roomNumber'),
+						roomName: getValue(box, 'roomName'),
+						roomIntroduction: getValue(box, 'roomIntroduction'),
+						id: getValue(box, 'id')
+					};
+				});
 			}
-			/*,
-							boxList: function() {
-								var that = this;
-								return that.rawBoxList.map(function(box, index) {
-									return {
-										index: index + 1,
-										roomNumber: getValue(box, 'roomNumber'),
-										roomName: getValue(box, 'roomName'),
-										id: getValue(box, 'id')
-									};
-								});
-							}
-						}*/
 		},
 
 		created: function() {
@@ -118,15 +117,15 @@ $(function() {
 				var id = dishorder.id;
 				if('包厢' == content) {
 					this.showDivs(dishorder);
-					/*simpleAxios.get('reserve/back/getreserve/' + id).then(function(res) {
+					simpleAxios.get('dishorder/back/listdishorderbox/' + id).then(function(res) {
 						if(res.status == STATUS_OK && res.data.status == SUCCESS) {
 							var resData = res.data;
-							that.rawBoxList = resData.reserve.box;
+							that.rawBoxList = resData.dishorderbox;
 						} else
 							backEndExceptionHanlder(res);
 					}).catch(function(err) {
 						unknownError(err);
-					})*/
+					})
 				} else {
 					this.showDiv(dishorder);
 					simpleAxios.get('dishorder/back/listdishordermenu/' + id).then(function(res) {
@@ -168,14 +167,15 @@ $(function() {
 					unknownError(err);
 				})
 			},
-			
+
 			submitPay: function() {
 				var that = this;
 				var id = that.dishorderId;
-				var totalpay=that.totalpay;
+				var totalpay = that.totalpay;
+				if(totalpay == null || totalpay == "") return;
 				var params = new FormData();
 				params.append('id', id);
-				params.append('totalpay', totalpay);
+				params.append('totalPayAmount', totalpay);
 				simpleAxios.post('dishorder/back/updatedishorderstatus', params).then(function(res) {
 					if(res.status == STATUS_OK && res.data.status == SUCCESS) {
 						that.hideDivPay();
@@ -232,11 +232,16 @@ $(function() {
 			},
 
 			showDivPay: function(dishorder) {
-			    var that = this;
-			    that.displaypay = 'display : block';
-			    that.dishorderId = dishorder.id;
-				that.remarks = dishorder.remark;
-				that.totalamount=dishorder.totalAmount;
+				var that = this;
+				that.displaypay = 'display : block';
+				that.dishorderId = dishorder.id;
+				if(dishorder.remarks == null || dishorder.remarks == "") {
+					that.Remarks = '该订单暂无备注';
+				} else {
+					that.Remarks = dishorder.remarks;
+				}
+				that.totalamount = dishorder.totalAmount;
+				//console.log(that.remarks);
 			},
 
 			firstPage: function() {
@@ -254,8 +259,6 @@ $(function() {
 				} else {
 					alert('已经是第一页');
 				}
-
-				that.initRawdishorderList(pageNO, submit())
 			},
 			nextPage: function() {
 				var that = this;

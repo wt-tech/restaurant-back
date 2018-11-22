@@ -14,14 +14,21 @@ $(function() {
 			inputs: null,
 			starttime: null,
 			endtime: null,
+			NewtableNum: null,
+			tableReserveHomeId: null,
+			Boxnum: '请选择',
+			Tablenum: '请选择',
 			timetype: '请选择',
-			field: ['id', 'index', 'reservationsName', 'reservationsSex', 'reservationsTel', 'reservationsNum', 'reservationsStartTime', 'reserveTime', 'remarks'], //index指序号
+			field: ['id', 'index', 'reservationsName', 'reservationsSex', 'reservationsTel', 'reservationsNum', 'reservationsStartTime', 'reserveTime', 'remarks', 'tableNum'], //index指序号
 			totalCount: '',
 			totalPage: '',
 			currentPageNo: 1,
 			display: 'display : none',
+			displaytablenum: 'display : none',
 			rawMenuList: [],
 			fields: ['id', 'index', 'name', 'specifications', 'choosePrice', 'menuCount'], //index指序号
+			BoxList: [],
+			TableList: []
 		},
 		computed: {
 			tablereservehomeList: function() {
@@ -36,6 +43,7 @@ $(function() {
 						reservationsStartTime: getDateOfDateTime(getValue(tablereservehome, 'reservationsStartTime')),
 						reserveTime: getDateOfDateTime(getValue(tablereservehome, 'reserveTime')),
 						remarks: getValue(tablereservehome, 'remarks'),
+						tableNum: getValue(tablereservehome, 'tableNum'),
 						id: getValue(tablereservehome, 'id')
 					};
 				});
@@ -182,10 +190,82 @@ $(function() {
 				this.display = 'display : block';
 			},
 
+			hideTablenum: function() {
+				var that = this;
+				that.NewtableNum = null;
+				that.Tablenum = '请选择';
+				that.Boxnum = '请选择';
+				this.displaytablenum = 'display : none';
+			},
+
+			showTablenum: function(tablereservehome) {
+				this.displaytablenum = 'display : block';
+			},
+
+			editTableNum: function(tablereservehome) {
+				this.showTablenum(tablereservehome);
+				this.tableReserveHomeId = tablereservehome.id;
+				var that = this;
+				simpleAxios.get('box/back/listbox').then(function(res) {
+						if(res.status == STATUS_OK && res.data.status == SUCCESS) {
+							var resData = res.data;
+							that.BoxList = resData.boxs;
+						} else
+							backEndExceptionHanlder(res);
+					}).catch(function(err) {
+						unknownError(err);
+					}),
+					simpleAxios.get('table/back/listtable').then(function(res) {
+						if(res.status == STATUS_OK && res.data.status == SUCCESS) {
+							var resData = res.data;
+							that.TableList = resData.tables;
+						} else
+							backEndExceptionHanlder(res);
+					}).catch(function(err) {
+						unknownError(err);
+					})
+			},
+
+			addBoxNum: function() {
+				var that = this;
+				if(that.Boxnum != '请选择') {
+					that.NewtableNum = that.Boxnum;
+					that.Tablenum = '请选择';
+				}
+			},
+			addTableNum: function() {
+				var that = this;
+				if(that.Tablenum != '请选择') {
+					that.NewtableNum = that.Tablenum;
+					that.Boxnum = '请选择';
+				}
+			},
+			addFinalNum: function() {
+				var that = this;
+				var id = that.tableReserveHomeId;
+				var NewtableNum = that.NewtableNum;
+				if(NewtableNum == null || NewtableNum == "") return;
+				var params = new FormData();
+				params.append('id', id);
+				params.append('tableNum', NewtableNum);
+				simpleAxios.post('tablereservehome/back/updatetablenum', params).then(function(res) {
+					if(res.status == STATUS_OK && res.data.status == SUCCESS) {
+						that.hideTablenum();
+						alert("添加成功");
+						that.initRawtablereservehomeList(that.currentPageNo, that.combinationParameter());
+					} else {
+						alert("添加失败");
+						backEndExceptionHanlder(res);
+					}
+				}).catch(function(err) {
+					unknownError(err);
+				})
+			},
+
 			firstPage: function() {
 				var that = this;
 				that.currentPageNo = 1;
-				that.initRawtablereservehomeList(that.currentPageNo,that.combinationParameter());
+				that.initRawtablereservehomeList(that.currentPageNo, that.combinationParameter());
 			},
 			prevPage: function() {
 				var that = this;
@@ -193,7 +273,7 @@ $(function() {
 					var currentPageNo = that.currentPageNo;
 					currentPageNo--;
 					that.currentPageNo = currentPageNo;
-					that.initRawtablereservehomeList(currentPageNo,that.combinationParameter());
+					that.initRawtablereservehomeList(currentPageNo, that.combinationParameter());
 				} else {
 					alert('已经是第一页');
 				}
@@ -206,13 +286,13 @@ $(function() {
 				} else {
 					currentPageNo++;
 					that.currentPageNo = currentPageNo;
-					that.initRawtablereservehomeList(currentPageNo,that.combinationParameter());
+					that.initRawtablereservehomeList(currentPageNo, that.combinationParameter());
 				}
 			},
 			lastPage: function() {
 				var that = this;
 				that.currentPageNo = that.totalPage;
-				that.initRawtablereservehomeList(that.totalPage,that.combinationParameter());
+				that.initRawtablereservehomeList(that.totalPage, that.combinationParameter());
 			}
 
 		}

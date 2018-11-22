@@ -334,11 +334,12 @@
 				<!--包厢-->
 				<div id="bg" :style="displays"></div>
 				<div id="show" :style="displays">
-					<!--<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
 						<tr>
 							<th align="center" valign="middle" class="borderright">序号</th>
-							<th align="center" valign="middle" class="borderright">包厢号</th>
-							<th align="center" valign="middle" class="borderright">包厢名字</th>
+							<th align="center" valign="middle" class="borderright">包厢号/桌子号</th>
+							<th align="center" valign="middle" class="borderright">包厢名/桌子名</th>
+							<th align="center" valign="middle" class="borderright">类型</th>
 						</tr>
 						<tr v-for="(box,index) of boxList" class="cont-list">
 							<td is="std" v-for="(fieldbox,property) of box" v-if="property!='id'" :content="fieldbox"></td>
@@ -347,7 +348,7 @@
 							<td align="center" valign="middle" class="borderright borderbottom" colspan="5">
 								<input name="" type="reset" value="关闭" @click="hideDivs()" class="text-but"></td>
 						</tr>
-					</table>-->
+					</table>
 				</div>
 
 				<!--添加备注-->
@@ -409,8 +410,7 @@
 							</tr>
 							<tr>
 								<td align="left" valign="middle" class="borderright borderbottom main-for">
-									<textarea disabled="disabled" rows="10" cols="80" class="borderright" v-model="remarks">
-						            {{remarks}}
+									<textarea disabled="disabled" rows="10" cols="80" class="borderright" v-model="Remarks">
 									</textarea>
 								</td>
 							</tr>
