@@ -141,6 +141,7 @@ $(function() {
 			submit: function() {
 				var page = 1;
 				var that = this;
+				that.currentPageNo = 1;
 				that.initRawreserveList(page, this.combinationParameter());
 			},
 

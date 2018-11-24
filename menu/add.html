@@ -266,7 +266,9 @@
 						<label :hidden="menuPropertyValueReasonable.mediumPrice" style="color: red;">请输入合法的价格</label><br>
 						<input @change='checkboxChanged($event,"small")' type="checkbox" /> 小份 
 						<input @blur='smallPriceCheck' id="small" v-model="menu.smallPrice" disabled type="text" placeholder="请输入价格,单位元"/>
-						<label :hidden="menuPropertyValueReasonable.smallPrice" style="color: red;">请输入合法的价格</label><br>
+						<label :hidden="menuPropertyValueReasonable.smallPrice" style="color: red;">请单选</label><br>
+						<input @blur='smallPriceCheck' id="small" v-model="menu.smallPrice"  type="radio" name="variablePrice" checked="checked">预订</input>
+						<input @blur='smallPriceCheck' id="small" v-model="menu.smallPrice" type="radio" name="variablePrice">时价</input>
 						<label :hidden="menuPropertyValueReasonable.atLeastCheckOnePrice" style="color: red;">请至少选择一个规格</label>
 					</td>
 

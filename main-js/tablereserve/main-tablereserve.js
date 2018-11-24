@@ -14,7 +14,7 @@ $(function() {
 			inputs: null,
 			starttime: null,
 			endtime: null,
-			seattype:'请选择',
+			seattype: '请选择',
 			field: ['id', 'index', 'nickname', 'number', 'reserveTime'], //index指序号
 			totalCount: '',
 			totalPage: '',
@@ -29,8 +29,8 @@ $(function() {
 				return that.rawTableReserveList.map(function(tablereserve, index) {
 					return {
 						index: index + 1,
-						nickname: getValue(tablereserve, 'nickname'),
-						number: getValue(tablereserve, 'number'),
+						nickname: getValue(tablereserve, 'customer.nickname'),
+						number: getValue(tablereserve, 'box.roomNumber') + getValue(tablereserve, 'table.number'),
 						reserveTime: getDateOfDateTime(getValue(tablereserve, 'reserveTime')),
 						id: getValue(tablereserve, 'id')
 					};
@@ -58,15 +58,16 @@ $(function() {
 		},
 
 		methods: {
-			initRawtablereserveList: function(PageNo, param = null) {
+			initRawtablereserveList: function(PageNo, Param = null) {
 				var that = this;
 				var currentPageNo = PageNo || that.currentPageNo;
-				if(param != null) {
-					param.currentPageNo = 1;
-				} else
-					param = {
-						currentPageNo: currentPageNo
-					};
+				var param = {
+					currentPageNo: currentPageNo
+				}
+				if(Param != null) {
+					var queryString = encodeURI(JSON.stringify(Param));
+					param.queryString = queryString;
+				}
 				simpleAxios.get('tablereserve/back/listtablereserve?', {
 					params: param
 				}).then(function(res) {
@@ -98,43 +99,68 @@ $(function() {
 				})
 			},
 			submit: function() {
-				var that = this;
 				var page = 1;
+				var that = this;
+				that.currentPageNo = 1;
+				that.initRawtablereserveList(page, this.combinationParameter());
+			},
+
+			combinationParameter: function() {
+				var that = this;
 				var infor = that.inputs;
 				var starttime = that.starttime;
 				var endtime = that.endtime;
-				var reg = /^[A-Za-z\u4e00-\u9fa5]*$/;
-				if(infor != null) {
-					if(reg.test(infor) === true) {
-						that.initRawtablereserveList(page, {
-							reservationsName: encodeURI(infor)
-						});
-						return;
+				var seattype = that.seattype;
+				var params = {};
+				this.infor(params, infor);
+				this.time(params, starttime, endtime);
+				this.seattypes(params, seattype);
+				return params;
+			},
+
+			infor: function(params, infor) {
+				if(infor != null && infor != "") {
+					customers = {
+						nickname: encodeURI(infor)
 					}
-					alert("您输入的姓名格式不正确");
-					return;
+					params.customer = customers;
 				};
-				if(starttime != null || endtime != null) {
-					if(starttime == null || endtime == null) { //如果用户只选择了一个时间
-						alert("开始时间和结束时间都必须选择");
-						return;
+				return params;
+			},
+
+			time: function(params, starttime, endtime) {
+				if((starttime != null && starttime != "") || (endtime != null && endtime != "")) {
+					if(starttime != null && starttime != "") {
+						params.reserveStartTime = starttime;
 					}
-					if(endtime < starttime) { //如果用户选择的结束时间小于开始时间
+					if((endtime != null && endtime != "") && (starttime == null || starttime == "")) {
+						var endtimes = new Date(endtime);
+						endtimes.setDate(endtimes.getDate() + 1);
+						endtimes = globalGetToday('-', endtimes);
+						params.reserveEndTime = endtimes;
+					}
+					if((endtime != null && endtime != "") && (starttime != null && starttime != "")) {
+						var endtimes = new Date(endtime);
+						endtimes.setDate(endtimes.getDate() + 1);
+						endtimes = globalGetToday('-', endtimes);
+						params.reserveEndTime = endtimes;
+					}
+					if((starttime != null && starttime != "") && (endtime != null && endtime != "") && (endtime < starttime)) { //如果用户选择的结束时间小于开始时间
 						alert("结束时间不能小于开始时间");
 						return;
 					}
-					that.initRawtablereserveList(page, {
-						reserveStartTime: starttime,
-						reserveEndTime: endtime
-					});
-				};
-				if(seattype != '请选择') {
-					that.initRawtablereserveList(page, {
-						type: encodeURI(seattype)
-					});
-
 				}
+				return params;
 			},
+
+			seattypes: function(params, seattype) {
+				var that = this;
+				if(seattype != '请选择') {
+					params.type = encodeURI(seattype);
+				} 
+				return params;
+			},
+
 			hideDiv: function() {
 				this.display = 'display : none';
 			},
@@ -145,7 +171,7 @@ $(function() {
 			firstPage: function() {
 				var that = this;
 				that.currentPageNo = 1;
-				that.initRawtablereserveList(that.currentPageNo);
+				that.initRawtablereserveList(that.currentPageNo, that.combinationParameter());
 			},
 			prevPage: function() {
 				var that = this;
@@ -153,7 +179,7 @@ $(function() {
 					var currentPageNo = that.currentPageNo;
 					currentPageNo--;
 					that.currentPageNo = currentPageNo;
-					that.initRawtablereserveList(currentPageNo);
+					that.initRawtablereserveList(currentPageNo, that.combinationParameter());
 				} else {
 					alert('已经是第一页');
 				}
@@ -166,13 +192,13 @@ $(function() {
 				} else {
 					currentPageNo++;
 					that.currentPageNo = currentPageNo;
-					that.initRawtablereserveList(currentPageNo);
+					that.initRawtablereserveList(currentPageNo, that.combinationParameter());
 				}
 			},
 			lastPage: function() {
 				var that = this;
 				that.currentPageNo = that.totalPage;
-				that.initRawtablereserveList(that.totalPage);
+				that.initRawtablereserveList(that.totalPage, that.combinationParameter());
 			}
 
 		},
