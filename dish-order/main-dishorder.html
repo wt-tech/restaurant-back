@@ -324,7 +324,7 @@
 						</tr>
 						<tr>
 							<td align="right" valign="middle" class="borderright borderbottom" colspan="3">
-								<input name="" type="reset" value="打印" @click="hideDiv()" class="text-but"></td>
+								<input name="" type="reset" value="打印" @click.prevent="goToPrintPage"  class="text-but"></td>
 							<td align="left" valign="middle" class="borderright borderbottom" colspan="3">
 								<input name="" type="reset" value="关闭" @click="hideDiv()" class="text-but"></td>
 						</tr>
