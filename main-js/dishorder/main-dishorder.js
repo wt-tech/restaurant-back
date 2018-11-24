@@ -10,6 +10,7 @@ $(function() {
 	var app = new Vue({
 		el: '#dishorder',
 		data: {
+			currentSelectedDishOrder : '',//保存 点击查看菜品 对应的订单信息 json string格式
 			rawDishOrderList: [],
 			inputs: null,
 			disabled:false,
@@ -127,8 +128,9 @@ $(function() {
 					}).catch(function(err) {
 						unknownError(err);
 					})
-				} else {
+				} else {//查看菜品信息
 					this.showDiv(dishorder);
+					this.currentSelectedDishOrder = encodeURI(JSON.stringify(dishorder));
 					simpleAxios.get('dishorder/back/listdishordermenu/' + id).then(function(res) {
 						if(res.status == STATUS_OK && res.data.status == SUCCESS) {
 							var resData = res.data;
@@ -262,6 +264,13 @@ $(function() {
 					unknownError(err);
 				})
 			},
+
+			
+			goToPrintPage : function(){
+				window.open("./print-menu.html?dishorder=" + this.currentSelectedDishOrder);
+			},
+
+
 
 			hideDiv: function() {
 				this.display = 'display : none';
