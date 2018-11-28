@@ -14,7 +14,7 @@ $(function() {
 				smallPrice: null,
 				uncertainPrice: null,
 				salesVolume: null,
-				unit:'元/份'
+				unit:'份'
 			},
 			menuPropertyValueReasonable: {
 				name: true,

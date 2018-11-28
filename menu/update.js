@@ -17,7 +17,7 @@ $(function() {
 				uncertainPrice: null,
 				salesVolume: null,
 				url : null,//该值 等于 menuimage[0].url
-				unit:'元/份'
+				unit:'份'
 			},
 			menuPropertyValueReasonable : {
 				name: true,

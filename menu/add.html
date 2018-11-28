@@ -268,28 +268,28 @@
 						<input name="Price" @change='checkboxChanged($event,"large")' type="checkbox" /> 大
 						<input @blur='largePriceCheck' id="large" type="text" disabled v-model="menu.largePrice" placeholder="请输入价格,单位元" />
 						<select v-model="menu.unit" class="text-unit" id="type">
-							<option value="元/份">元/份</option>
-							<option value="元/个">元/个</option>
-							<option value="元/瓶">元/瓶</option>
-							<option value="元/扎">元/扎</option>
+							<option value="份">元/份</option>
+							<option value="个">元/个</option>
+							<option value="瓶">元/瓶</option>
+							<option value="扎">元/扎</option>
 						</select>
 						<label :hidden="menuPropertyValueReasonable.largePrice" style="color: red;">请输入合法的价格</label><br>
 						<input name="Price" @change='checkboxChanged($event,"medium")' type="checkbox" /> 中
 						<input @blur='mediumPriceCheck' id="medium" type="text" disabled v-model="menu.mediumPrice" placeholder="请输入价格,单位元" />
 						<select v-model="menu.unit" class="text-unit" id="type">
-							<option value="元/份">元/份</option>
-							<option value="元/个">元/个</option>
-							<option value="元/瓶">元/瓶</option>
-							<option value="元/扎">元/扎</option>
+							<option value="份">元/份</option>
+							<option value="个">元/个</option>
+							<option value="瓶">元/瓶</option>
+							<option value="扎">元/扎</option>
 						</select>
 						<label :hidden="menuPropertyValueReasonable.mediumPrice" style="color: red;">请输入合法的价格</label><br>
 						<input name="Price" @change='checkboxChanged($event,"small")' type="checkbox" /> 小
 						<input @blur='smallPriceCheck' id="small" v-model="menu.smallPrice" disabled type="text" placeholder="请输入价格,单位元" />
 						<select v-model="menu.unit" class="text-unit" id="type">
-							<option value="元/份">元/份</option>
-							<option value="元/个">元/个</option>
-							<option value="元/瓶">元/瓶</option>
-							<option value="元/扎">元/扎</option>
+							<option value="份">元/份</option>
+							<option value="个">元/个</option>
+							<option value="瓶">元/瓶</option>
+							<option value="扎">元/扎</option>
 						</select>
 						<label :hidden="menuPropertyValueReasonable.smallPrice" style="color: red;">请输入合法的价格</label><br>
 						<input @change='uncertainPriceCheck' id="uncertainPrice" v-model="menu.uncertainPrice" type="radio" name="variablePrice" value="可预订">可预订</input>
