@@ -5,67 +5,58 @@
 		<title>菜单打印页</title>
 		<link rel="shortcut icon" href="../images/favicon.ico" />
 		<style type="text/css">
-			#menu-list {
-				width: 240px;
-				margin: 0 auto;
-				font-size: 10px;
-			}
-
-			#menu-list td,
-			#menu-list th {
-				font-size: 5px;
-				text-align: center;
-			}
+			
 		</style>
 	</head>
 	<body>
-		<div id="menu-list">
+		<div id="menu-list" >
 			<div>新煮天下美食府</div>
 			<div>
-				<div style="height: 20px;line-height: 30px;float: left;">订单编号 : 20181122</div>
-				<div style="font-size: 20px;">009</div>
+				<div style="height: 30px;line-height: 30px;float: left; font-size: 15px;">订单编号 : 20181124</div>
+				<div style="height: 30px;line-height: 30px;font-size: 20px;">009</div>
 			</div>
-			<div>下单时间 : {{dishOrder.createTime}}</div>
+			<div style="height: 20px;line-height: 20px;float: left; font-size: 15px;">下单时间 : {{dishOrder.createTime}}</div>
 			<div>
-			<table>
+			<table cellspacing="0" cellpadding="0">
 				<tr>
-					<td colspan="4"><br /></td>
+					<td colspan="4"></td>
 				</tr>
 				<tr>
-					<td colspan="4">##########################</td>
+					<td colspan="4"><br/>####################</td>
 				</tr>
-				<tr>
+				<tr >
 					<!-- <th>序号</th> -->
-					<th width="60px">菜品名称</th>
-					<th>规格</th>
-					<th>单价</th>
-					<th>数量</th>
+					<th style="font-size: 11px;text-align: left; ">菜品名称</th>
+					<th style="font-size: 11px;text-align: left; ">规格</th>
+					<th style="font-size: 11px;text-align: left; ">单价</th>
+					<th style="font-size: 11px;text-align: left; ">数量<br /></th>
 				</tr>
 				<!-- 黄瓜,小份,%6 * 1 -->
 				<tr v-for="(menu,index) of menuList">
 					<!-- <td>{{menu.index}}</td> -->
-					<td>{{menu.index}}.{{menu.name}}</td>
-					<td>{{menu.specifications}}</td>
-					<td>{{menu.unitPrice}}</td>
-					<td>{{menu.dishCount}}</td>
+					<td style="font-size: 11px;text-align: left; ">{{menu.index}}.{{menu.name}}啊啊啊啊</td>
+					<td style="font-size: 11px;text-align: left; ">{{menu.specifications}}</td>
+					<td style="font-size: 11px;text-align: center; ">{{menu.unitPrice}}</td>
+					<td style="font-size: 11px;text-align: center; ">{{menu.dishCount}}<br /></td>
 				</tr>
 				<tr>
-					<td colspan="4">##########################</td>
+					<td colspan="4">####################</td>
 				</tr>
 				<tr>
-					<td colspan="4"><br /></td>
+					<td colspan="4"></td>
 				</tr>
 				<tr>
 					<td style="text-align: left;" colspan="4">备注 : {{dishOrder.remarks}}</td>
 				</tr>
 				<tr>
-					<td style="text-align: left;" colspan="4">总金额 :{{dishOrder.totalAmount}} 元; 菜品总数量 : {{dishOrder.totalCount}} 份</td>
+					<td style="text-align: left;font-size: 13px;" colspan="4">总金额:{{dishOrder.totalAmount}}元; 菜品总数量:{{dishOrder.totalCount}} 份<br/><br/></td>
 				</tr>
 			</table>
 			</div>
 		</div>
 	</body>
 </html>
+<script src="../utils/LodopFuncs.js"></script>
 <script src="../utils/jquery-3.2.1.min.js"></script>
 <script src="../utils/vue.min.js"></script>
 <script src="../utils/axios.min.js"></script>

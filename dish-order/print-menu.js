@@ -1,3 +1,5 @@
+//定义一个变量
+
 
 $(function() {
 
@@ -5,7 +7,7 @@ $(function() {
 		el: '#menu-list',
 		data: {
 			rawMenuList: [],
-			dishOrder : {}
+			dishOrder: {}
 		},
 		computed: {
 			menuList: function() {
@@ -26,10 +28,14 @@ $(function() {
 		created: function() {
 			this.initDishOrderInfo();
 			this.initRawMenuList();
-		},
-		methods:{
 			
-			initDishOrderInfo : function(){
+		},
+
+	
+
+		methods: {
+
+			initDishOrderInfo: function() {
 				var queryString = window.location.search;
 				if (queryString.length > 0) {
 					queryString = queryString.substr(1, queryString.length - 1);
@@ -39,27 +45,42 @@ $(function() {
 						if (item != null) {
 							this.dishOrder = item;
 						}
-					} catch (e) { 
+					} catch (e) {
 						alert('请重新点击打印按钮');
 					}
 				}
 			},
-			
-			initRawMenuList : function(){
+
+			initRawMenuList: function() {
 				var that = this;
-				simpleAxios.get('dishorder/back/listdishordermenu/' + 94).then(function(res) {
-					if(res.status == STATUS_OK && res.data.status == SUCCESS) {
+				var id = that.dishOrder.id;
+				simpleAxios.get('dishorder/back/listdishordermenu/' + id).then(function(res) {
+					if (res.status == STATUS_OK && res.data.status == SUCCESS) {
 						var resData = res.data;
 						that.rawMenuList = resData.dishordermenu;
 						console.log(that.rawMenuList);
+						setTimeout(that.initlodop,1000);
 					} else
 						backEndExceptionHanlder(res);
 				}).catch(function(err) {
 					unknownError(err);
 				})
+			},
+
+			initlodop: function() {
+				var lodop;
+				//需要打印的内容
+				//初始化变量 str1 str2默认不填 ，是注册正版时的验证账号密码
+				lodop = getLodop('','');
+				//设置打印页面大小，这里3表示纵向打印且纸高“按内容的高度”；48表示纸宽48mm；20表示页底空白2.0mm
+				lodop.SET_PRINT_PAGESIZE(3,'68mm','2mm',"CreateCustomPage");
+
+				//设置打印页面内容  10为上边距 0为左边距 100%为宽度 ""为高度，发现不填也没事，html是打印内容 
+				lodop.ADD_PRINT_HTM(10, 0, "100%", "", document.getElementById('menu-list').innerHTML);
+				console.log(document.getElementById('menu-list').innerHTML);
+				
+				lodop.PRINT();
 			}
-			
-			
 		}
 	});
 })
