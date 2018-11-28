@@ -10,10 +10,10 @@ $(function() {
 	var app = new Vue({
 		el: '#dishorder',
 		data: {
-			currentSelectedDishOrder : '',//保存 点击查看菜品 对应的订单信息 json string格式
+			currentSelectedDishOrder: '', //保存 点击查看菜品 对应的订单信息 json string格式
 			rawDishOrderList: [],
 			inputs: null,
-			disabled:false,
+			disabled: false,
 			remarkObj: {
 				remark: null,
 			},
@@ -65,7 +65,7 @@ $(function() {
 						dishCount: getValue(dishorderline, 'dishCount'),
 						specifications: getValue(dishorderline, 'specifications'),
 						unitPrice: getValue(dishorderline, 'unitPrice'),
-						totalprice: getValue(dishorderline, 'dishCount') * getValue(dishorderline, 'unitPrice'),
+						totalprice: getValue(dishorderline, 'unitPrice') == '可预订' || getValue(dishorderline, 'unitPrice') == '时价' ? null : getValue(dishorderline, 'dishCount') * getValue(dishorderline, 'unitPrice'),
 						id: getValue(dishorderline, 'id')
 					};
 				});
@@ -128,7 +128,7 @@ $(function() {
 					}).catch(function(err) {
 						unknownError(err);
 					})
-				} else {//查看菜品信息
+				} else { //查看菜品信息
 					this.showDiv(dishorder);
 					this.currentSelectedDishOrder = encodeURI(JSON.stringify(dishorder));
 					simpleAxios.get('dishorder/back/listdishordermenu/' + id).then(function(res) {
@@ -265,12 +265,9 @@ $(function() {
 				})
 			},
 
-			
-			goToPrintPage : function(){
+			goToPrintPage: function() {
 				window.open("./print-menu.html?dishorder=" + this.currentSelectedDishOrder);
 			},
-
-
 
 			hideDiv: function() {
 				this.display = 'display : none';

@@ -8,7 +8,7 @@
 			#menu-list {
 				width: 240px;
 				margin: 0 auto;
-				font-size: 15px;
+				font-size: 10px;
 			}
 
 			#menu-list td,
@@ -24,14 +24,6 @@
 			<div>
 				<div style="height: 20px;line-height: 30px;float: left;">订单编号 : 20181122</div>
 				<div style="font-size: 20px;">009</div>
-			</div>
-			<div>
-				<table>
-					<tr v-for="(box,index) of boxList">
-						<td style="padding-left: 0px;">座位</td>
-						<td style="font-size: 20px;">{{box.roomNumber}}</td>
-					</tr>
-				</table>
 			</div>
 			<div>下单时间 : {{dishOrder.createTime}}</div>
 			<div>

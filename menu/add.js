@@ -3,7 +3,7 @@ $(function() {
 	var menu = new Vue({
 		el: '#menu',
 		data: {
-			classificationList : [],
+			classificationList: [],
 			menu: {
 				classification: {
 					id: null
@@ -12,22 +12,23 @@ $(function() {
 				largePrice: null,
 				mediumPrice: null,
 				smallPrice: null,
+				uncertainPrice: null,
 				salesVolume: null,
+				unit:'元/份'
 			},
-			menuPropertyValueReasonable : {
+			menuPropertyValueReasonable: {
 				name: true,
 				largePrice: true,
 				mediumPrice: true,
 				smallPrice: true,
 				salesVolume: true,
-				image : true,
-				classification : true,
-				atLeastCheckOnePrice : true
+				image: true,
+				classification: true,
+				atLeastCheckOnePrice: true
 			}
 		},
 
 		computed: {
-
 
 		},
 
@@ -36,14 +37,12 @@ $(function() {
 			this.initClassificationId();
 		},
 
-
-
 		methods: {
 
-			initClassificationList : function(){
+			initClassificationList: function() {
 				var app = this;
 				simpleAxios.get('classification/back/listclassification').then(function(res) {
-					if (res.status == STATUS_OK && res.data.status == SUCCESS) {
+					if(res.status == STATUS_OK && res.data.status == SUCCESS) {
 						app.classificationList = res.data.classifications;
 					} else
 						backEndExceptionHanlder(res);
@@ -61,7 +60,7 @@ $(function() {
 					queryString = queryString.substr(1, queryString.length - 1);
 					var classificationID = queryString.split('=')[1];
 					that.menu.classification.id = classificationID;
-				} catch (e) {
+				} catch(e) {
 					console.log(e);
 					that.menu.classification.id = null;
 				}
@@ -85,7 +84,7 @@ $(function() {
 				var url = 'menu/back/savemenu';
 				var formData = app.prepareParams();
 				fileAxios.post(url, formData).then(function(res) {
-					if (res.status == STATUS_OK && res.data.status == SUCCESS) {
+					if(res.status == STATUS_OK && res.data.status == SUCCESS) {
 						alert('添加成功');
 					} else
 						backEndExceptionHanlder(res);
@@ -101,9 +100,9 @@ $(function() {
 				try {
 					var file = document.getElementById('menu-image').files[0];
 					var imageType = /^image\//;
-					if (!imageType.test(file.type))
+					if(!imageType.test(file.type))
 						return;
-				} catch (e) {
+				} catch(e) {
 					console.log(e);
 					img.src = '';
 					return;
@@ -124,88 +123,109 @@ $(function() {
 			checkboxChanged: function(event, type) {
 				var checked = event.target.checked;
 				var element = document.getElementById(type);
-				if (checked) {
-					element.removeAttribute('disabled')
-				} else{
+				if(checked) {
+					element.removeAttribute('disabled');
+					this.menu.uncertainPrice = null;
+				} else {
 					element.disabled = true;
 					//同时还要设置对应的price为0
-					var property = type+'Price';
+					var property = type + 'Price';
 					this.menu[property] = 0;
 				}
 			},
-			
-			checkIfCanSubmit : function(){
+
+			checkIfCanSubmit: function() {
 				var app = this;
-				
+
 				app.nameCheck();
 				app.classificationCheck();
 				app.salesVolumeCheck();
 				app.imagecheck();
 				app.atLeastCheckOnePrice();
-				
-				var checkFileds = ['name','atLeastCheckOnePrice','salesVolume','image'];
+
+				var checkFileds = ['name', 'atLeastCheckOnePrice', 'salesVolume', 'image'];
 				var obj = app.menuPropertyValueReasonable;
-				for(property in obj){
-					if(checkFileds.indexOf(property) != -1 && !obj[property] )
+				for(property in obj) {
+					if(checkFileds.indexOf(property) != -1 && !obj[property])
 						return false;
 				}
 				return true;
 			},
-			
-			nameCheck : function(){
+
+			nameCheck: function() {
 				var app = this;
 				var menu = app.menu;
 				app.menuPropertyValueReasonable.name = (menu.name || menu.name.length > 20);
 			},
-			
-			classificationCheck : function(){
+
+			classificationCheck: function() {
 				var app = this;
 				var menu = app.menu;
 				app.menuPropertyValueReasonable.classification = (menu.classification.id);
 			},
-			
-			salesVolumeCheck : function(){
+
+			salesVolumeCheck: function() {
 				var app = this;
 				var menu = app.menu;
 				app.menuPropertyValueReasonable.salesVolume = !(isNaN(menu.salesVolume) || menu.salesVolume < 0);
 			},
-			largePriceCheck : function(){
+			largePriceCheck: function() {
 				var app = this;
 				var menu = app.menu;
 				app.menuPropertyValueReasonable.largePrice = !(isNaN(menu.largePrice) || menu.largePrice < 0 || menu.largePrice == 0);
 			},
-			
-			mediumPriceCheck : function(){
+
+			mediumPriceCheck: function() {
 				var app = this;
 				var menu = app.menu;
 				app.menuPropertyValueReasonable.mediumPrice = !(isNaN(menu.mediumPrice) || menu.mediumPrice < 0 || menu.mediumPrice == 0);
 			},
-			
-			smallPriceCheck : function(){
+
+			smallPriceCheck: function() {
 				var app = this;
 				var menu = app.menu;
 				app.menuPropertyValueReasonable.smallPrice = !(isNaN(menu.smallPrice) || menu.smallPrice < 0 || menu.smallPrice == 0);
 			},
-			
-			imagecheck : function(){
+
+			uncertainPriceCheck: function() {
+				var app = this;
+				var menu = app.menu;
+				var types = ['large', 'medium', 'small'];
+				for(var type of types) {
+					var element = document.getElementById(type);
+					var mychk = document.getElementsByName("Price");
+					element.disabled = true;
+					for(var i = 0; i < mychk.length; i++) {
+						mychk[i].checked = false;
+					}
+				}
+				menu.largePrice = null;
+				menu.mediumPrice = null;
+				menu.smallPrice = null;
+			},
+			imagecheck: function() {
 				var app = this;
 				var file = document.getElementById('menu-image').files;
 				app.menuPropertyValueReasonable.image = !(!file || file.length == 0);
 			},
-			
-			atLeastCheckOnePrice : function(){
+
+			atLeastCheckOnePrice: function() {
 				var app = this;
+				console.log(app.menu.uncertainPrice);
 				var menu = app.menu;
-				var prices = ['smallPrice','mediumPrice','largePrice'];
-				for(var price of prices){
-					if(menu[price] && app.menuPropertyValueReasonable[price]){
+				var prices = ['smallPrice', 'mediumPrice', 'largePrice'];
+				for(var price of prices) {
+					if(menu[price] && app.menuPropertyValueReasonable[price]) {
+						app.menuPropertyValueReasonable.atLeastCheckOnePrice = true;
+						return;
+					} else if(app.menu.uncertainPrice == '可预订' || app.menu.uncertainPrice == '时价') {
 						app.menuPropertyValueReasonable.atLeastCheckOnePrice = true;
 						return;
 					}
 				}
 				app.menuPropertyValueReasonable.atLeastCheckOnePrice = false;
 			}
-			
+
 		}
 	});
 });
