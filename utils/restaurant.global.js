@@ -17,14 +17,8 @@ const HTTP_PROTOCOL = 'https:';
 const WS_PROTOCOL = 'wss:';
 
 // const DOMAIN = '192.168.0.177:8888';
-
-<<<<<<< HEAD
- const DOMAIN = '192.168.0.109:8080';
- //const DOMAIN = 'www.qghls.com';
-=======
- // const DOMAIN = '192.168.0.109:8080';
+// const DOMAIN = '192.168.0.109:8080';
 const DOMAIN = 'www.qghls.com';
->>>>>>> 500e84c5a7217853d81e2ebab807c6498df7d1b7
 
 const CONTEXT = '/restaurant/';
 
