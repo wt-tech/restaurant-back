@@ -12,6 +12,7 @@ $(function() {
 		data: {
 			rawTableReserveHomeList: [],
 			inputs: null,
+			tabletype: null,
 			starttime: null,
 			endtime: null,
 			NewtableNum: null,
@@ -111,6 +112,7 @@ $(function() {
 			submit: function() {
 				var page = 1;
 				var that = this;
+				that.currentPageNo = 1;
 				that.initRawtablereservehomeList(page, this.combinationParameter());
 			},
 
@@ -193,6 +195,7 @@ $(function() {
 			hideTablenum: function() {
 				var that = this;
 				that.NewtableNum = null;
+				that.tabletype = null;
 				that.Tablenum = '请选择';
 				that.Boxnum = '请选择';
 				this.displaytablenum = 'display : none';
@@ -230,6 +233,7 @@ $(function() {
 				var that = this;
 				if(that.Boxnum != '请选择') {
 					that.NewtableNum = that.Boxnum;
+					that.tabletype = '包厢';
 					that.Tablenum = '请选择';
 				}
 			},
@@ -237,16 +241,25 @@ $(function() {
 				var that = this;
 				if(that.Tablenum != '请选择') {
 					that.NewtableNum = that.Tablenum;
+					that.tabletype = '桌子';
 					that.Boxnum = '请选择';
 				}
 			},
 			addFinalNum: function() {
 				var that = this;
 				var id = that.tableReserveHomeId;
+				var tabletype = that.tabletype;
 				var NewtableNum = that.NewtableNum;
 				if(NewtableNum == null || NewtableNum == "") return;
+				if(NewtableNum != null && NewtableNum != "") {
+					if(tabletype == null || tabletype == "") {
+						alert("请选择类型--包厢或者桌子");
+						return;
+					}
+				}
 				var params = new FormData();
 				params.append('id', id);
+				params.append('type', tabletype);
 				params.append('tableNum', NewtableNum);
 				simpleAxios.post('tablereservehome/back/updatetablenum', params).then(function(res) {
 					if(res.status == STATUS_OK && res.data.status == SUCCESS) {

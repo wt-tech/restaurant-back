@@ -14,8 +14,10 @@ $(function() {
 				largePrice: null,
 				mediumPrice: null,
 				smallPrice: null,
+				uncertainPrice: null,
 				salesVolume: null,
 				url : null,//该值 等于 menuimage[0].url
+				unit:'元/份'
 			},
 			menuPropertyValueReasonable : {
 				name: true,
@@ -191,7 +193,8 @@ $(function() {
 				var checked = event.target.checked;
 				var element = document.getElementsByClassName(type)[1];
 				if (checked) {
-					element.removeAttribute('disabled')
+					element.removeAttribute('disabled');
+					this.menu.uncertainPrice = null;
 				} else{
 					element.disabled = true;
 					//同时还要设置对应的price为0
@@ -251,6 +254,22 @@ $(function() {
 				var menu = app.menu;
 				app.menuPropertyValueReasonable.smallPrice = !(isNaN(menu.smallPrice) || menu.smallPrice < 0 || menu.smallPrice == 0);
 			},
+			uncertainPriceCheck: function() {
+				var app = this;
+				var menu = app.menu;
+				var types = ['large', 'medium', 'small'];
+				for(var type of types) {
+					var element = document.getElementsByClassName(type)[1];
+					var mychk = document.getElementsByName("Price");
+					element.disabled = true;
+					for(var i = 0; i < mychk.length; i++) {
+						mychk[i].checked = false;
+					}
+				}
+				menu.largePrice = null;
+				menu.mediumPrice = null;
+				menu.smallPrice = null;
+			},
 			
 // 			imagecheck : function(){
 // 				var app = this;
@@ -263,12 +282,16 @@ $(function() {
 				console.log(event);
 			},
 			
-			atLeastCheckOnePrice : function(){
+			atLeastCheckOnePrice: function() {
 				var app = this;
+				console.log(app.menu.uncertainPrice);
 				var menu = app.menu;
-				var prices = ['smallPrice','mediumPrice','largePrice'];
-				for(var price of prices){
-					if(menu[price] && app.menuPropertyValueReasonable[price]){
+				var prices = ['smallPrice', 'mediumPrice', 'largePrice'];
+				for(var price of prices) {
+					if(menu[price] && app.menuPropertyValueReasonable[price]) {
+						app.menuPropertyValueReasonable.atLeastCheckOnePrice = true;
+						return;
+					} else if(app.menu.uncertainPrice == '可预订' || app.menu.uncertainPrice == '时价') {
 						app.menuPropertyValueReasonable.atLeastCheckOnePrice = true;
 						return;
 					}

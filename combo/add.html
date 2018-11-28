@@ -241,16 +241,29 @@
 				</tr>
 
 				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-					<td align="right" valign="middle" class="borderright borderbottom bggray">上传图片：</td>
+					<td align="right" valign="middle" class="borderright borderbottom bggray">上传缩略图片：</td>
 					<td align="left" valign="middle" class="borderright borderbottom main-for">
 						<input id='combo-image' @change="fileChange" type="file" accept="image/*">
 						<label :hidden="comboPropertyValueReasonable.image"  style="color: red;">图片必须上传</label>
 					</td>
 				</tr>
 				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
-					<td align="right" valign="middle" class="borderright borderbottom bggray">图片预览：</td>
+					<td align="right" valign="middle" class="borderright borderbottom bggray">缩略图片预览：</td>
 					<td align="left" style="height: 100px;" valign="middle" class="borderright borderbottom main-for">
-						<img id='preview' width="80rpx" height="80rpx" alt="请上传图片" />
+						<img id='preview' width="80rpx" height="80rpx" alt="请上传缩略图片" />
+					</td>
+				</tr>
+				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+					<td align="right" valign="middle" class="borderright borderbottom bggray">上传详情图片：</td>
+					<td align="left" valign="middle" class="borderright borderbottom main-for">
+						<input id='combo-image2' @change="fileChange2" type="file" accept="image/*">
+						<label :hidden="comboPropertyValueReasonable.image2"  style="color: red;">图片必须上传</label>
+					</td>
+				</tr>
+				<tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+					<td align="right" valign="middle" class="borderright borderbottom bggray">详情图片预览：</td>
+					<td align="left" style="height: 100px;" valign="middle" class="borderright borderbottom main-for">
+						<img id='preview2' width="80rpx" height="80rpx" alt="请上传详情图片" />
 					</td>
 				</tr>
 

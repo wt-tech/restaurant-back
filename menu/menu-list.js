@@ -48,29 +48,38 @@ $(function() {
 				this.initRawMenuList();
 		},
 		methods: {
-
 			getSizeAndPrice: function(menu) {
 				var id = 0;
 				var size = [];
 				if (!!menu.largePrice) { //有值
 					size.push({
 						id: ++id,
-						value: '大份',
-						price: menu.largePrice
+						value: '大',
+						price: menu.largePrice,
+						unit:menu.unit
 					});
 				}
 				if (!!menu.mediumPrice) { //有值
 					size.push({
 						id: ++id,
-						value: '中份',
-						price: menu.mediumPrice
+						value: '中',
+						price: menu.mediumPrice,
+						unit:menu.unit
 					});
 				}
 				if (!!menu.smallPrice) { //有值
 					size.push({
 						id: ++id,
-						value: '小份',
-						price: menu.smallPrice
+						value: '小',
+						price: menu.smallPrice,
+						unit:menu.unit
+					});
+				}
+				if (!!menu.uncertainPrice) { //有值
+					size.push({
+						id: ++id,
+						value: null,
+						price: menu.uncertainPrice
 					});
 				}
 				return size;

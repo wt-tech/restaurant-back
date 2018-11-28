@@ -5,7 +5,7 @@
 		<title>菜单打印页</title>
 		<link rel="shortcut icon" href="../images/favicon.ico" />
 		<style type="text/css">
-			
+
 		</style>
 	</head>
 	<body>
@@ -16,6 +16,15 @@
 				<div style="height: 30px;line-height: 30px;font-size: 20px;">009</div>
 			</div>
 			<div style="height: 20px;line-height: 20px;float: left; font-size: 15px;">下单时间 : {{dishOrder.createTime}}</div>
+			<div>
+				<table>
+					<tr v-for="(box,index) of boxList">
+						<td style="padding-left: 0px;">座位</td>
+						<td style="font-size: 20px;">{{box.roomNumber}}</td>
+					</tr>
+				</table>
+			</div>
+			<div>下单时间 : {{dishOrder.createTime}}</div>
 			<div>
 			<table cellspacing="0" cellpadding="0">
 				<tr>

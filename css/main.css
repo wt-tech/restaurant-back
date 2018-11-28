@@ -67,7 +67,7 @@ a.main_td2:active {
 	width: 200px;
 	height: 100px;
 	position: fixed;
-	z-index: 999;
+	z-index: 1003;
 	top: 20%;
 	margin-top: 0px;
 	left: 50%;

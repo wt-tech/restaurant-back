@@ -10,9 +10,10 @@ $(function() {
 	var app = new Vue({
 		el: '#dishorder',
 		data: {
-			currentSelectedDishOrder : '',//保存 点击查看菜品 对应的订单信息 json string格式
+			currentSelectedDishOrder: '', //保存 点击查看菜品 对应的订单信息 json string格式
 			rawDishOrderList: [],
 			inputs: null,
+			disabled: false,
 			remarkObj: {
 				remark: null,
 			},
@@ -64,7 +65,7 @@ $(function() {
 						dishCount: getValue(dishorderline, 'dishCount'),
 						specifications: getValue(dishorderline, 'specifications'),
 						unitPrice: getValue(dishorderline, 'unitPrice'),
-						totalprice: getValue(dishorderline, 'dishCount') * getValue(dishorderline, 'unitPrice'),
+						totalprice: getValue(dishorderline, 'unitPrice') == '可预订' || getValue(dishorderline, 'unitPrice') == '时价' ? null : getValue(dishorderline, 'dishCount') * getValue(dishorderline, 'unitPrice'),
 						id: getValue(dishorderline, 'id')
 					};
 				});
@@ -93,7 +94,7 @@ $(function() {
 				var that = this;
 				var currentPageNo = PageNo || that.currentPageNo;
 				if(param != null) {
-					param.currentPageNo = 1;
+					param.currentPageNo = currentPageNo;
 				} else
 					param = {
 						currentPageNo: currentPageNo
@@ -127,7 +128,7 @@ $(function() {
 					}).catch(function(err) {
 						unknownError(err);
 					})
-				} else {//查看菜品信息
+				} else { //查看菜品信息
 					this.showDiv(dishorder);
 					this.currentSelectedDishOrder = encodeURI(JSON.stringify(dishorder));
 					simpleAxios.get('dishorder/back/listdishordermenu/' + id).then(function(res) {
@@ -144,7 +145,79 @@ $(function() {
 			},
 
 			submit: function() {
+				var page = 1;
+				var that = this;
+				that.currentPageNo = 1;
+				that.initRawdishorderList(page, that.combinationParameter());
+			},
 
+			combinationParameter: function() {
+				var that = this;
+				var infor = that.inputs;
+				var starttime = that.starttime;
+				var endtime = that.endtime;
+				var timetype = that.timetype;
+				var reservetype = that.reservetype;
+				var paystatus = that.paystatus;
+				var params = {};
+				this.infor(params, infor);
+				this.time(params, starttime, endtime);
+				this.reservetypes(params, reservetype);
+				this.paystatuss(params, paystatus);
+				console.log(params);
+				return params;
+			},
+
+			infor: function(params, infor) {
+				var reg = /^\d+$/;
+				if(infor != null && infor != "") {
+					if(reg.test(infor) === true) {
+						params.tableOrboxNum = infor;
+					} else {
+						alert("您输入的格式可能不正确");
+						return;
+					}
+				};
+				return params;
+			},
+
+			time: function(params, starttime, endtime) {
+				if((starttime != null && starttime != "") || (endtime != null && endtime != "")) {
+					if(starttime != null && starttime != "") {
+						params.reserveStartTime = starttime;
+					}
+					if((endtime != null && endtime != "") && (starttime == null || starttime == "")) {
+						var endtimes = new Date(endtime);
+						endtimes.setDate(endtimes.getDate() + 1);
+						endtimes = globalGetToday('-', endtimes);
+						params.reserveEndTime = endtimes;
+					}
+					if((endtime != null && endtime != "") && (starttime != null && starttime != "")) {
+						var endtimes = new Date(endtime);
+						endtimes.setDate(endtimes.getDate() + 1);
+						endtimes = globalGetToday('-', endtimes);
+						params.reserveEndTime = endtimes;
+					}
+					if((starttime != null && starttime != "") && (endtime != null && endtime != "") && (endtime < starttime)) { //如果用户选择的结束时间小于开始时间
+						alert("结束时间不能小于开始时间");
+						return;
+					}
+				}
+				return params;
+			},
+
+			reservetypes: function(params, reservetype) {
+				if(reservetype != '请选择') {
+					params.reserveType = encodeURI(reservetype);
+				}
+				return params;
+			},
+
+			paystatuss: function(params, paystatus) {
+				if(paystatus != '请选择') {
+					params.orderStatus = paystatus;
+				}
+				return params;
 			},
 
 			submitRemark: function() {
@@ -160,7 +233,7 @@ $(function() {
 					if(res.status == STATUS_OK && res.data.status == SUCCESS) {
 						that.hideDivMark();
 						alert("提交成功");
-						that.initRawdishorderList(that.currentPageNo);
+						that.initRawdishorderList(that.currentPageNo, that.combinationParameter());
 					} else {
 						alert("提交失败");
 						backEndExceptionHanlder(res);
@@ -182,7 +255,7 @@ $(function() {
 					if(res.status == STATUS_OK && res.data.status == SUCCESS) {
 						that.hideDivPay();
 						alert("结算成功");
-						that.initRawdishorderList(that.currentPageNo);
+						that.initRawdishorderList(that.currentPageNo, that.combinationParameter());
 					} else {
 						alert("结算失败");
 						backEndExceptionHanlder(res);
@@ -192,12 +265,9 @@ $(function() {
 				})
 			},
 
-			
-			goToPrintPage : function(){
+			goToPrintPage: function() {
 				window.open("./print-menu.html?dishorder=" + this.currentSelectedDishOrder);
 			},
-
-
 
 			hideDiv: function() {
 				this.display = 'display : none';
@@ -256,7 +326,7 @@ $(function() {
 			firstPage: function() {
 				var that = this;
 				that.currentPageNo = 1;
-				that.initRawdishorderList(that.currentPageNo);
+				that.initRawdishorderList(that.currentPageNo, that.combinationParameter());
 			},
 			prevPage: function() {
 				var that = this;
@@ -264,7 +334,7 @@ $(function() {
 					var currentPageNo = that.currentPageNo;
 					currentPageNo--;
 					that.currentPageNo = currentPageNo;
-					that.initRawdishorderList(currentPageNo);
+					that.initRawdishorderList(currentPageNo, that.combinationParameter());
 				} else {
 					alert('已经是第一页');
 				}
@@ -277,13 +347,13 @@ $(function() {
 				} else {
 					currentPageNo++;
 					that.currentPageNo = currentPageNo;
-					that.initRawdishorderList(currentPageNo);
+					that.initRawdishorderList(currentPageNo, that.combinationParameter());
 				}
 			},
 			lastPage: function() {
 				var that = this;
 				that.currentPageNo = that.totalPage;
-				that.initRawdishorderList(that.totalPage);
+				that.initRawdishorderList(that.totalPage, that.combinationParameter());
 			}
 
 		},

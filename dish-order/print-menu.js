@@ -7,7 +7,8 @@ $(function() {
 		el: '#menu-list',
 		data: {
 			rawMenuList: [],
-			dishOrder: {}
+			rawBoxList: [],
+			dishOrder : {}
 		},
 		computed: {
 			menuList: function() {
@@ -24,11 +25,23 @@ $(function() {
 					};
 				});
 			},
+			boxList: function() {
+				var that = this;
+				return that.rawBoxList.map(function(box, index) {
+					return {
+						index: index + 1,
+						roomNumber: getValue(box, 'roomNumber'),
+						roomName: getValue(box, 'roomName'),
+						roomIntroduction: getValue(box, 'roomIntroduction'),
+						id: getValue(box, 'id')
+					};
+				});
+			}
 		},
 		created: function() {
 			this.initDishOrderInfo();
 			this.initRawMenuList();
-			
+			this.initRawBoxList();
 		},
 
 	
@@ -80,7 +93,23 @@ $(function() {
 				console.log(document.getElementById('menu-list').innerHTML);
 				
 				lodop.PRINT();
-			}
+			},
+
+			initRawBoxList : function(){
+				var that = this;
+				var id = that.dishOrder.id;
+
+				simpleAxios.get('dishorder/back/listdishorderbox/' + id).then(function(res) {
+					if(res.status == STATUS_OK && res.data.status == SUCCESS) {
+						var resData = res.data;
+						that.rawBoxList = resData.dishorderbox;
+					} else
+						backEndExceptionHanlder(res);
+				}).catch(function(err) {
+					unknownError(err);
+				})
+			},
+
 		}
 	});
 })

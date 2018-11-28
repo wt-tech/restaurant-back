@@ -1,4 +1,5 @@
 <html>
+
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<title>菜品列表</title>
@@ -11,11 +12,11 @@
 				background: #f2f0f5;
 				padding: 15px 0px 10px 5px;
 			}
-
+			
 			#menus {
 				font-size: 12px;
 			}
-
+			
 			#search {
 				font-size: 12px;
 				background: #548fc9;
@@ -25,14 +26,14 @@
 				color: #FFF;
 				float: left
 			}
-
+			
 			#search form span {
 				height: 40px;
 				line-height: 40px;
 				padding: 0 0px 0 10px;
 				float: left;
 			}
-
+			
 			#search form input.text-word {
 				height: 24px;
 				line-height: 24px;
@@ -42,7 +43,7 @@
 				float: left;
 				border: 1px solid #FFF;
 			}
-
+			
 			#search form input.text-but {
 				height: 24px;
 				line-height: 24px;
@@ -56,7 +57,7 @@
 				margin: 8px 0 0 6px;
 				display: inline;
 			}
-
+			
 			#search a.add {
 				background: url(../images/main/add.jpg) no-repeat -3px 7px #548fc9;
 				padding: 0 10px 0 26px;
@@ -67,60 +68,60 @@
 				color: #FFF;
 				float: right
 			}
-
+			
 			#search a:hover.add {
 				text-decoration: underline;
 				color: #d2e9ff;
 			}
-
+			
 			#main-tab {
 				border: 1px solid #eaeaea;
 				background: #FFF;
 				font-size: 12px;
 			}
-
+			
 			#main-tab th {
 				font-size: 12px;
 				background: url(../images/main/list_bg.jpg) repeat-xt-x;
 				height: 32px;
 				line-height: 32px;
 			}
-
+			
 			#main-tab td {
 				font-size: 12px;
 				line-height: 40px;
 			}
-
+			
 			#main-tab td a {
 				font-size: 12px;
 				color: #548fc9;
 			}
-
+			
 			#main-tab td a:hover {
 				color: #565656;
 				text-decoration: underline;
 			}
-
+			
 			.bordertop {
 				border-top: 1px solid #ebebeb
 			}
-
+			
 			.borderright {
 				border-right: 1px solid #ebebeb
 			}
-
+			
 			.borderbottom {
 				border-bottom: 1px solid #ebebeb
 			}
-
+			
 			.borderleft {
 				border-left: 1px solid #ebebeb
 			}
-
+			
 			.gray {
 				color: #dbdbdb;
 			}
-
+			
 			td.fenye {
 				padding: 10px 0 0 0;
 				text-align: right;
@@ -136,13 +137,13 @@
 				color: #FFF;
 				float: right
 			}
-
 		</style>
 	</head>
+
 	<body>
 		<!--main_top-->
 		<table width="99%" border="0" cellspacing="0" cellpadding="0" id="menus">
-			
+
 			<tr>
 				<td width="99%" align="left" valign="top">您的位置：{{classificationName}}管理</td>
 			</tr>
@@ -151,17 +152,19 @@
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
 						<tr width="100%">
 							<td width="50%" align="left" valign="middle">
-								<img v-if="!loadingComplete"  src="../images/diy/loading.gif" class="loading" />
+								<img v-if="!loadingComplete" src="../images/diy/loading.gif" class="loading" />
 								<form onkeypress="return event.keyCode != 13;">
 									<span>请输入菜品名称：</span>
 									<input type="text" @keyup.prevent.enter="fuzzyQuery" v-model="menuName" class="text-word">
 									<input @click="fuzzyQuery" type="button" value="查询" class="text-but">
 								</form>
 							</td>
-							<td width="40%" align="left" valign="middle"><a href="#" @click.prevent="goToAdd" target="mainFrame"
-								 onFocus="this.blur()" class="add" width="100%" >新增菜品</a></td>
-							<td width="10%" align="right" valign="middle" style="text-align:right; width:120px;"><a href="#" @click.prevent="refresh"
-								onFocus="this.blur()" class="addNoBg" width="100%" >刷新</a></td>
+							<td width="40%" align="left" valign="middle">
+								<a href="#" @click.prevent="goToAdd" target="mainFrame" onFocus="this.blur()" class="add" width="100%">新增菜品</a>
+							</td>
+							<td width="10%" align="right" valign="middle" style="text-align:right; width:120px;">
+								<a href="#" @click.prevent="refresh" onFocus="this.blur()" class="addNoBg" width="100%">刷新</a>
+							</td>
 						</tr>
 					</table>
 				</td>
@@ -179,20 +182,19 @@
 							<th align="center" v-if="classificationID == null" valign="middle" class="borderright borderbottom">所属分类</th>
 							<th align="center" valign="middle" class="borderright borderbottom">操作</th>
 						</tr>
-						<tr v-for="(menu,index) of menuList"
-							onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
+						<tr v-for="(menu,index) of menuList" onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
 							<td v-for="(value,property) of menu" is="vtd" v-if="property != 'id' && property != 'sizeAndPrice' && property != 'classificationName'" :content="value"></td>
 							<td align="center" valign="middle" class="borderbottom borderright">
 								<select>
-									<option v-for="(size,index) of menu.sizeAndPrice" :value="size.id">{{size.value}} &nbsp;&nbsp;{{size.price}}元</option>
+									<option v-for="(size,index) of menu.sizeAndPrice" :value="size.id">{{size.price}}&nbsp;&nbsp;{{size.value}}&nbsp;&nbsp;{{size.unit}}</option>
 								</select>
 							</td>
-							<td is="vtd"  v-if="classificationID == null" :content="menu.classificationName"></td>
-							 
+							<td is="vtd" v-if="classificationID == null" :content="menu.classificationName"></td>
+
 							<td align="center" valign="middle" class="borderbottom">
 								<a href="#" target="mainFrame" onFocus="this.blur()" @click.prevent="updateMenu(index)" class="add">编辑</a>
-									<span class="gray">&nbsp;|&nbsp;</span>
-								<a @click='deleteMenu(index,menu.id)' onFocus="this.blur()"class="add">删除</a>
+								<span class="gray">&nbsp;|&nbsp;</span>
+								<a @click='deleteMenu(index,menu.id)' onFocus="this.blur()" class="add">删除</a>
 							</td>
 						</tr>
 					</table>
@@ -209,6 +211,7 @@
 			</tr>
 		</table>
 	</body>
+
 </html>
 <script src="../utils/jquery-3.2.1.min.js"></script>
 <script src="../utils/vue.min.js"></script>
