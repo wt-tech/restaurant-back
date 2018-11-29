@@ -52,7 +52,8 @@ $(function() {
 						totalPayAmount: getValue(dishorder, 'totalPayAmount'),
 						createTime: getDateOfDateTime(getValue(dishorder, 'createTime')),
 						orderStatus: getValue(dishorder, 'orderStatus') === true ? '已付款' : '未付款',
-						remarks: getValue(dishorder, 'remark')
+						//remarks: getValue(dishorder, 'remark')
+						remarks: '<div style="width:150px;white-space:normal;line-height:15px;">'+getValue(dishorder, 'remark')+'</div>'
 					};
 				});
 			},
@@ -317,7 +318,7 @@ $(function() {
 				if(dishorder.remarks == null || dishorder.remarks == "") {
 					that.Remarks = '该订单暂无备注';
 				} else {
-					that.Remarks = dishorder.remarks;
+					that.Remarks = that.remarkObj.remark;
 				}
 				that.totalamount = dishorder.totalAmount;
 				//console.log(that.remarks);

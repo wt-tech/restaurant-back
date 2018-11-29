@@ -11,6 +11,7 @@ $(function() {
 				comboPrice: null,
 				comboIntroduction: null,
 				url: null, //该值 等于 comboimage[0].url
+				url2: null //该值 等于 comboimage[0].url
 			},
 			comboPropertyValueReasonable: {
 				comboName: true,
