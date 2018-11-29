@@ -31,7 +31,7 @@ $(function() {
 						index: index + 1,
 						nickname: getValue(tablereserve, 'customer.nickname'),
 						number: getValue(tablereserve, 'box.roomNumber') + getValue(tablereserve, 'table.number'),
-						reserveTime: getDateOfDateTime(getValue(tablereserve, 'reserveTime')),
+						reserveTime: getValue(tablereserve, 'reserveTime'),
 						id: getValue(tablereserve, 'id')
 					};
 				});

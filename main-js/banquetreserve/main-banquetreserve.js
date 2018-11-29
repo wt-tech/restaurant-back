@@ -37,7 +37,7 @@ $(function() {
 						reservationsNum: getValue(banquetreserve, 'reservationsNum'),
 						reservationsCombo: getValue(banquetreserve, 'combo.comboName') + '(' + getValue(banquetreserve, 'combo.comboPrice') + '元/桌)',
 						reservationsStartTime: getDateOfDateTime(getValue(banquetreserve, 'reservationsStartTime')),
-						reserveTime: getDateOfDateTime(getValue(banquetreserve, 'reserveTime')),
+						reserveTime: getValue(banquetreserve, 'reserveTime'),
 						remarks: '<div style="width:150px;white-space:normal;line-height:15px;">'+getValue(banquetreserve, 'remarks')+'</div>',
 						id: getValue(banquetreserve, 'id')
 					};
