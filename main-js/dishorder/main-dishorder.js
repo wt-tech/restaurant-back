@@ -50,7 +50,7 @@ $(function() {
 						totalCount: getValue(dishorder, 'totalCount'),
 						totalAmount: getValue(dishorder, 'totalAmount'),
 						totalPayAmount: getValue(dishorder, 'totalPayAmount'),
-						createTime: getDateOfDateTime(getValue(dishorder, 'createTime')),
+						createTime: getValue(dishorder, 'createTime'),
 						orderStatus: getValue(dishorder, 'orderStatus') === true ? '已付款' : '未付款',
 						//remarks: getValue(dishorder, 'remark')
 						remarks: '<div style="width:150px;white-space:normal;line-height:15px;">'+getValue(dishorder, 'remark')+'</div>'

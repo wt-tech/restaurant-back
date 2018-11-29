@@ -53,6 +53,7 @@
 				float: left;
 				border: 1px solid #FFF;
 			}
+			
 			#search form select.text-type {
 				height: 24px;
 				line-height: 24px;
@@ -186,6 +187,7 @@
 				z-index: 1002;
 				overflow: auto;
 			}
+			
 			.text-but {
 				width: 100px;
 				height: 40px;
@@ -228,6 +230,9 @@
 		<div id="tablereserve">
 			<table width="99%" border="0" cellspacing="0" cellpadding="0" id="searchmain">
 				<tr>
+					<td width="99%" align="left" valign="top">您的位置：扫码点餐列表</td>
+				</tr>
+				<tr>
 					<td align="left" valign="top">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
 							<tr>
@@ -260,7 +265,7 @@
 								<th align="center" valign="middle" class="borderright">序号</th>
 								<th align="center" valign="middle" class="borderright">昵称</th>
 								<th align="center" valign="middle" class="borderright">桌号</th>
-								<th align="center" valign="middle" class="borderright">预订时间</th>
+								<th align="center" valign="middle" class="borderright">点餐时间</th>
 								<th align="center" valign="middle">操作</th>
 							</tr>
 							<tr v-for="(tablereserve,index) of tablereserveList" class="cont-list" onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
