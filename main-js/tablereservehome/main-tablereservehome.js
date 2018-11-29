@@ -41,7 +41,7 @@ $(function() {
 						reservationsSex: getValue(tablereservehome, 'reservationsSex'),
 						reservationsTel: getValue(tablereservehome, 'reservationsTel'),
 						reservationsNum: getValue(tablereservehome, 'reservationsNum'),
-						reservationsStartTime: getDateOfDateTime(getValue(tablereservehome, 'reservationsStartTime')),
+						reservationsStartTime: getValue(tablereservehome, 'reservationsStartTime'),
 						reserveTime: getDateOfDateTime(getValue(tablereservehome, 'reserveTime')),
 						remarks: getValue(tablereservehome, 'remarks'),
 						tableNum: getValue(tablereservehome, 'tableNum'),
