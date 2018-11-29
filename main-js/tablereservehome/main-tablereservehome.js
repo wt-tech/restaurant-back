@@ -43,7 +43,7 @@ $(function() {
 						reservationsNum: getValue(tablereservehome, 'reservationsNum'),
 						reservationsStartTime: getDateOfDateTime(getValue(tablereservehome, 'reservationsStartTime')),
 						reserveTime: getDateOfDateTime(getValue(tablereservehome, 'reserveTime')),
-						remarks: getValue(tablereservehome, 'remarks'),
+						remarks: '<div style="width:150px;white-space:normal;line-height:15px;">'+getValue(tablereservehome, 'remarks')+'</div>',
 						tableNum: getValue(tablereservehome, 'tableNum'),
 						id: getValue(tablereservehome, 'id')
 					};
