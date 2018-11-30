@@ -68,7 +68,7 @@ function onMessage(message){
 
 
 function playNotifyVoice(notify){
-	var src = "resource/new-order.ogg";
+	var src = notifyMP3Url;
 	var voice = new Audio(src);
 	voice.play();
 }
