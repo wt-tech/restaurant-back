@@ -237,15 +237,15 @@
 						<table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
 							<tr>
 								<td align="left" valign="middle">
-									<form method="post" action="">
+									<form method="post" onkeypress="return event.keyCode != 13;">
 										<span>筛选：</span>
-										<input type="text" name="infor" v-model="inputs" value="" class="text-word" placeholder="请输入昵称">
+										<input type="text" name="infor" v-model="inputs" value="" class="text-word" placeholder="请输入昵称" @keyup.prevent.enter="submit">
 										<span>开始时间：</span>
-										<input type="date" id="datetime" v-model="starttime" class="text-time" max="">
+										<input type="date" id="datetime" v-model="starttime" class="text-time" max="" @keyup.prevent.enter="submit">
 										<span>结束时间：</span>
-										<input type="date" id="datetimes" v-model="endtime" class="text-time" max="">
+										<input type="date" id="datetimes" v-model="endtime" class="text-time" max="" @keyup.prevent.enter="submit">
 										<span>座位类型：</span>
-										<select v-model="seattype" class="text-type" id="type">
+										<select v-model="seattype" class="text-type" id="type" @keyup.prevent.enter="submit">
 											<option>请选择</option>
 											<option value="包厢">包厢</option>
 											<option value="桌子">桌子</option>

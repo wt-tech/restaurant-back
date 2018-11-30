@@ -241,22 +241,22 @@
 						<table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
 							<tr>
 								<td align="left" valign="middle">
-									<form method="post" action="">
+									<form method="post" onkeypress="return event.keyCode != 13;">
 										<span>筛选：</span>
-										<input type="text" name="infor" v-model="inputs" value="" class="text-word" placeholder="请输入桌号或包厢号">
+										<input type="text" name="infor" v-model="inputs" value="" class="text-word" placeholder="请输入桌号或包厢号" @keyup.prevent.enter="submit">
 										<span>开始时间：</span>
-										<input type="date" id="datetime" v-model="starttime" class="text-time" max="">
+										<input type="date" id="datetime" v-model="starttime" class="text-time" max="" @keyup.prevent.enter="submit">
 										<span>结束时间：</span>
-										<input type="date" id="datetimes" v-model="endtime" class="text-time" max="">
+										<input type="date" id="datetimes" v-model="endtime" class="text-time" max="" @keyup.prevent.enter="submit">
 										<span>预订类型：</span>
-										<select v-model="reservetype" class="text-type" id="type">
+										<select v-model="reservetype" class="text-type" id="type" @keyup.prevent.enter="submit">
 											<option>请选择</option>
 											<option value="包厢预订">包厢预订</option>
 											<option value="扫码点餐">扫码点餐</option>
 											<option value="店外点餐">店外点餐</option>
 										</select>
 										<span>支付状态：</span>
-										<select v-model="paystatus" class="text-type" id="type">
+										<select v-model="paystatus" class="text-type" id="type" @keyup.prevent.enter="submit">
 											<option>请选择</option>
 											<option value="0">未付款</option>
 											<option value="1">已付款</option>

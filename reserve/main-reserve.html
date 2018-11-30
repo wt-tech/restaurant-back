@@ -239,27 +239,27 @@
 						<table width="100%" border="0" cellspacing="0" cellpadding="0" id="search">
 							<tr>
 								<td align="left" valign="middle">
-									<form method="post" action="">
+									<form method="post" onkeypress="return event.keyCode != 13;">
 										<span>筛选：</span>
-										<input type="text" name="infor" v-model="inputs" value="" class="text-word" placeholder="请输入姓名或手机号">
+										<input type="text" name="infor" v-model="inputs" value="" class="text-word" placeholder="请输入姓名或手机号" @keyup.prevent.enter="submit">
 										<span>开始时间：</span>
-										<input type="date" id="datetime" v-model="starttime" class="text-time" max="">
+										<input type="date" id="datetime" v-model="starttime" class="text-time" max="" @keyup.prevent.enter="submit">
 										<span>结束时间：</span>
-										<input type="date" id="datetimes" v-model="endtime" class="text-time" max="">
+										<input type="date" id="datetimes" v-model="endtime" class="text-time" max="" @keyup.prevent.enter="submit">
 										<span>时间类型：</span>
-										<select v-model="timetype" class="text-type" id="type">
+										<select v-model="timetype" class="text-type" id="type" @keyup.prevent.enter="submit">
 											<option>请选择</option>
 											<option value="就餐时间">就餐时间</option>
 											<option value="预订时间">预订时间</option>
 										</select>
 										<span>预订类型：</span>
-										<select v-model="reservetype" class="text-type" id="type">
+										<select v-model="reservetype" class="text-type" id="type" @keyup.prevent.enter="submit">
 											<option>请选择</option>
 											<option value="午餐预订">午餐预订</option>
 											<option value="晚餐预订">晚餐预订</option>
 										</select>
 										<span>预约模式：</span>
-										<select v-model="reservemode" class="text-type" id="type">
+										<select v-model="reservemode" class="text-type" id="type" @keyup.prevent.enter="submit">
 											<option>请选择</option>
 											<option value="只订座">只订座</option>
 											<option value="提前选择菜品">选菜品</option>
